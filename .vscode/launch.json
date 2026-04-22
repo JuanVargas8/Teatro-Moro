@@ -1,0 +1,172 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "java",
+      "name": "Debug Eureka",
+      "request": "launch",
+      "cwd": "${workspaceFolder}/eureka",
+      "mainClass": "cl.teatromoro.eureka.TeatromoroEurekaApplication",
+      "projectName": "cl-teatromoro-eureka",
+      "envFile": "${workspaceFolder}/.env"
+    },
+    {
+      "type": "java",
+      "name": "Debug ms-ticketing",
+      "request": "launch",
+      "cwd": "${workspaceFolder}/ms-ticketing",
+      "mainClass": "cl.teatromoro.ticketing.TeatromoroTicketingApplication",
+      "projectName": "cl-teatromoro-ticketing",
+      "envFile": "${workspaceFolder}/.env"
+    },
+    {
+      "type": "java",
+      "name": "Debug ms-reserva",
+      "request": "launch",
+      "cwd": "${workspaceFolder}/ms-reserva",
+      "mainClass": "cl.teatromoro.reserva.TeatromoroReservaApplication",
+      "projectName": "cl-teatromoro-reserva",
+      "envFile": "${workspaceFolder}/.env"
+    },
+    {
+      "type": "java",
+      "name": "Debug ms-pagos",
+      "request": "launch",
+      "cwd": "${workspaceFolder}/ms-pagos",
+      "mainClass": "cl.teatromoro.pagos.TeatromoroPagosApplication",
+      "projectName": "cl-teatromoro-pagos",
+      "envFile": "${workspaceFolder}/.env"
+    },
+    {
+      "type": "java",
+      "name": "Debug ms-suscripciones",
+      "request": "launch",
+      "cwd": "${workspaceFolder}/ms-suscripciones",
+      "mainClass": "cl.teatromoro.suscripciones.TeatromoroSuscripcionesApplication",
+      "projectName": "cl-teatromoro-suscripciones",
+      "envFile": "${workspaceFolder}/.env"
+    },
+    {
+      "type": "java",
+      "name": "Debug ms-catalogo",
+      "request": "launch",
+      "cwd": "${workspaceFolder}/ms-catalogo",
+      "mainClass": "cl.teatromoro.catalogo.TeatromoroCatalogoApplication",
+      "projectName": "cl-teatromoro-catalogo",
+      "envFile": "${workspaceFolder}/.env"
+    },
+    {
+      "type": "java",
+      "name": "Debug ms-funciones",
+      "request": "launch",
+      "cwd": "${workspaceFolder}/ms-funciones",
+      "mainClass": "cl.teatromoro.funciones.TeatromoroFuncionesApplication",
+      "projectName": "cl-teatromoro-funciones",
+      "envFile": "${workspaceFolder}/.env"
+    },
+    {
+      "type": "java",
+      "name": "Debug ms-gestion",
+      "request": "launch",
+      "cwd": "${workspaceFolder}/ms-gestion",
+      "mainClass": "cl.teatromoro.gestion.TeatromoroGestionApplication",
+      "projectName": "cl-teatromoro-gestion",
+      "envFile": "${workspaceFolder}/.env"
+    },
+    {
+      "type": "java",
+      "name": "Debug ms-notificaciones",
+      "request": "launch",
+      "cwd": "${workspaceFolder}/ms-notificaciones",
+      "mainClass": "cl.teatromoro.notificaciones.TeatromoroNotificacionesApplication",
+      "projectName": "cl-teatromoro-notificaciones",
+      "envFile": "${workspaceFolder}/.env"
+    },
+    {
+      "type": "java",
+      "name": "Debug ms-feedback",
+      "request": "launch",
+      "cwd": "${workspaceFolder}/ms-feedback",
+      "mainClass": "cl.teatromoro.feedback.TeatromoroFeedbackApplication",
+      "projectName": "cl-teatromoro-feedback",
+      "envFile": "${workspaceFolder}/.env"
+    },
+    {
+      "type": "java",
+      "name": "Debug ms-cafeteria",
+      "request": "launch",
+      "cwd": "${workspaceFolder}/ms-cafeteria",
+      "mainClass": "cl.teatromoro.cafeteria.TeatromoroCafeteriaApplication",
+      "projectName": "cl-teatromoro-cafeteria",
+      "envFile": "${workspaceFolder}/.env"
+    },
+    {
+      "type": "java",
+      "name": "Debug ms-merchantdising",
+      "request": "launch",
+      "cwd": "${workspaceFolder}/ms-merchantdising",
+      "mainClass": "cl.teatromoro.merchantdising.TeatromoroMerchantdisingApplication",
+      "projectName": "cl-teatromoro-merchantdising",
+      "envFile": "${workspaceFolder}/.env"
+    },
+    {
+      "type": "java",
+      "name": "Debug ms-personal",
+      "request": "launch",
+      "cwd": "${workspaceFolder}/ms-personal",
+      "mainClass": "cl.teatromoro.personal.TeatromoroPersonalApplication",
+      "projectName": "cl-teatromoro-personal",
+      "envFile": "${workspaceFolder}/.env"
+    },
+    {
+      "type": "java",
+      "name": "Debug ms-informes",
+      "request": "launch",
+      "cwd": "${workspaceFolder}/ms-informes",
+      "mainClass": "cl.teatromoro.informes.TeatromoroInformesApplication",
+      "projectName": "cl-teatromoro-informes",
+      "envFile": "${workspaceFolder}/.env"
+    },
+    {
+      "type": "java",
+      "name": "Debug ms-promociones",
+      "request": "launch",
+      "cwd": "${workspaceFolder}/ms-promociones",
+      "mainClass": "cl.teatromoro.promociones.TeatromoroPromocionesApplication",
+      "projectName": "cl-teatromoro-promociones",
+      "envFile": "${workspaceFolder}/.env"
+    },
+    {
+      "type": "java",
+      "name": "Debug ms-usuarios",
+      "request": "launch",
+      "cwd": "${workspaceFolder}/ms-usuarios",
+      "mainClass": "cl.teatromoro.usuarios.TeatromoroUsuariosApplication",
+      "projectName": "cl-teatromoro-usuarios",
+      "envFile": "${workspaceFolder}/.env"
+    }
+  ],
+  "compounds": [
+    {
+      "name": "Debug All Services",
+      "configurations": [
+        "Debug Eureka",
+        "Debug ms-ticketing",
+        "Debug ms-reserva",
+        "Debug ms-pagos",
+        "Debug ms-suscripciones",
+        "Debug ms-catalogo",
+        "Debug ms-funciones",
+        "Debug ms-gestion",
+        "Debug ms-notificaciones",
+        "Debug ms-feedback",
+        "Debug ms-cafeteria",
+        "Debug ms-merchantdising",
+        "Debug ms-personal",
+        "Debug ms-informes",
+        "Debug ms-promociones",
+        "Debug ms-usuarios"
+      ]
+    }
+  ]
+}
