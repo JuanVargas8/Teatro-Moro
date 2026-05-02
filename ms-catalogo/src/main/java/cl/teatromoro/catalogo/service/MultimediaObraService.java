@@ -4,8 +4,14 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import cl.teatromoro.catalogo.entity.MultimediaObra;
+import cl.teatromoro.catalogo.dto.MultimediaObraRequest;
+import cl.teatromoro.catalogo.dto.MultimediaObraResponse;
+import cl.teatromoro.catalogo.exception.ResourceNotFoundException;
+import cl.teatromoro.catalogo.mapper.MultimediaObraMapper;
+import cl.teatromoro.catalogo.model.entity.MultimediaObra;
+import cl.teatromoro.catalogo.model.entity.Obra;
 import cl.teatromoro.catalogo.repository.ObraMultimediaRepository;
+import cl.teatromoro.catalogo.repository.ObraRepository;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -13,29 +19,68 @@ import lombok.RequiredArgsConstructor;
 public class MultimediaObraService {
 
     private final ObraMultimediaRepository repository;
+    private final ObraRepository obraRepository;
+    private final MultimediaObraMapper mapper;
 
-    public List<MultimediaObra> listar() {
-        return repository.findAll();
+    // ─── LISTAR ─────────────────────────────────────────
+
+    public List<MultimediaObraResponse> listar() {
+        return repository.findAll()
+                .stream()
+                .map(mapper::toResponse)
+                .toList();
     }
 
-    public MultimediaObra obtenerPorId(Long id) {
-        return repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Multimedia no encontrada"));
+    // ─── OBTENER POR ID ─────────────────────────────────
+
+    public MultimediaObraResponse obtenerPorId(Long id) {
+        MultimediaObra multimedia = repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Multimedia", id));
+
+        return mapper.toResponse(multimedia);
     }
 
-    public MultimediaObra guardar(MultimediaObra multimedia) {
-        return repository.save(multimedia);
+    // ─── CREAR ──────────────────────────────────────────
+
+    public MultimediaObraResponse guardar(MultimediaObraRequest request) {
+
+        Obra obra = obraRepository.findById(request.getObraId())
+                .orElseThrow(() -> new ResourceNotFoundException("Obra", request.getObraId()));
+
+        MultimediaObra multimedia = mapper.toEntity(request, obra);
+
+        return mapper.toResponse(repository.save(multimedia));
     }
+
+    // ─── ELIMINAR ───────────────────────────────────────
 
     public void eliminar(Long id) {
-        repository.deleteById(id);
+        MultimediaObra multimedia = repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Multimedia", id));
+
+        repository.delete(multimedia);
     }
 
-    public List<MultimediaObra> porObra(Long obraId) {
-        return repository.findByObraId(obraId);
+    // ─── POR OBRA ───────────────────────────────────────
+
+    public List<MultimediaObraResponse> porObra(Long obraId) {
+
+        if (!obraRepository.existsById(obraId)) {
+            throw new ResourceNotFoundException("Obra", obraId);
+        }
+
+        return repository.findByObraId(obraId)
+                .stream()
+                .map(mapper::toResponse)
+                .toList();
     }
 
-    public List<MultimediaObra> porTipo(String tipo) {
-        return repository.findByTipo(tipo);
+    // ─── POR TIPO ───────────────────────────────────────
+
+    public List<MultimediaObraResponse> porTipo(String tipo) {
+        return repository.findByTipo(tipo)
+                .stream()
+                .map(mapper::toResponse)
+                .toList();
     }
 }

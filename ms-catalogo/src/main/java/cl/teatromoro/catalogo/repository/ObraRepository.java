@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import cl.teatromoro.catalogo.entity.Obra;
+import cl.teatromoro.catalogo.model.entity.Obra;
 import feign.Param;
 
 @Repository
@@ -19,6 +19,8 @@ public interface ObraRepository extends JpaRepository<Obra, Long>{
     List<Obra> findByDuracionGreaterThan(Integer minutos);
 
     List<Obra> findByCategoriaId(Long categoriaId);
+    
+    boolean existsByTitulo(String titulo);
 
     List<Obra> findByCategoriaIdAndDuracionGreaterThan(Long categoriaId, Integer minutos);
 

@@ -1,4 +1,4 @@
-\c gestion
+--\c gestion
 
 -- ============================================================
 -- 1. ELIMINACIÓN (Orden jerárquico inverso)

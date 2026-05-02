@@ -1,4 +1,4 @@
-\c funciones
+--\c funciones
 
 -- ============================================================
 -- 1. ELIMINACIÓN (Orden jerárquico inverso)

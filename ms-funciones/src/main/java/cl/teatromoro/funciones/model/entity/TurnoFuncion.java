@@ -1,4 +1,4 @@
-package cl.teatromoro.catalogo.entity;
+package cl.teatromoro.funciones.model.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -13,22 +13,20 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "multimedia_obra")
+@Table(name = "turnos_funcion")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class MultimediaObra {
+public class TurnoFuncion {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String urlImagen;
-
-    private String tipo;
+    private Long idPersonalCargo; // otro MS
 
     @ManyToOne
-    @JoinColumn(name = "id_obra")
-    private Obra obra;
+    @JoinColumn(name = "id_funcion")
+    private Funcion funcion;
 }

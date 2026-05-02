@@ -11,7 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import cl.teatromoro.catalogo.entity.MultimediaObra;
+import cl.teatromoro.catalogo.dto.MultimediaObraRequest;
+import cl.teatromoro.catalogo.dto.MultimediaObraResponse;
 import cl.teatromoro.catalogo.service.MultimediaObraService;
 import lombok.RequiredArgsConstructor;
 
@@ -20,21 +21,23 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class MultimediaObraController {
 
-    private final MultimediaObraService service;
+    final MultimediaObraService service;
+
+    // ─── CRUD ─────────────────────────────────────────
 
     @GetMapping
-    public List<MultimediaObra> listar() {
+    public List<MultimediaObraResponse> listar() {
         return service.listar();
     }
 
     @GetMapping("/{id}")
-    public MultimediaObra obtener(@PathVariable Long id) {
+    public MultimediaObraResponse obtener(@PathVariable Long id) {
         return service.obtenerPorId(id);
     }
 
     @PostMapping
-    public MultimediaObra crear(@RequestBody MultimediaObra multimedia) {
-        return service.guardar(multimedia);
+    public MultimediaObraResponse crear(@RequestBody MultimediaObraRequest request) {
+        return service.guardar(request);
     }
 
     @DeleteMapping("/{id}")
@@ -42,15 +45,15 @@ public class MultimediaObraController {
         service.eliminar(id);
     }
 
-    // 🔥 ENDPOINTS ÚTILES
+    // ─── FILTROS ─────────────────────────────────────
 
     @GetMapping("/obra/{obraId}")
-    public List<MultimediaObra> porObra(@PathVariable Long obraId) {
+    public List<MultimediaObraResponse> porObra(@PathVariable Long obraId) {
         return service.porObra(obraId);
     }
 
     @GetMapping("/tipo")
-    public List<MultimediaObra> porTipo(@RequestParam String tipo) {
+    public List<MultimediaObraResponse> porTipo(@RequestParam String tipo) {
         return service.porTipo(tipo);
     }
 }

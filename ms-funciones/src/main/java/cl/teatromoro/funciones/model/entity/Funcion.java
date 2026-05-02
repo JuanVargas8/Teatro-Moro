@@ -1,4 +1,6 @@
-package cl.teatromoro.catalogo.entity;
+package cl.teatromoro.funciones.model.entity;
+
+import java.time.LocalDateTime;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -11,18 +13,22 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "categorias")
+@Table(name = "funciones")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Categoria {
+public class Funcion {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String nombre;
+    // FK lógicas
+    private Long idObra;
+    private Long idSala;
 
-    private String descripcion;
+    private LocalDateTime fechaHora;
+
+    private Double precioBase;
 }

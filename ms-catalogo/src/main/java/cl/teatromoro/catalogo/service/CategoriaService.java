@@ -4,7 +4,12 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import cl.teatromoro.catalogo.entity.Categoria;
+import cl.teatromoro.catalogo.dto.CategoriaRequest;
+import cl.teatromoro.catalogo.dto.CategoriaResponse;
+import cl.teatromoro.catalogo.exception.RecursoDuplicadoException;
+import cl.teatromoro.catalogo.exception.ResourceNotFoundException;
+import cl.teatromoro.catalogo.mapper.CategoriaMapper;
+import cl.teatromoro.catalogo.model.entity.Categoria;
 import cl.teatromoro.catalogo.repository.CategoriaRepository;
 import lombok.RequiredArgsConstructor;
 
@@ -12,31 +17,66 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class CategoriaService {
 
-    private final CategoriaRepository repository;
+    final CategoriaRepository repository;
+    private final CategoriaMapper mapper;
 
-    public List<Categoria> listar() {
-        return repository.findAll();
+    // ─── LISTAR ─────────────────────────────────────────
+
+    public List<CategoriaResponse> listar() {
+        return repository.findAll()
+                .stream()
+                .map(mapper::toResponse)
+                .toList();
     }
 
-    public Categoria obtenerPorId(Long id) {
-        return repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Categoría no encontrada"));
+    // ─── OBTENER POR ID ─────────────────────────────────
+
+    public CategoriaResponse obtenerPorId(Long id) {
+        Categoria categoria = repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Categoría", id));
+
+        return mapper.toResponse(categoria);
     }
 
-    public Categoria guardar(Categoria categoria) {
-        return repository.save(categoria);
+    // ─── CREAR ──────────────────────────────────────────
+
+    public CategoriaResponse guardar(CategoriaRequest request) {
+
+        if (repository.existsByNombreIgnoreCase(request.getNombre())) {
+            throw new RecursoDuplicadoException("Categoría", "nombre", request.getNombre());
+        }
+
+        Categoria categoria = mapper.toEntity(request);
+
+        return mapper.toResponse(repository.save(categoria));
     }
 
-    public Categoria actualizar(Long id, Categoria categoria) {
-        Categoria existente = obtenerPorId(id);
+    // ─── ACTUALIZAR ─────────────────────────────────────
 
-        existente.setNombre(categoria.getNombre());
-        existente.setDescripcion(categoria.getDescripcion());
+    public CategoriaResponse actualizar(Long id, CategoriaRequest request) {
 
-        return repository.save(existente);
+        Categoria existente = repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Categoría", id));
+
+        // Validar duplicado si cambia el nombre
+        if (!existente.getNombre().equalsIgnoreCase(request.getNombre()) &&
+            repository.existsByNombreIgnoreCase(request.getNombre())) {
+
+            throw new RecursoDuplicadoException("Categoría", "nombre", request.getNombre());
+        }
+
+        existente.setNombre(request.getNombre());
+        existente.setDescripcion(request.getDescripcion());
+
+        return mapper.toResponse(repository.save(existente));
     }
+
+    // ─── ELIMINAR ───────────────────────────────────────
 
     public void eliminar(Long id) {
-        repository.deleteById(id);
+        Categoria categoria = repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Categoría", id));
+
+        repository.delete(categoria);
     }
 }

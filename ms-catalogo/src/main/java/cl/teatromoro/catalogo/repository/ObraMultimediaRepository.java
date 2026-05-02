@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import cl.teatromoro.catalogo.entity.MultimediaObra;
+import cl.teatromoro.catalogo.model.entity.MultimediaObra;
 
 @Repository
 public interface ObraMultimediaRepository extends JpaRepository<MultimediaObra, Long>{

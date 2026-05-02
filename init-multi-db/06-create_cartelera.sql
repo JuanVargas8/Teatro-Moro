@@ -1,4 +1,4 @@
-\c cartelera
+--\c cartelera
 
 -- ============================================================
 -- 1. ELIMINACIÓN (Orden jerárquico inverso)

@@ -11,7 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import cl.teatromoro.catalogo.entity.Categoria;
+import cl.teatromoro.catalogo.dto.CategoriaRequest;
+import cl.teatromoro.catalogo.dto.CategoriaResponse;
 import cl.teatromoro.catalogo.service.CategoriaService;
 import lombok.RequiredArgsConstructor;
 
@@ -22,24 +23,26 @@ public class CategoriaController {
 
     private final CategoriaService service;
 
+    // ─── CRUD ─────────────────────────────────────────
+
     @GetMapping
-    public List<Categoria> listar() {
+    public List<CategoriaResponse> listar() {
         return service.listar();
     }
 
     @GetMapping("/{id}")
-    public Categoria obtener(@PathVariable Long id) {
+    public CategoriaResponse obtener(@PathVariable Long id) {
         return service.obtenerPorId(id);
     }
 
     @PostMapping
-    public Categoria crear(@RequestBody Categoria categoria) {
-        return service.guardar(categoria);
+    public CategoriaResponse crear(@RequestBody CategoriaRequest request) {
+        return service.guardar(request);
     }
 
     @PutMapping("/{id}")
-    public Categoria actualizar(@PathVariable Long id, @RequestBody Categoria categoria) {
-        return service.actualizar(id, categoria);
+    public CategoriaResponse actualizar(@PathVariable Long id, @RequestBody CategoriaRequest request) {
+        return service.actualizar(id, request);
     }
 
     @DeleteMapping("/{id}")

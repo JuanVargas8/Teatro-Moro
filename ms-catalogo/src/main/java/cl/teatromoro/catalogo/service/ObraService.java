@@ -4,7 +4,14 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import cl.teatromoro.catalogo.entity.Obra;
+import cl.teatromoro.catalogo.dto.ObraRequest;
+import cl.teatromoro.catalogo.dto.ObraResponse;
+import cl.teatromoro.catalogo.exception.RecursoDuplicadoException;
+import cl.teatromoro.catalogo.exception.ResourceNotFoundException;
+import cl.teatromoro.catalogo.mapper.ObraMapper;
+import cl.teatromoro.catalogo.model.entity.Categoria;
+import cl.teatromoro.catalogo.model.entity.Obra;
+import cl.teatromoro.catalogo.repository.CategoriaRepository;
 import cl.teatromoro.catalogo.repository.ObraRepository;
 import lombok.RequiredArgsConstructor;
 
@@ -13,46 +20,107 @@ import lombok.RequiredArgsConstructor;
 public class ObraService {
 
     private final ObraRepository repository;
+    private final CategoriaRepository categoriaRepository;
+    private final ObraMapper mapper;
 
-    public List<Obra> listar() {
-        return repository.findAll();
+    // ─── LISTAR ─────────────────────────────────────────
+
+    public List<ObraResponse> listar() {
+        return repository.findAll()
+                .stream()
+                .map(mapper::toResponse)
+                .toList();
     }
 
-    public Obra obtenerPorId(Long id) {
-        return repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Obra no encontrada"));
+    // ─── OBTENER POR ID ─────────────────────────────────
+
+    public ObraResponse obtenerPorId(Long id) {
+        Obra obra = repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Obra", id));
+
+        return mapper.toResponse(obra);
     }
 
-    public Obra guardar(Obra obra) {
-        return repository.save(obra);
+    // ─── CREAR ──────────────────────────────────────────
+
+    public ObraResponse guardar(ObraRequest request) {
+
+        if (repository.existsByTitulo(request.getTitulo())) {
+            throw new RecursoDuplicadoException("Obra", "título", request.getTitulo());
+        }
+
+        Categoria categoria = categoriaRepository.findById(request.getCategoriaId())
+                .orElseThrow(() -> new ResourceNotFoundException("Categoría", request.getCategoriaId()));
+
+        Obra obra = mapper.toEntity(request, categoria);
+
+        return mapper.toResponse(repository.save(obra));
     }
 
-    public Obra actualizar(Long id, Obra obra) {
-        Obra existente = obtenerPorId(id);
+    // ─── ACTUALIZAR ─────────────────────────────────────
 
-        existente.setTitulo(obra.getTitulo());
-        existente.setSinopsis(obra.getSinopsis());
-        existente.setDuracion(obra.getDuracion());
-        existente.setClasificacionEdad(obra.getClasificacionEdad());
-        existente.setCategoria(obra.getCategoria());
+    public ObraResponse actualizar(Long id, ObraRequest request) {
 
-        return repository.save(existente);
+        Obra existente = repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Obra", id));
+
+        Categoria categoria = categoriaRepository.findById(request.getCategoriaId())
+                .orElseThrow(() -> new ResourceNotFoundException("Categoría", request.getCategoriaId()));
+
+        // Validación de duplicado si cambia el título
+        if (!existente.getTitulo().equals(request.getTitulo()) &&
+            repository.existsByTitulo(request.getTitulo())) {
+
+            throw new RecursoDuplicadoException("Obra", "título", request.getTitulo());
+        }
+
+        existente.setTitulo(request.getTitulo());
+        existente.setSinopsis(request.getSinopsis());
+        existente.setDuracion(request.getDuracion());
+        existente.setClasificacionEdad(request.getClasificacionEdad());
+        existente.setCategoria(categoria);
+
+        return mapper.toResponse(repository.save(existente));
     }
+
+    // ─── ELIMINAR ───────────────────────────────────────
 
     public void eliminar(Long id) {
-        repository.deleteById(id);
+        Obra obra = repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Obra", id));
+
+        repository.delete(obra);
     }
 
+    // ─── BUSCAR POR TÍTULO ─────────────────────────────
 
-    public List<Obra> buscarPorTitulo(String titulo) {
-        return repository.findByTituloContainingIgnoreCase(titulo);
+    public List<ObraResponse> buscarPorTitulo(String titulo) {
+        return repository.findByTituloContainingIgnoreCase(titulo)
+                .stream()
+                .map(mapper::toResponse)
+                .toList();
     }
 
-    public List<Obra> porCategoria(Long categoriaId) {
-        return repository.findByCategoriaId(categoriaId);
+    // ─── POR CATEGORÍA ─────────────────────────────────
+
+    public List<ObraResponse> porCategoria(Long categoriaId) {
+
+        if (!categoriaRepository.existsById(categoriaId)) {
+            throw new ResourceNotFoundException("Categoría", categoriaId);
+        }
+
+        return repository.findByCategoriaId(categoriaId)
+                .stream()
+                .map(mapper::toResponse)
+                .toList();
     }
 
-    public List<Obra> largas(int minutos) {
-        return repository.findByDuracionGreaterThan(minutos);
+    // ─── OBRAS LARGAS ──────────────────────────────────
+
+    public List<ObraResponse> largas(int minutos) {
+        return repository.findByDuracionGreaterThan(minutos)
+                .stream()
+                .map(mapper::toResponse)
+                .toList();
     }
 }
