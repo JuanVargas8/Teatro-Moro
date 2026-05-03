@@ -2,22 +2,44 @@
 -- SCRIPT DE CREACIÓN DE TABLAS E INSERCIÓN DE DATOS
 
 -- Conectarse a la base de datos específica para este microservicio
-\c notificaciones
+--\c notificaciones
 
 -- ============================================================
 -- 1. ELIMINACIÓN (Orden jerárquico inverso)
 -- ============================================================
+DROP TABLE IF EXISTS Cola_Envios;
+DROP TABLE IF EXISTS Preferencias_Notificacion;
 DROP TABLE IF EXISTS Plantillas_Notificacion;
--- ============================================================
--- 2. PROYECCIONES MÍNIMAS LOCALES
--- ============================================================
+
 CREATE TABLE Plantillas_Notificacion (
-    ID SERIAL PRIMARY KEY,
-    Tipo VARCHAR(50),
-    Cuerpo_Texto TEXT
+    id SERIAL PRIMARY KEY,
+    tipo VARCHAR(50),
+    cuerpo TEXT
 );
 
-INSERT INTO Plantillas_Notificacion (Tipo, Cuerpo_Texto) VALUES 
-('Confirmacion', 'Hola {nombre}, tu ticket para {obra} ha sido emitido.'),
-('Recordatorio', 'No olvides tu función de mañana a las {hora}.'),
-('Cancelacion', 'Lamentamos informar que la función de {obra} ha sido cancelada.');
+CREATE TABLE Preferencias_Notificacion (
+    id_usuario INT PRIMARY KEY,
+    email BOOLEAN,
+    sms BOOLEAN
+);
+
+CREATE TABLE Cola_Envios (
+    id SERIAL PRIMARY KEY,
+    id_usuario INT,
+    id_plantilla INT,
+    estado VARCHAR(20),
+    reintentos INT,
+    FOREIGN KEY (id_plantilla) REFERENCES Plantillas_Notificacion(id)
+);
+
+INSERT INTO Plantillas_Notificacion VALUES
+(DEFAULT,'Confirmacion','Compra realizada'),
+(DEFAULT,'Recordatorio','Evento próximo');
+
+INSERT INTO Preferencias_Notificacion VALUES
+(101,TRUE,FALSE),
+(102,TRUE,TRUE);
+
+INSERT INTO Cola_Envios VALUES
+(DEFAULT,101,1,'Pendiente',0),
+(DEFAULT,102,2,'Enviado',1);
