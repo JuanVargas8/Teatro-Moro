@@ -2,24 +2,25 @@
 -- SCRIPT DE CREACIÓN DE TABLAS E INSERCIÓN DE DATOS
 
 -- Conectarse a la base de datos específica para este microservicio
---\c cartelera
+\c cafeteria
 
 -- ============================================================
 -- 1. ELIMINACIÓN (Orden jerárquico inverso)
 -- ============================================================
-DROP TABLE IF EXISTS Planes_Abono;
+DROP TABLE IF EXISTS Productos_Menu;
+
 
 -- ============================================================
 -- 2. PROYECCIONES MÍNIMAS LOCALES
 -- ============================================================
-CREATE TABLE Planes_Abono (
+CREATE TABLE Productos_Menu (
     ID SERIAL PRIMARY KEY,
     Nombre VARCHAR(100),
     Precio DECIMAL(10,2),
-    Beneficios TEXT
+    Stock_Actual INT
 );
 
-INSERT INTO Planes_Abono (Nombre, Precio, Beneficios) VALUES 
-('Plan Platino', 100000, 'Acceso total y 20% dcto en bar'),
-('Plan Temporada', 45000, 'Entrada a todas las obras del mes'),
-('Abono Joven', 20000, '50% dcto en funciones de lunes a jueves');
+INSERT INTO Productos_Menu (Nombre, Precio, Stock_Actual) VALUES 
+('Vino Tinto Copa', 4500, 50),
+('Palomitas Grandes', 3500, 100),
+('Café Expreso', 2500, 200);

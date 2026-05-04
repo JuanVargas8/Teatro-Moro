@@ -2,24 +2,25 @@
 -- SCRIPT DE CREACIÓN DE TABLAS E INSERCIÓN DE DATOS
 
 -- Conectarse a la base de datos específica para este microservicio
---\c cartelera
+--\c pagos
 
 -- ============================================================
 -- 1. ELIMINACIÓN (Orden jerárquico inverso)
 -- ============================================================
-DROP TABLE IF EXISTS Planes_Abono;
+DROP TABLE IF EXISTS Transacciones;
 
 -- ============================================================
 -- 2. PROYECCIONES MÍNIMAS LOCALES
 -- ============================================================
-CREATE TABLE Planes_Abono (
+CREATE TABLE Transacciones (
     ID SERIAL PRIMARY KEY,
-    Nombre VARCHAR(100),
-    Precio DECIMAL(10,2),
-    Beneficios TEXT
+    ID_Pedido INT,
+    Monto DECIMAL(10,2),
+    Metodo_Pago VARCHAR(50),
+    Estado VARCHAR(20) -- Pendiente, Aprobado, Fallido
 );
 
-INSERT INTO Planes_Abono (Nombre, Precio, Beneficios) VALUES 
-('Plan Platino', 100000, 'Acceso total y 20% dcto en bar'),
-('Plan Temporada', 45000, 'Entrada a todas las obras del mes'),
-('Abono Joven', 20000, '50% dcto en funciones de lunes a jueves');
+INSERT INTO Transacciones (ID_Pedido, Monto, Metodo_Pago, Estado) VALUES 
+(501, 50000, 'Tarjeta_Debito', 'Aprobado'), 
+(502, 25000, 'WebPay', 'Pendiente'),
+(503, 15000, 'Transferencia', 'Aprobado');

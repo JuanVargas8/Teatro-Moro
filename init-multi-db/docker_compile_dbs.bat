@@ -1,4 +1,13 @@
 docker exec -i postgres-db psql -U postgres -d postgres < 01-init.sql
+docker exec -i postgres-db psql -U postgres -d ticketing < 02-create_ticketing.sql
+docker exec -i postgres-db psql -U postgres -d reserva < 03-create_reserva.sql
+docker exec -i postgres-db psql -U postgres -d pagos < 04-create_pagos.sql
+docker exec -i postgres-db psql -U postgres -d suscripciones < 05-create_suscripciones.sql
 docker exec -i postgres-db psql -U postgres -d cartelera < 06-create_cartelera.sql
 docker exec -i postgres-db psql -U postgres -d funciones < 07-create_funciones.sql
 docker exec -i postgres-db psql -U postgres -d gestion < 08-create_gestion.sql
+docker exec -i postgres-db psql -U postgres -d usuarios < 09-create_usuarios.sql
+docker exec -i postgres-db psql -U postgres -d notificaciones < 10-create_notificaciones.sql
+docker exec -i postgres-db psql -U postgres -d personal < 14-create_personal.sql
+docker exec -i postgres-db psql -U postgres -d informes < 15-create_informes.sql
+docker exec -i postgres-db psql -U postgres -d marketing < 16-create_marketing.sql

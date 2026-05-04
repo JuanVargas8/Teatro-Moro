@@ -2,24 +2,21 @@
 -- SCRIPT DE CREACIÓN DE TABLAS E INSERCIÓN DE DATOS
 
 -- Conectarse a la base de datos específica para este microservicio
---\c cartelera
+\c informes
 
 -- ============================================================
 -- 1. ELIMINACIÓN (Orden jerárquico inverso)
 -- ============================================================
-DROP TABLE IF EXISTS Planes_Abono;
+DROP TABLE IF EXISTS Metricas_Ocupacion;
 
 -- ============================================================
 -- 2. PROYECCIONES MÍNIMAS LOCALES
 -- ============================================================
-CREATE TABLE Planes_Abono (
+CREATE TABLE Metricas_Ocupacion (
     ID SERIAL PRIMARY KEY,
-    Nombre VARCHAR(100),
-    Precio DECIMAL(10,2),
-    Beneficios TEXT
+    ID_Funcion INT,
+    Porcentaje_Llenado DECIMAL(5,2)
 );
 
-INSERT INTO Planes_Abono (Nombre, Precio, Beneficios) VALUES 
-('Plan Platino', 100000, 'Acceso total y 20% dcto en bar'),
-('Plan Temporada', 45000, 'Entrada a todas las obras del mes'),
-('Abono Joven', 20000, '50% dcto en funciones de lunes a jueves');
+INSERT INTO Metricas_Ocupacion (ID_Funcion, Porcentaje_Llenado) VALUES 
+(1, 85.50), (2, 100.00), (3, 42.10);

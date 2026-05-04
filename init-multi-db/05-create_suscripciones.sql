@@ -2,12 +2,13 @@
 -- SCRIPT DE CREACIÓN DE TABLAS E INSERCIÓN DE DATOS
 
 -- Conectarse a la base de datos específica para este microservicio
---\c cartelera
+--\c suscripciones
 
 -- ============================================================
 -- 1. ELIMINACIÓN (Orden jerárquico inverso)
 -- ============================================================
 DROP TABLE IF EXISTS Planes_Abono;
+
 
 -- ============================================================
 -- 2. PROYECCIONES MÍNIMAS LOCALES

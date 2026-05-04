@@ -2,24 +2,22 @@
 -- SCRIPT DE CREACIÓN DE TABLAS E INSERCIÓN DE DATOS
 
 -- Conectarse a la base de datos específica para este microservicio
---\c cartelera
+\c notificaciones
 
 -- ============================================================
 -- 1. ELIMINACIÓN (Orden jerárquico inverso)
 -- ============================================================
-DROP TABLE IF EXISTS Planes_Abono;
-
+DROP TABLE IF EXISTS Plantillas_Notificacion;
 -- ============================================================
 -- 2. PROYECCIONES MÍNIMAS LOCALES
 -- ============================================================
-CREATE TABLE Planes_Abono (
+CREATE TABLE Plantillas_Notificacion (
     ID SERIAL PRIMARY KEY,
-    Nombre VARCHAR(100),
-    Precio DECIMAL(10,2),
-    Beneficios TEXT
+    Tipo VARCHAR(50),
+    Cuerpo_Texto TEXT
 );
 
-INSERT INTO Planes_Abono (Nombre, Precio, Beneficios) VALUES 
-('Plan Platino', 100000, 'Acceso total y 20% dcto en bar'),
-('Plan Temporada', 45000, 'Entrada a todas las obras del mes'),
-('Abono Joven', 20000, '50% dcto en funciones de lunes a jueves');
+INSERT INTO Plantillas_Notificacion (Tipo, Cuerpo_Texto) VALUES 
+('Confirmacion', 'Hola {nombre}, tu ticket para {obra} ha sido emitido.'),
+('Recordatorio', 'No olvides tu función de mañana a las {hora}.'),
+('Cancelacion', 'Lamentamos informar que la función de {obra} ha sido cancelada.');
