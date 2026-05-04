@@ -9,9 +9,13 @@ spring:
 
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://postgres:5432/usuarios
+    url: jdbc:postgresql://localhost:5433/usuarios
     username: postgres
-    password: Caraluna.351
+    password: 123
+
+    hikari:
+      maximum-pool-size: 5
+      minimum-idle: 1
 
   jpa:
     hibernate:
@@ -24,7 +28,7 @@ eureka:
     register-with-eureka: true
     fetch-registry: true
     service-url:
-      defaultZone: http://eureka:8761/eureka
+      defaultZone: http://localhost:8761/eureka
 
   instance:
     prefer-ip-address: true

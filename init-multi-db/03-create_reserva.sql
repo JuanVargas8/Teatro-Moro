@@ -2,7 +2,7 @@
 -- SCRIPT DE CREACIÓN DE TABLAS E INSERCIÓN DE DATOS
 
 -- Conectarse a la base de datos específica para este microservicio
-\c reserva
+--\c reserva
 
 -- 1. ELIMINACIÓN (Orden jerárquico inverso)
 DROP TABLE IF EXISTS Mapa_Asientos;

@@ -1,4 +1,4 @@
-package cl.teatromoro.usuarios.exception;
+package cl.teatromoro.usuarios.exceptions;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;

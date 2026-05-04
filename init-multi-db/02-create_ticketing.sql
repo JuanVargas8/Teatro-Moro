@@ -2,7 +2,7 @@
 -- SCRIPT DE CREACIÓN DE TABLAS E INSERCIÓN DE DATOS
 
 -- Conectarse a la base de datos específica para este microservicio
-\c ticketing;
+--\c ticketing;
 
 -- 1. ELIMINACIÓN (Orden jerárquico inverso)
 DROP TABLE IF EXISTS Tipos_Entrada;
