@@ -38,6 +38,10 @@
     <!-- Forma de empaquetado es .jar -->
     <packaging>jar</packaging>
 
+    <properties>
+        <java.version>17</java.version>
+    </properties>
+
     <!-- Dependencias necesarias para este microservicio -->
     <dependencies>
 

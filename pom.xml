@@ -25,9 +25,6 @@
         <module>ms-funciones</module>      <!-- Microservicio funciones -->
         <module>ms-gestion</module>      <!-- Microservicio gestion -->
         <module>ms-notificaciones</module>      <!-- Microservicio notificaciones -->
-        <module>ms-feedback</module>      <!-- Microservicio feedback -->
-        <module>ms-cafeteria</module>      <!-- Microservicio cafeteria -->
-        <module>ms-merchantdising</module>      <!-- Microservicio merchantdising -->
         <module>ms-personal</module>      <!-- Microservicio personal -->
         <module>ms-informes</module>      <!-- Microservicio informes -->
         <module>ms-promociones</module>      <!-- Microservicio promociones -->
