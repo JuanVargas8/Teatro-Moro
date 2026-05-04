@@ -2,24 +2,21 @@
 -- SCRIPT DE CREACIÓN DE TABLAS E INSERCIÓN DE DATOS
 
 -- Conectarse a la base de datos específica para este microservicio
-\c gestion
+\c informes
 
 -- ============================================================
 -- 1. ELIMINACIÓN (Orden jerárquico inverso)
 -- ============================================================
-DROP TABLE IF EXISTS Salas;
+DROP TABLE IF EXISTS Metricas_Ocupacion;
 
 -- ============================================================
 -- 2. PROYECCIONES MÍNIMAS LOCALES
 -- ============================================================
-CREATE TABLE Salas (
+CREATE TABLE Metricas_Ocupacion (
     ID SERIAL PRIMARY KEY,
-    Nombre VARCHAR(50),
-    Capacidad_Total INT,
-    Descripcion_Tecnica TEXT
+    ID_Funcion INT,
+    Porcentaje_Llenado DECIMAL(5,2)
 );
 
-INSERT INTO Salas (Nombre, Capacidad_Total, Descripcion_Tecnica) VALUES 
-('Gran Teatro Principal', 500, 'Sonido Dolby Atmos, Escenario giratorio'),
-('Sala de Cámara', 120, 'Acústica natural, Iluminación LED'),
-('Sala Experimental', 80, 'Configuración flexible de asientos');
+INSERT INTO Metricas_Ocupacion (ID_Funcion, Porcentaje_Llenado) VALUES 
+(1, 85.50), (2, 100.00), (3, 42.10);

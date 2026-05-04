@@ -2,24 +2,23 @@
 -- SCRIPT DE CREACIÓN DE TABLAS E INSERCIÓN DE DATOS
 
 -- Conectarse a la base de datos específica para este microservicio
-\c gestion
+\c personal
 
 -- ============================================================
 -- 1. ELIMINACIÓN (Orden jerárquico inverso)
 -- ============================================================
-DROP TABLE IF EXISTS Salas;
-
+DROP TABLE IF EXISTS Personal;
 -- ============================================================
 -- 2. PROYECCIONES MÍNIMAS LOCALES
 -- ============================================================
-CREATE TABLE Salas (
+CREATE TABLE Personal (
     ID SERIAL PRIMARY KEY,
-    Nombre VARCHAR(50),
-    Capacidad_Total INT,
-    Descripcion_Tecnica TEXT
+    Nombre VARCHAR(100),
+    Especialidad VARCHAR(50),
+    Tipo_Contrato VARCHAR(50)
 );
 
-INSERT INTO Salas (Nombre, Capacidad_Total, Descripcion_Tecnica) VALUES 
-('Gran Teatro Principal', 500, 'Sonido Dolby Atmos, Escenario giratorio'),
-('Sala de Cámara', 120, 'Acústica natural, Iluminación LED'),
-('Sala Experimental', 80, 'Configuración flexible de asientos');
+INSERT INTO Personal (Nombre, Especialidad, Tipo_Contrato) VALUES 
+('Roberto Lagos', 'Actor', 'Por Obra'),
+('Lucía Méndez', 'Técnico de Iluminación', 'Planta'),
+('Carlos Ruiz', 'Director Escénico', 'Honorarios');

@@ -2,24 +2,25 @@
 -- SCRIPT DE CREACIÓN DE TABLAS E INSERCIÓN DE DATOS
 
 -- Conectarse a la base de datos específica para este microservicio
-\c gestion
+\c suscripciones
 
 -- ============================================================
 -- 1. ELIMINACIÓN (Orden jerárquico inverso)
 -- ============================================================
-DROP TABLE IF EXISTS Salas;
+DROP TABLE IF EXISTS Planes_Abono;
+
 
 -- ============================================================
 -- 2. PROYECCIONES MÍNIMAS LOCALES
 -- ============================================================
-CREATE TABLE Salas (
+CREATE TABLE Planes_Abono (
     ID SERIAL PRIMARY KEY,
-    Nombre VARCHAR(50),
-    Capacidad_Total INT,
-    Descripcion_Tecnica TEXT
+    Nombre VARCHAR(100),
+    Precio DECIMAL(10,2),
+    Beneficios TEXT
 );
 
-INSERT INTO Salas (Nombre, Capacidad_Total, Descripcion_Tecnica) VALUES 
-('Gran Teatro Principal', 500, 'Sonido Dolby Atmos, Escenario giratorio'),
-('Sala de Cámara', 120, 'Acústica natural, Iluminación LED'),
-('Sala Experimental', 80, 'Configuración flexible de asientos');
+INSERT INTO Planes_Abono (Nombre, Precio, Beneficios) VALUES 
+('Plan Platino', 100000, 'Acceso total y 20% dcto en bar'),
+('Plan Temporada', 45000, 'Entrada a todas las obras del mes'),
+('Abono Joven', 20000, '50% dcto en funciones de lunes a jueves');

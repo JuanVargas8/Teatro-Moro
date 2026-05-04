@@ -2,24 +2,25 @@
 -- SCRIPT DE CREACIÓN DE TABLAS E INSERCIÓN DE DATOS
 
 -- Conectarse a la base de datos específica para este microservicio
-\c gestion
+\c cafeteria
 
 -- ============================================================
 -- 1. ELIMINACIÓN (Orden jerárquico inverso)
 -- ============================================================
-DROP TABLE IF EXISTS Salas;
+DROP TABLE IF EXISTS Productos_Menu;
+
 
 -- ============================================================
 -- 2. PROYECCIONES MÍNIMAS LOCALES
 -- ============================================================
-CREATE TABLE Salas (
+CREATE TABLE Productos_Menu (
     ID SERIAL PRIMARY KEY,
-    Nombre VARCHAR(50),
-    Capacidad_Total INT,
-    Descripcion_Tecnica TEXT
+    Nombre VARCHAR(100),
+    Precio DECIMAL(10,2),
+    Stock_Actual INT
 );
 
-INSERT INTO Salas (Nombre, Capacidad_Total, Descripcion_Tecnica) VALUES 
-('Gran Teatro Principal', 500, 'Sonido Dolby Atmos, Escenario giratorio'),
-('Sala de Cámara', 120, 'Acústica natural, Iluminación LED'),
-('Sala Experimental', 80, 'Configuración flexible de asientos');
+INSERT INTO Productos_Menu (Nombre, Precio, Stock_Actual) VALUES 
+('Vino Tinto Copa', 4500, 50),
+('Palomitas Grandes', 3500, 100),
+('Café Expreso', 2500, 200);

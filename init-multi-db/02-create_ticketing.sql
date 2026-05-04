@@ -2,44 +2,28 @@
 -- SCRIPT DE CREACIÓN DE TABLAS E INSERCIÓN DE DATOS
 
 -- Conectarse a la base de datos específica para este microservicio
---\c ticketing;
+\c ticketing;
 
 -- 1. ELIMINACIÓN (Orden jerárquico inverso)
-DROP TABLE IF EXISTS Historial_Emisiones;
-DROP TABLE IF EXISTS Tickets;
 DROP TABLE IF EXISTS Tipos_Entrada;
-
+DROP TABLE IF EXISTS Tickets;
+-- 2. TABLAS MAESTRAS
 CREATE TABLE Tipos_Entrada (
-    id SERIAL PRIMARY KEY,
-    nombre VARCHAR(50),
-    descuento NUMERIC(5,2)
+    ID SERIAL PRIMARY KEY,
+    Nombre VARCHAR(50),
+    Descuento_Asociado DECIMAL(5,2)
 );
 
 CREATE TABLE Tickets (
-    id SERIAL PRIMARY KEY,
-    id_funcion INT,
-    id_usuario INT,
-    id_tipo_entrada INT,
-    precio_final NUMERIC(10,2),
-    FOREIGN KEY (id_tipo_entrada) REFERENCES Tipos_Entrada(id)
+    ID SERIAL PRIMARY KEY,
+    ID_Funcion INT,
+    ID_Usuario INT,
+    Codigo_QR VARCHAR(255),
+    Precio_Final DECIMAL(10,2)
 );
 
-CREATE TABLE Historial_Emisiones (
-    id SERIAL PRIMARY KEY,
-    id_ticket INT,
-    fecha_emision TIMESTAMP,
-    canal_venta VARCHAR(20),
-    FOREIGN KEY (id_ticket) REFERENCES Tickets(id)
-);
+INSERT INTO Tipos_Entrada (Nombre, Descuento_Asociado) VALUES 
+('General', 0.00), ('VIP', 0.00), ('Estudiante', 15.00);
 
-INSERT INTO Tipos_Entrada VALUES
-(DEFAULT,'General',0),
-(DEFAULT,'VIP',10);
-
-INSERT INTO Tickets VALUES
-(DEFAULT,1,101,1,20000),
-(DEFAULT,1,102,2,30000);
-
-INSERT INTO Historial_Emisiones VALUES
-(DEFAULT,1,NOW(),'Web'),
-(DEFAULT,2,NOW(),'Taquilla');
+INSERT INTO Tickets (ID_Funcion, ID_Usuario, Codigo_QR, Precio_Final) VALUES 
+(1, 10, 'QR-7721', 25000), (1, 11, 'QR-7722', 25000), (2, 12, 'QR-8810', 45000);

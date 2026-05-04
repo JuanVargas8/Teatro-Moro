@@ -2,24 +2,24 @@
 -- SCRIPT DE CREACIÓN DE TABLAS E INSERCIÓN DE DATOS
 
 -- Conectarse a la base de datos específica para este microservicio
-\c gestion
+\c marketing
 
 -- ============================================================
 -- 1. ELIMINACIÓN (Orden jerárquico inverso)
 -- ============================================================
-DROP TABLE IF EXISTS Salas;
-
+DROP TABLE IF EXISTS Cupones;
 -- ============================================================
 -- 2. PROYECCIONES MÍNIMAS LOCALES
 -- ============================================================
-CREATE TABLE Salas (
+CREATE TABLE Cupones (
     ID SERIAL PRIMARY KEY,
-    Nombre VARCHAR(50),
-    Capacidad_Total INT,
-    Descripcion_Tecnica TEXT
+    Codigo VARCHAR(20) UNIQUE,
+    Porcentaje_Descuento DECIMAL(5,2),
+    Fecha_Expiracion DATE,
+    Limite_Uso INT
 );
 
-INSERT INTO Salas (Nombre, Capacidad_Total, Descripcion_Tecnica) VALUES 
-('Gran Teatro Principal', 500, 'Sonido Dolby Atmos, Escenario giratorio'),
-('Sala de Cámara', 120, 'Acústica natural, Iluminación LED'),
-('Sala Experimental', 80, 'Configuración flexible de asientos');
+INSERT INTO Cupones (Codigo, Porcentaje_Descuento, Fecha_Expiracion, Limite_Uso) VALUES 
+('BIENVENIDA24', 10.00, '2024-12-31', 500),
+('DIADELTEATRO', 50.00, '2024-05-11', 100),
+('PROMOVERANO', 20.00, '2024-02-28', 200);
