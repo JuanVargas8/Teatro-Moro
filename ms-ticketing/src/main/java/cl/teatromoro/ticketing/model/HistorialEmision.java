@@ -3,7 +3,7 @@ package cl.teatromoro.ticketing.model;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "Historial_Emisiones")
@@ -19,7 +19,7 @@ public class HistorialEmision {
     private Long id;
 
     @Column(name = "fecha_emision", nullable = false)
-    private LocalDateTime fechaEmision;
+    private LocalDate fechaEmision;
 
     @Column(name = "canal_venta", nullable = false, length = 20)
     private String canalVenta;
