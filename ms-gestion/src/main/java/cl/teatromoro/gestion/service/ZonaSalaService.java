@@ -6,8 +6,8 @@ import org.springframework.stereotype.Service;
 
 import cl.teatromoro.gestion.dto.ZonaSalaRequest;
 import cl.teatromoro.gestion.dto.ZonaSalaResponse;
-import cl.teatromoro.gestion.exception.RecursoDuplicadoException;
-import cl.teatromoro.gestion.exception.ResourceNotFoundException;
+import cl.teatromoro.common.exception.DuplicateResourceException;
+import cl.teatromoro.common.exception.EntityNotFoundException;
 import cl.teatromoro.gestion.mapper.ZonaSalaMapper;
 import cl.teatromoro.gestion.model.entity.Sala;
 import cl.teatromoro.gestion.model.entity.ZonaSala;
@@ -32,7 +32,7 @@ public class ZonaSalaService {
 
     public ZonaSalaResponse obtenerPorId(Long id) {
         ZonaSala zona = repository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("ZonaSala", id));
+                .orElseThrow(() -> new EntityNotFoundException("ZonaSala", "id", id));
 
         return mapper.toResponse(zona);
     }
@@ -40,13 +40,13 @@ public class ZonaSalaService {
     public ZonaSalaResponse guardar(ZonaSalaRequest request) {
 
         Sala sala = salaRepository.findById(request.getSalaId())
-                .orElseThrow(() -> new ResourceNotFoundException("Sala", request.getSalaId()));
+                .orElseThrow(() -> new EntityNotFoundException("Sala", "id", request.getSalaId()));
 
         if (repository.existsByNombreIgnoreCaseAndSalaId(
                 request.getNombre(), request.getSalaId())) {
 
-            throw new RecursoDuplicadoException(
-                    "ZonaSala", "nombre", request.getNombre());
+            throw new DuplicateResourceException(
+                    "ZonaSala", "nombre", request.getNombre(), "Ya existe una zona con ese nombre en la sala");
         }
 
         ZonaSala zona = mapper.toEntity(request, sala);
@@ -55,7 +55,7 @@ public class ZonaSalaService {
 
     public void eliminar(Long id) {
         ZonaSala zona = repository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("ZonaSala", id));
+                .orElseThrow(() -> new EntityNotFoundException("ZonaSala", "id", id));
 
         repository.delete(zona);
     }
@@ -63,7 +63,7 @@ public class ZonaSalaService {
     public List<ZonaSalaResponse> porSala(Long salaId) {
 
         if (!salaRepository.existsById(salaId)) {
-            throw new ResourceNotFoundException("Sala", salaId);
+            throw new EntityNotFoundException("Sala", "id", salaId);
         }
 
         return repository.findBySalaId(salaId)

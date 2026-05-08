@@ -6,8 +6,8 @@ import org.springframework.stereotype.Service;
 
 import cl.teatromoro.catalogo.dto.ObraRequest;
 import cl.teatromoro.catalogo.dto.ObraResponse;
-import cl.teatromoro.catalogo.exception.RecursoDuplicadoException;
-import cl.teatromoro.catalogo.exception.ResourceNotFoundException;
+import cl.teatromoro.common.exception.DuplicateResourceException;
+import cl.teatromoro.common.exception.EntityNotFoundException;
 import cl.teatromoro.catalogo.mapper.ObraMapper;
 import cl.teatromoro.catalogo.model.entity.Categoria;
 import cl.teatromoro.catalogo.model.entity.Obra;
@@ -36,7 +36,7 @@ public class ObraService {
 
     public ObraResponse obtenerPorId(Long id) {
         Obra obra = repository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Obra", id));
+                .orElseThrow(() -> new EntityNotFoundException("Obra", "id", id));
 
         return mapper.toResponse(obra);
     }
@@ -46,11 +46,11 @@ public class ObraService {
     public ObraResponse guardar(ObraRequest request) {
 
         if (repository.existsByTitulo(request.getTitulo())) {
-            throw new RecursoDuplicadoException("Obra", "título", request.getTitulo());
+            throw new DuplicateResourceException("Obra", "título", request.getTitulo(), "El título ya está en uso");
         }
 
         Categoria categoria = categoriaRepository.findById(request.getCategoriaId())
-                .orElseThrow(() -> new ResourceNotFoundException("Categoría", request.getCategoriaId()));
+                .orElseThrow(() -> new EntityNotFoundException("Categoría", "id", request.getCategoriaId()));
 
         Obra obra = mapper.toEntity(request, categoria);
 
@@ -62,16 +62,16 @@ public class ObraService {
     public ObraResponse actualizar(Long id, ObraRequest request) {
 
         Obra existente = repository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Obra", id));
+                .orElseThrow(() -> new EntityNotFoundException("Obra", "id", id));
 
         Categoria categoria = categoriaRepository.findById(request.getCategoriaId())
-                .orElseThrow(() -> new ResourceNotFoundException("Categoría", request.getCategoriaId()));
+                .orElseThrow(() -> new EntityNotFoundException("Categoría", "id", request.getCategoriaId()));
 
         // Validación de duplicado si cambia el título
         if (!existente.getTitulo().equals(request.getTitulo()) &&
             repository.existsByTitulo(request.getTitulo())) {
 
-            throw new RecursoDuplicadoException("Obra", "título", request.getTitulo());
+            throw new DuplicateResourceException("Obra", "título", request.getTitulo(), "El título ya está en uso");
         }
 
         existente.setTitulo(request.getTitulo());
@@ -87,7 +87,7 @@ public class ObraService {
 
     public void eliminar(Long id) {
         Obra obra = repository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Obra", id));
+                .orElseThrow(() -> new EntityNotFoundException("Obra", "id", id));
 
         repository.delete(obra);
     }
@@ -106,7 +106,7 @@ public class ObraService {
     public List<ObraResponse> porCategoria(Long categoriaId) {
 
         if (!categoriaRepository.existsById(categoriaId)) {
-            throw new ResourceNotFoundException("Categoría", categoriaId);
+            throw new EntityNotFoundException("Categoría", "id", categoriaId);
         }
 
         return repository.findByCategoriaId(categoriaId)

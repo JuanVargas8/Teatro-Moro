@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 
 import cl.teatromoro.catalogo.dto.MultimediaObraRequest;
 import cl.teatromoro.catalogo.dto.MultimediaObraResponse;
-import cl.teatromoro.catalogo.exception.ResourceNotFoundException;
+import cl.teatromoro.common.exception.EntityNotFoundException;
 import cl.teatromoro.catalogo.mapper.MultimediaObraMapper;
 import cl.teatromoro.catalogo.model.entity.MultimediaObra;
 import cl.teatromoro.catalogo.model.entity.Obra;
@@ -35,7 +35,7 @@ public class MultimediaObraService {
 
     public MultimediaObraResponse obtenerPorId(Long id) {
         MultimediaObra multimedia = repository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Multimedia", id));
+                .orElseThrow(() -> new EntityNotFoundException("Multimedia", "id", id));
 
         return mapper.toResponse(multimedia);
     }
@@ -45,7 +45,7 @@ public class MultimediaObraService {
     public MultimediaObraResponse guardar(MultimediaObraRequest request) {
 
         Obra obra = obraRepository.findById(request.getObraId())
-                .orElseThrow(() -> new ResourceNotFoundException("Obra", request.getObraId()));
+                .orElseThrow(() -> new EntityNotFoundException("Obra", "id", request.getObraId()));
 
         MultimediaObra multimedia = mapper.toEntity(request, obra);
 
@@ -56,7 +56,7 @@ public class MultimediaObraService {
 
     public void eliminar(Long id) {
         MultimediaObra multimedia = repository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Multimedia", id));
+                .orElseThrow(() -> new EntityNotFoundException("Multimedia", "id", id));
 
         repository.delete(multimedia);
     }
@@ -66,7 +66,7 @@ public class MultimediaObraService {
     public List<MultimediaObraResponse> porObra(Long obraId) {
 
         if (!obraRepository.existsById(obraId)) {
-            throw new ResourceNotFoundException("Obra", obraId);
+            throw new EntityNotFoundException("Obra", "id", obraId);
         }
 
         return repository.findByObraId(obraId)

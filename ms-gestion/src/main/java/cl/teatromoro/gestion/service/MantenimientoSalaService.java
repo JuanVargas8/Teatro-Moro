@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 
 import cl.teatromoro.gestion.dto.MantenimientoSalaRequest;
 import cl.teatromoro.gestion.dto.MantenimientoSalaResponse;
-import cl.teatromoro.gestion.exception.ResourceNotFoundException;
+import cl.teatromoro.common.exception.EntityNotFoundException;
 import cl.teatromoro.gestion.mapper.MantenimientoSalaMapper;
 import cl.teatromoro.gestion.model.entity.MantenimientoSala;
 import cl.teatromoro.gestion.model.entity.Sala;
@@ -31,7 +31,7 @@ public class MantenimientoSalaService {
 
     public MantenimientoSalaResponse obtenerPorId(Long id) {
         MantenimientoSala mantenimiento = repository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("MantenimientoSala", id));
+                .orElseThrow(() -> new EntityNotFoundException("MantenimientoSala", "id", id));
 
         return mapper.toResponse(mantenimiento);
     }
@@ -39,7 +39,7 @@ public class MantenimientoSalaService {
     public MantenimientoSalaResponse guardar(MantenimientoSalaRequest request) {
 
         Sala sala = salaRepository.findById(request.getSalaId())
-                .orElseThrow(() -> new ResourceNotFoundException("Sala", request.getSalaId()));
+                .orElseThrow(() -> new EntityNotFoundException("Sala", "id", request.getSalaId()));
 
         MantenimientoSala mantenimiento = mapper.toEntity(request, sala);
 
@@ -48,7 +48,7 @@ public class MantenimientoSalaService {
 
     public void eliminar(Long id) {
         MantenimientoSala mantenimiento = repository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("MantenimientoSala", id));
+                .orElseThrow(() -> new EntityNotFoundException("MantenimientoSala", "id", id));
 
         repository.delete(mantenimiento);
     }
@@ -56,7 +56,7 @@ public class MantenimientoSalaService {
     public List<MantenimientoSalaResponse> porSala(Long salaId) {
 
         if (!salaRepository.existsById(salaId)) {
-            throw new ResourceNotFoundException("Sala", salaId);
+            throw new EntityNotFoundException("Sala", "id", salaId);
         }
 
         return repository.findBySalaId(salaId)

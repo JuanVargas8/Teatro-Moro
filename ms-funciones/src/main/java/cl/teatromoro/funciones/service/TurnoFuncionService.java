@@ -4,9 +4,9 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import cl.teatromoro.common.exception.EntityNotFoundException;
 import cl.teatromoro.funciones.dto.TurnoFuncionRequest;
 import cl.teatromoro.funciones.dto.TurnoFuncionResponse;
-import cl.teatromoro.funciones.exception.ResourceNotFoundException;
 import cl.teatromoro.funciones.mapper.TurnoFuncionMapper;
 import cl.teatromoro.funciones.model.entity.Funcion;
 import cl.teatromoro.funciones.model.entity.TurnoFuncion;
@@ -35,7 +35,7 @@ public class TurnoFuncionService {
 
     public TurnoFuncionResponse obtenerPorId(Long id) {
         TurnoFuncion turno = repository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("TurnoFuncion", id));
+                .orElseThrow(() -> new EntityNotFoundException("TurnoFuncion", "id", id));
 
         return mapper.toResponse(turno);
     }
@@ -45,7 +45,7 @@ public class TurnoFuncionService {
     public TurnoFuncionResponse guardar(TurnoFuncionRequest request) {
 
         Funcion funcion = funcionRepository.findById(request.getFuncionId())
-                .orElseThrow(() -> new ResourceNotFoundException("Funcion", request.getFuncionId()));
+                .orElseThrow(() -> new EntityNotFoundException("Funcion", "id", request.getFuncionId()));
 
         TurnoFuncion turno = mapper.toEntity(request);
         turno.setFuncion(funcion);
@@ -57,7 +57,7 @@ public class TurnoFuncionService {
 
     public void eliminar(Long id) {
         TurnoFuncion turno = repository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("TurnoFuncion", id));
+                .orElseThrow(() -> new EntityNotFoundException("TurnoFuncion", "id", id));
 
         repository.delete(turno);
     }
@@ -67,7 +67,7 @@ public class TurnoFuncionService {
     public List<TurnoFuncionResponse> porFuncion(Long funcionId) {
 
         if (!funcionRepository.existsById(funcionId)) {
-            throw new ResourceNotFoundException("Funcion", funcionId);
+            throw new EntityNotFoundException("Funcion", "id", funcionId);
         }
 
         return repository.findByFuncionId(funcionId)

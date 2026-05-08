@@ -4,10 +4,10 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import cl.teatromoro.gestion.exception.RecursoDuplicadoException;
+import cl.teatromoro.common.exception.DuplicateResourceException;
+import cl.teatromoro.common.exception.EntityNotFoundException;
 import cl.teatromoro.gestion.dto.SalaRequest;
 import cl.teatromoro.gestion.dto.SalaResponse;
-import cl.teatromoro.gestion.exception.ResourceNotFoundException;
 import cl.teatromoro.gestion.mapper.SalaMapper;
 import cl.teatromoro.gestion.model.entity.Sala;
 import cl.teatromoro.gestion.repository.SalaRepository;
@@ -29,7 +29,7 @@ public class SalaService {
 
     public SalaResponse obtenerPorId(Long id) {
         Sala sala = repository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Sala", id));
+                .orElseThrow(() -> new EntityNotFoundException("Sala", "id", id));
 
         return mapper.toResponse(sala);
     }
@@ -37,7 +37,7 @@ public class SalaService {
     public SalaResponse guardar(SalaRequest request) {
 
         if (repository.existsByNombreIgnoreCase(request.getNombre())) {
-            throw new RecursoDuplicadoException("Sala", "nombre", request.getNombre());
+            throw new DuplicateResourceException("Sala", "nombre", request.getNombre(), "Ya existe una sala con ese nombre");
         }
 
         Sala sala = mapper.toEntity(request);
@@ -47,7 +47,7 @@ public class SalaService {
     public SalaResponse actualizar(Long id, SalaRequest request) {
 
         Sala existente = repository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Sala", id));
+                .orElseThrow(() -> new EntityNotFoundException("Sala", "id", id));
 
         existente.setNombre(request.getNombre());
         existente.setCapacidadTotal(request.getCapacidadTotal());
@@ -58,7 +58,7 @@ public class SalaService {
 
     public void eliminar(Long id) {
         Sala sala = repository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Sala", id));
+                .orElseThrow(() -> new EntityNotFoundException("Sala", "id", id));
 
         repository.delete(sala);
     }

@@ -6,8 +6,8 @@ import org.springframework.stereotype.Service;
 
 import cl.teatromoro.catalogo.dto.CategoriaRequest;
 import cl.teatromoro.catalogo.dto.CategoriaResponse;
-import cl.teatromoro.catalogo.exception.RecursoDuplicadoException;
-import cl.teatromoro.catalogo.exception.ResourceNotFoundException;
+import cl.teatromoro.common.exception.DuplicateResourceException;
+import cl.teatromoro.common.exception.EntityNotFoundException;
 import cl.teatromoro.catalogo.mapper.CategoriaMapper;
 import cl.teatromoro.catalogo.model.entity.Categoria;
 import cl.teatromoro.catalogo.repository.CategoriaRepository;
@@ -33,7 +33,7 @@ public class CategoriaService {
 
     public CategoriaResponse obtenerPorId(Long id) {
         Categoria categoria = repository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Categoría", id));
+                .orElseThrow(() -> new EntityNotFoundException("Categoría", "id", id));
 
         return mapper.toResponse(categoria);
     }
@@ -43,7 +43,7 @@ public class CategoriaService {
     public CategoriaResponse guardar(CategoriaRequest request) {
 
         if (repository.existsByNombreIgnoreCase(request.getNombre())) {
-            throw new RecursoDuplicadoException("Categoría", "nombre", request.getNombre());
+            throw new DuplicateResourceException("Categoría", "nombre", request.getNombre(), "El nombre ya está en uso");
         }
 
         Categoria categoria = mapper.toEntity(request);
@@ -56,13 +56,13 @@ public class CategoriaService {
     public CategoriaResponse actualizar(Long id, CategoriaRequest request) {
 
         Categoria existente = repository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Categoría", id));
+                .orElseThrow(() -> new EntityNotFoundException("Categoría", "id", id));
 
         // Validar duplicado si cambia el nombre
         if (!existente.getNombre().equalsIgnoreCase(request.getNombre()) &&
             repository.existsByNombreIgnoreCase(request.getNombre())) {
 
-            throw new RecursoDuplicadoException("Categoría", "nombre", request.getNombre());
+            throw new DuplicateResourceException("Categoría", "nombre", request.getNombre(), "El nombre ya está en uso");
         }
 
         existente.setNombre(request.getNombre());
@@ -75,7 +75,7 @@ public class CategoriaService {
 
     public void eliminar(Long id) {
         Categoria categoria = repository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Categoría", id));
+                .orElseThrow(() -> new EntityNotFoundException("Categoría", "id", id));
 
         repository.delete(categoria);
     }

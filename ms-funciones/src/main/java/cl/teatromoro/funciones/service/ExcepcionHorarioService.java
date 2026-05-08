@@ -4,9 +4,9 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import cl.teatromoro.common.exception.EntityNotFoundException;
 import cl.teatromoro.funciones.dto.ExcepcionHorarioRequest;
 import cl.teatromoro.funciones.dto.ExcepcionHorarioResponse;
-import cl.teatromoro.funciones.exception.ResourceNotFoundException;
 import cl.teatromoro.funciones.mapper.ExcepcionHorarioMapper;
 import cl.teatromoro.funciones.model.entity.ExcepcionHorario;
 import cl.teatromoro.funciones.repository.ExcepcionHorarioRepository;
@@ -33,7 +33,7 @@ public class ExcepcionHorarioService {
 
     public ExcepcionHorarioResponse obtenerPorId(Long id) {
         ExcepcionHorario ex = repository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("ExcepcionHorario", id));
+                .orElseThrow(() -> new EntityNotFoundException("ExcepcionHorario", "id", id));
 
         return mapper.toResponse(ex);
     }
@@ -49,7 +49,7 @@ public class ExcepcionHorarioService {
 
     public void eliminar(Long id) {
         ExcepcionHorario ex = repository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("ExcepcionHorario", id));
+                .orElseThrow(() -> new EntityNotFoundException("ExcepcionHorario", "id", id));
 
         repository.delete(ex);
     }

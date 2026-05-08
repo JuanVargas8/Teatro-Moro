@@ -41,6 +41,10 @@
 
     <!-- Dependencias necesarias para este microservicio -->
     <dependencies>
+        <dependency>
+            <groupId>cl.teatromoro</groupId>
+            <artifactId>cl-teatromoro-common</artifactId>
+        </dependency>
 
         <!-- Spring Web: Controladores REST -->
         <dependency>

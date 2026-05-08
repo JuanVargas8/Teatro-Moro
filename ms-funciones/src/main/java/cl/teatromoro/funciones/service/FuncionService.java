@@ -4,9 +4,9 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import cl.teatromoro.common.exception.EntityNotFoundException;
 import cl.teatromoro.funciones.dto.FuncionRequest;
 import cl.teatromoro.funciones.dto.FuncionResponse;
-import cl.teatromoro.funciones.exception.ResourceNotFoundException;
 import cl.teatromoro.funciones.mapper.FuncionMapper;
 import cl.teatromoro.funciones.model.entity.Funcion;
 import cl.teatromoro.funciones.repository.FuncionRepository;
@@ -32,7 +32,7 @@ public class FuncionService {
 
     public FuncionResponse obtenerPorId(Long id) {
         Funcion funcion = repository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Funcion", id));
+                .orElseThrow(() -> new EntityNotFoundException("Funcion", "id", id));
 
         return mapper.toResponse(funcion);
     }
@@ -49,7 +49,7 @@ public class FuncionService {
     public FuncionResponse actualizar(Long id, FuncionRequest request) {
 
         Funcion existente = repository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Funcion", id));
+                .orElseThrow(() -> new EntityNotFoundException("Funcion", "id", id));
 
         existente.setFechaHora(request.getFechaHora());
         existente.setPrecioBase(request.getPrecioBase());
@@ -63,7 +63,7 @@ public class FuncionService {
 
     public void eliminar(Long id) {
         Funcion funcion = repository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Funcion", id));
+                .orElseThrow(() -> new EntityNotFoundException("Funcion", "id", id));
 
         repository.delete(funcion);
     }
