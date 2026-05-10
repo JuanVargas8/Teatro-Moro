@@ -2,7 +2,11 @@
 -- SCRIPT DE CREACIÓN DE TABLAS E INSERCIÓN DE DATOS
 
 -- Conectarse a la base de datos específica para este microservicio
+<<<<<<< HEAD
 \c notificaciones
+=======
+--\c notificaciones
+>>>>>>> f2a52777114bd406ec5049a084b553c4601114be
 
 -- ============================================================
 -- 1. ELIMINACIÓN (Orden jerárquico inverso)

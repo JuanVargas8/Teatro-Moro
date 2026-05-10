@@ -1,6 +1,7 @@
 package cl.teatromoro.gestion.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import cl.teatromoro.gestion.client.SalaClient;
 import cl.teatromoro.gestion.dto.SalaRequest;
 import cl.teatromoro.gestion.dto.SalaResponse;
 import cl.teatromoro.gestion.service.SalaService;
@@ -22,6 +24,7 @@ import lombok.RequiredArgsConstructor;
 public class SalaController {
 
     private final SalaService service;
+    private final SalaClient salaClient;
 
     @GetMapping
     public List<SalaResponse> listar() {
@@ -46,5 +49,11 @@ public class SalaController {
     @DeleteMapping("/{id}")
     public void eliminar(@PathVariable Long id) {
         service.eliminar(id);
+    }
+
+    // Endpoint para probar Feign: consume funciones de ms-funciones
+    @GetMapping("/funciones/{salaId}")
+    public List<Map<String, Object>> getFuncionesPorSala(@PathVariable Long salaId) {
+        return salaClient.getFuncionesPorSala(salaId);
     }
 }
