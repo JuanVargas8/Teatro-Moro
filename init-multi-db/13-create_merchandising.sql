@@ -7,52 +7,53 @@
 -- \c promociones
 
 -- ============================================================
--- 1. ELIMINACIÓN (Orden inverso de dependencias)
+-- 1. ELIMINACIÓN DE TABLAS
 -- ============================================================
-DROP TABLE IF EXISTS Promociones;
-DROP TABLE IF EXISTS Programa_Lealtad;
-DROP TABLE IF EXISTS Campana;
+DROP TABLE IF EXISTS campana;
+DROP TABLE IF EXISTS programa_lealtad;
+DROP TABLE IF EXISTS promocion;
 
 -- ============================================================
--- 2. TABLA: Campana
+-- 2. TABLA: CAMPANA
 -- ============================================================
-CREATE TABLE Campana (
+CREATE TABLE campana (
     id SERIAL PRIMARY KEY,
-    nombre VARCHAR(100) NOT NULL,
-    fecha_inicio DATE NOT NULL,
-    fecha_fin DATE NOT NULL
+    nombre VARCHAR(255),
+    fecha_inicio DATE,
+    fecha_fin DATE
 );
 
-INSERT INTO Campana (nombre, fecha_inicio, fecha_fin) VALUES
-('Campaña Verano 2026', '2026-01-01', '2026-02-28'),
-('Campaña Invierno 2026', '2026-06-01', '2026-07-31');
+INSERT INTO campana (nombre, fecha_inicio, fecha_fin) VALUES 
+('Temporada de Invierno', '2026-06-01', '2026-08-31'),
+('Campaña Estudiantes', '2026-03-01', '2026-12-15'),
+('Black Friday Teatro', '2026-11-20', '2026-11-30');
 
 -- ============================================================
--- 3. TABLA: ProgramaLealtad
+-- 3. TABLA: PROGRAMA_LEALTAD
 -- ============================================================
-CREATE TABLE Programa_Lealtad (
+CREATE TABLE programa_lealtad (
     id SERIAL PRIMARY KEY,
-    nombre_nivel VARCHAR(100) NOT NULL,
-    puntos_minimos INT NOT NULL,
-    beneficio VARCHAR(255)
+    nombre_nivel VARCHAR(100),
+    puntos_minimos INTEGER,
+    beneficio TEXT
 );
 
-INSERT INTO Programa_Lealtad (nombre_nivel, puntos_minimos, beneficio) VALUES
-('Bronce', 0, 'Acceso básico a promociones'),
-('Plata', 500, 'Descuento 10% en entradas'),
-('Oro', 1000, 'Descuento 20% + prioridad en eventos');
+INSERT INTO programa_lealtad (nombre_nivel, puntos_minimos, beneficio) VALUES 
+('Bronce', 0, 'Sorteos mensuales de entradas'),
+('Plata', 500, '10% de descuento permanente en cafetería'),
+('Oro', 1500, 'Acceso preferencial y meet & greet con actores');
 
 -- ============================================================
--- 4. TABLA: Promocion
+-- 4. TABLA: PROMOCION
 -- ============================================================
-CREATE TABLE Promociones (
+CREATE TABLE promocion (
     id SERIAL PRIMARY KEY,
-    codigo VARCHAR(50) NOT NULL,
-    porcentaje DECIMAL(5,2) NOT NULL,
+    codigo VARCHAR(50),
+    porcentaje DECIMAL(5,2),
     descripcion VARCHAR(255)
 );
 
-INSERT INTO Promociones (codigo, porcentaje, descripcion) VALUES
-('PROMO10', 10.00, 'Descuento general del 10%'),
-('PROMO20', 20.00, 'Descuento especial del 20%'),
-('TEATRO50', 50.00, 'Promoción especial eventos seleccionados');
+INSERT INTO promocion (codigo, porcentaje, descripcion) VALUES 
+('TEATRO20', 20.00, 'Descuento por primera compra'),
+('ESTUDIANTE50', 50.00, 'Válido solo con credencial vigente'),
+('PROMO_LUNES', 15.00, 'Descuento especial funciones de lunes');

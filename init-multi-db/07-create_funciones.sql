@@ -5,22 +5,53 @@
 --\c funciones
 
 -- ============================================================
--- 1. ELIMINACIÓN (Orden jerárquico inverso)
+-- 1. ELIMINACIÓN DE TABLAS (ORDEN DE DEPENDENCIA)
 -- ============================================================
-DROP TABLE IF EXISTS Funciones;
+DROP TABLE IF EXISTS turnos_funcion;
+DROP TABLE IF EXISTS funciones;
+DROP TABLE IF EXISTS excepciones_horario;
 
 -- ============================================================
--- 2. PROYECCIONES MÍNIMAS LOCALES
+-- 2. TABLA: EXCEPCIONES_HORARIO
 -- ============================================================
-CREATE TABLE Funciones (
-    ID SERIAL PRIMARY KEY,
-    ID_Obra INT REFERENCES Obras(ID),
-    ID_Sala INT,
-    Fecha_Hora TIMESTAMP,
-    Precio_Base DECIMAL(10,2)
+CREATE TABLE excepciones_horario (
+    id SERIAL PRIMARY KEY,
+    fecha DATE,
+    motivo VARCHAR(255)
 );
 
-INSERT INTO Funciones (ID_Obra, ID_Sala, Fecha_Hora, Precio_Base) VALUES 
-(1, 1, '2024-06-01 20:00:00', 15000),
-(2, 2, '2024-06-01 18:00:00', 35000),
-(3, 1, '2024-06-02 19:30:00', 12000);
+INSERT INTO excepciones_horario (fecha, motivo) VALUES 
+('2024-12-25', 'Feriado de Navidad'),
+('2024-05-01', 'Día del Trabajador'),
+('2024-06-15', 'Mantenimiento preventivo de sala');
+
+-- ============================================================
+-- 3. TABLA: FUNCIONES
+-- ============================================================
+CREATE TABLE funciones (
+    id SERIAL PRIMARY KEY,
+    id_obra BIGINT, -- Relación lógica (ID de otro microservicio o tabla)
+    id_sala BIGINT, -- Relación lógica
+    fecha_hora TIMESTAMP,
+    precio_base DECIMAL(10,2)
+);
+
+INSERT INTO funciones (id_obra, id_sala, fecha_hora, precio_base) VALUES 
+(1, 101, '2024-06-20 20:00:00', 15000.00),
+(2, 102, '2024-06-20 21:30:00', 12000.00),
+(3, 101, '2024-06-21 19:00:00', 25000.00);
+
+-- ============================================================
+-- 4. TABLA: TURNOS_FUNCION
+-- ============================================================
+CREATE TABLE turnos_funcion (
+    id SERIAL PRIMARY KEY,
+    id_personal_cargo BIGINT, -- Relación lógica (ID de otro MS)
+    id_funcion INTEGER,
+    CONSTRAINT fk_funcion FOREIGN KEY (id_funcion) REFERENCES funciones(id)
+);
+
+INSERT INTO turnos_funcion (id_personal_cargo, id_funcion) VALUES 
+(50, 1),
+(51, 2),
+(52, 3);

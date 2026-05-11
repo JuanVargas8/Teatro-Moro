@@ -2,29 +2,25 @@
 -- SCRIPT DE CREACIÓN DE TABLAS E INSERCIÓN DE DATOS
 
 -- Conectarse a la base de datos específica para este microservicio
-<<<<<<< HEAD
-\c usuarios
-=======
 --\c usuarios
->>>>>>> f2a52777114bd406ec5049a084b553c4601114be
 
 -- ============================================================
 -- 1. ELIMINACIÓN (Orden jerárquico inverso)
 -- ============================================================
-DROP TABLE IF EXISTS Usuarios;
+DROP TABLE IF EXISTS Usuario;
 
 -- ============================================================
 -- 2. PROYECCIONES MÍNIMAS LOCALES
 -- ============================================================
-CREATE TABLE Usuarios (
-    ID SERIAL PRIMARY KEY,
-    Email VARCHAR(150) UNIQUE,
-    Password_Hash VARCHAR(255),
-    Nombre VARCHAR(100),
-    Fecha_Registro DATE DEFAULT CURRENT_DATE
+CREATE TABLE Usuario (
+    id SERIAL PRIMARY KEY,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    nombre VARCHAR(255) NOT NULL,
+    fecha_registro DATE
 );
 
-INSERT INTO Usuarios (Email, Password_Hash, Nombre) VALUES 
-('admin@teatromoro.cl', '$2b$12$hash', 'Administrador General'),
-('juan.perez@email.com', '$2b$12$hash2', 'Juan Pérez'),
-('maria.g@email.com', '$2b$12$hash3', 'María García');
+INSERT INTO Usuario (email, password, nombre, fecha_registro) VALUES 
+('admin@teatro.com', '$2a$10$8.UnVuG9HHgffUDAlk8q6Ou5f2HW1Y...', 'Administrador', '2026-01-10'),
+('juan.perez@email.com', '$2a$10$R9h/lIPzHZLhJ1.VBRT.7Ou76W...', 'Juan Pérez', '2026-03-15'),
+('maria.garcia@email.com', '$2a$10$B7N3156S.S.O.K2u92S.OuV...', 'Maria García', '2026-05-11');
