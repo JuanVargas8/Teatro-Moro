@@ -52,7 +52,7 @@
     Se reutilizan en todo el proyecto para evitar duplicacion.
     -->
     <properties>
-        <java.version>21</java.version>                                            <!-- Version de Java a utilizar -->
+        <java.version>17</java.version>                                            <!-- Version de Java a utilizar -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <spring-boot.version>3.5.13</spring-boot.version>                        <!-- Version de Spring Boot base para microservicios -->
@@ -69,6 +69,7 @@
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <maven-compiler-plugin.version>3.11.0</maven-compiler-plugin.version>
         <maven-clean-plugin.version>3.3.1</maven-clean-plugin.version>
+        <spring-kafka.version>3.2.0</spring-kafka.version> <!-- Version de Spring Kafka -->
         <cl-teatromoro-common.version>0.0.1-SNAPSHOT</cl-teatromoro-common.version> <!-- Version de la libreria comun (modulo common) -->
     </properties>
 
@@ -136,6 +137,11 @@
                 <groupId>org.glassfish</groupId>
                 <artifactId>jakarta.el</artifactId>
                 <version>${jakarta.el.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.kafka</groupId>
+                <artifactId>spring-kafka</artifactId>
+                <version>${spring-kafka.version}</version>
             </dependency>
             <dependency>
                 <groupId>cl.teatromoro</groupId>

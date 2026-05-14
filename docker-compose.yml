@@ -4,7 +4,7 @@ services:
   # --- INFRAESTRUCTURA ---
   postgres:
     image: postgres:15
-    container_name: postgres_rdbms
+    container_name: postgres-rdbms
     restart: always
     ports:
       - "5433:5432"
@@ -12,21 +12,22 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: "123"
       POSTGRES_DB: main_postgres_db
+    command: ["postgres", "-c", "max_connections=300"]
     volumes:
       - ./init-multi-db:/docker-entrypoint-initdb.d
 
   kafka:
     image: confluentinc/cp-kafka:latest
-    container_name: kafka_broker
+    container_name: kafka-broker
     restart: always
     ports:
       - "9092:9092"
     environment:
       KAFKA_NODE_ID: 1
       KAFKA_PROCESS_ROLES: broker,controller
-      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@kafka_broker:9093
+      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@kafka-broker:9093
       KAFKA_LISTENERS: INTERNAL://0.0.0.0:29092,EXTERNAL://0.0.0.0:9092,CONTROLLER://0.0.0.0:9093
-      KAFKA_ADVERTISED_LISTENERS: INTERNAL://kafka_broker:29092,EXTERNAL://localhost:9092
+      KAFKA_ADVERTISED_LISTENERS: INTERNAL://kafka-broker:29092,EXTERNAL://localhost:9092
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INTERNAL:PLAINTEXT,EXTERNAL:PLAINTEXT,CONTROLLER:PLAINTEXT
       KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL
       KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
@@ -44,11 +45,11 @@ services:
       - "8081:8080"
     environment:
       KAFKA_CLUSTERS_0_NAME: local
-      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka_broker:29092
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka-broker:29092
 
   eureka:
     build: ./eureka
-    container_name: eureka_server
+    container_name: eureka-server
     restart: always
     ports:
       - "8761:8761"

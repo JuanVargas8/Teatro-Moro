@@ -2,7 +2,7 @@
 -- SCRIPT DE CREACIÓN DE TABLAS E INSERCIÓN DE DATOS
 
 -- Conectarse a la base de datos específica para este microservicio
---\c catalogo
+\c catalogo
 
 -- ============================================================
 -- 1. ELIMINACIÓN DE TABLAS (ORDEN DE DEPENDENCIA)
