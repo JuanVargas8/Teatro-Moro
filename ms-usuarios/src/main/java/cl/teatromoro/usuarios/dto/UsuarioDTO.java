@@ -14,7 +14,7 @@ public class UsuarioDTO {
     @Email(message = "Formato email inválido")
     private String email;
 
-    @NotBlank(message = "La contraseña es obligatoria")D
+    @NotBlank(message = "La contraseña es obligatoria")
     private String password;
 
     public String getNombre() {
