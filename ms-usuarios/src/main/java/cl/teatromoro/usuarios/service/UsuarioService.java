@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import cl.teatromoro.usuarios.dto.UsuarioDTO;
 import cl.teatromoro.usuarios.dto.UsuarioResponseDTO;
 import cl.teatromoro.usuarios.exception.ResourceNotFoundException;
+import cl.teatromoro.usuarios.kafka.KafkaProducerService;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -15,8 +16,13 @@ public class UsuarioService {
 
     private final UsuarioRepository repository;
 
-    public UsuarioService(UsuarioRepository repository) {
+    private final KafkaProducerService producer;
+
+    
+
+    public UsuarioService(UsuarioRepository repository, KafkaProducerService producer) {
         this.repository = repository;
+        this.producer = producer;
     }
 
     public UsuarioResponseDTO crearUsuario(Usuario usuario) {
@@ -24,6 +30,11 @@ public class UsuarioService {
     usuario.setFechaRegistro(LocalDate.now());
 
     Usuario guardado = repository.save(usuario);
+
+    producer.enviarMensaje(
+        "Nuevo usuario registrado: "
+                + guardado.getNombre()
+    );
 
     return new UsuarioResponseDTO(
             guardado.getId(),

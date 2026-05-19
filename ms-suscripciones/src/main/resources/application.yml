@@ -6,6 +6,8 @@ server:
 spring:
   application:
     name: ms-suscripciones
+  kafka:
+    bootstrap-servers: kafka-broker:29092
 
   datasource:
     driver-class-name: org.postgresql.Driver
@@ -29,3 +31,4 @@ eureka:
   instance:
     prefer-ip-address: true
     instance-id: "${spring.application.name}:${random.value}"
+

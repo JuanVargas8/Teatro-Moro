@@ -7,10 +7,13 @@ import cl.teatromoro.suscripciones.dto.AbonadoDTO;
 import cl.teatromoro.suscripciones.dto.AbonadoResponseDTO;
 import cl.teatromoro.suscripciones.dto.PlanResponseDTO;
 import cl.teatromoro.suscripciones.exception.ResourceNotFoundException;
+import cl.teatromoro.suscripciones.kafka.KafkaProducerService;
 import cl.teatromoro.suscripciones.model.Abonado;
 import cl.teatromoro.suscripciones.model.Plan;
 import cl.teatromoro.suscripciones.repository.AbonadoRepository;
 import cl.teatromoro.suscripciones.repository.PlanRepository;
+
+
 
 import org.springframework.stereotype.Service;
 
@@ -23,15 +26,18 @@ public class AbonadoService {
     private final AbonadoRepository repository;
     private final UsuarioClient usuarioClient;
     private final PlanRepository planRepository;
+    private final KafkaProducerService producer;
 
     public AbonadoService(
             AbonadoRepository repository,
             UsuarioClient usuarioClient,
-            PlanRepository planRepository) {
+            PlanRepository planRepository,
+            KafkaProducerService producer) {
 
         this.repository = repository;
         this.usuarioClient = usuarioClient;
         this.planRepository = planRepository;
+        this.producer = producer;
     }
 
     public AbonadoResponseDTO crear(AbonadoDTO dto) {
@@ -59,6 +65,11 @@ public class AbonadoService {
         abonado.setFechaInicio(LocalDate.now());
 
         Abonado guardado = repository.save(abonado);
+
+        producer.enviarMensaje(
+        "Nuevo abonado creado para usuario "
+                + dto.getUsuarioId()
+        );
 
         PlanResponseDTO planDTO = new PlanResponseDTO(
                 guardado.getPlan().getId(),
