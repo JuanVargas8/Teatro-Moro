@@ -8,9 +8,9 @@ spring:
     name: ms-funciones
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5433/funciones
+    url: jdbc:postgresql://localhost:5432/funciones
     username: postgres
-    password: 123
+    password: 1234
   jpa:
     hibernate:
       ddl-auto: update
