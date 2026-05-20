@@ -4,7 +4,7 @@
 -- ============================================================
 
 -- Conectarse a la base de datos específica
--- \c promociones
+\c promociones
 
 -- ============================================================
 -- 1. ELIMINACIÓN DE TABLAS

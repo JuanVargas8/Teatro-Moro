@@ -45,3 +45,7 @@ WHERE NOT EXISTS (SELECT FROM pg_database WHERE datname = 'informes') \gexec
 
 SELECT 'CREATE DATABASE notificaciones'
 WHERE NOT EXISTS (SELECT FROM pg_database WHERE datname = 'notificaciones') \gexec
+
+SELECT 'CREATE DATABASE marketing'
+WHERE NOT EXISTS (SELECT FROM pg_database WHERE datname = 'marketing') \gexec
+
