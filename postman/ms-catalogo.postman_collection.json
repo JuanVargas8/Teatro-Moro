@@ -1,0 +1,450 @@
+{
+  "info": {
+    "_postman_id": "cd8f3727-a22c-49b6-8c1d-74c33abfdcad",
+    "name": "ms-catalogo",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "53533186",
+    "_collection_link": "https://go.postman.co/collection/53533186-cd8f3727-a22c-49b6-8c1d-74c33abfdcad?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "/categorias",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:9005/categorias",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "9005",
+          "path": [
+            "categorias"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "/categorias/{id}",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:9005/categorias/1",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "9005",
+          "path": [
+            "categorias",
+            "1"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "/categorias",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n        \"id\": null,\r\n        \"nombre\": \"Acción\",\r\n        \"descripcion\": \"Obras donde la Acción y el drama son el centro de la narrativa.\"\r\n    }",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:9005/categorias",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "9005",
+          "path": [
+            "categorias"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "/categorias/{id}",
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"id\": 1,\r\n    \"nombre\": \"Drama\",\r\n    \"descripcion\": \"Obras con tono serio y conflictos emocionales profundos.\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:9005/categorias/1",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "9005",
+          "path": [
+            "categorias",
+            "1"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "/categorias/{id}",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:9005/categorias/1",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "9005",
+          "path": [
+            "categorias",
+            "1"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "/multimedia",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:9005/multimedia",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "9005",
+          "path": [
+            "multimedia"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "/multimedia/{id}",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:9005/multimedia/2",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "9005",
+          "path": [
+            "multimedia",
+            "2"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "/multimedia",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n        \"id\": null,\r\n        \"urlImagen\": \"https://dominio.com/posters/miserables.png\",\r\n        \"tipo\": \"Poster\",\r\n        \"obraId\": 3\r\n    }",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:9005/multimedia",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "9005",
+          "path": [
+            "multimedia"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "/multimedia/{id}",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:9005/multimedia/1",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "9005",
+          "path": [
+            "multimedia",
+            "1"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "/multimedia/obra/{obraId}",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:9005/multimedia/obra/1",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "9005",
+          "path": [
+            "multimedia",
+            "obra",
+            "1"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "/multimedia/tipo",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:9005/multimedia/tipo?tipo=Trailer",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "9005",
+          "path": [
+            "multimedia",
+            "tipo"
+          ],
+          "query": [
+            {
+              "key": "tipo",
+              "value": "Trailer"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "/obras",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:9005/obras",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "9005",
+          "path": [
+            "obras"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "/obras/{id}",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:9005/obras/1",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "9005",
+          "path": [
+            "obras",
+            "1"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "/obras",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"id\": null,\r\n    \"titulo\": \"Hamlet\",\r\n    \"sinopsis\": \"La tragedia del Príncipe de Dinamarca.\",\r\n    \"duracion\": 150,\r\n    \"clasificacionEdad\": \"+14\",\r\n    \"categoriaNombre\": null\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:9005/obras",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "9005",
+          "path": [
+            "obras"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "/obras/{id}",
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"id\": 1,\r\n    \"titulo\": \"Hamlet\",\r\n    \"sinopsis\": \"La tragedia del Príncipe de Dinamarca.\",\r\n    \"duracion\": 150,\r\n    \"clasificacionEdad\": \"+14\",\r\n    \"categoriaNombre\": null\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:9005/obras/1",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "9005",
+          "path": [
+            "obras",
+            "1"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "/obras/{id}",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:9005/obras/1",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "9005",
+          "path": [
+            "obras",
+            "1"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "/obras/buscar?titulo=Hamlet",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:9005/obras/buscar?titulo=Hamlet",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "9005",
+          "path": [
+            "obras",
+            "buscar"
+          ],
+          "query": [
+            {
+              "key": "titulo",
+              "value": "Hamlet"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "/obras/categoria/{id}",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:9005/obras/categoria/2",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "9005",
+          "path": [
+            "obras",
+            "categoria",
+            "2"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "/obras/largas?minutos=120",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:9005/obras/largas?minutos=120",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "9005",
+          "path": [
+            "obras",
+            "largas"
+          ],
+          "query": [
+            {
+              "key": "minutos",
+              "value": "120"
+            }
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}

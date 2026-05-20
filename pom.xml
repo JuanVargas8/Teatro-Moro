@@ -16,6 +16,7 @@
     Cada uno es un subproyecto independiente (microservicio o libreria comun).
     -->
     <modules>
+        <module>common</module>     <!-- Libreria comun para compartir codigo entre microservicios -->
         <module>eureka</module>      <!-- Servidor Eureka -->
         <module>ms-ticketing</module>      <!-- Microservicio ticketing -->
         <module>ms-reserva</module>      <!-- Microservicio reserva -->
@@ -25,9 +26,6 @@
         <module>ms-funciones</module>      <!-- Microservicio funciones -->
         <module>ms-gestion</module>      <!-- Microservicio gestion -->
         <module>ms-notificaciones</module>      <!-- Microservicio notificaciones -->
-        <module>ms-feedback</module>      <!-- Microservicio feedback -->
-        <module>ms-cafeteria</module>      <!-- Microservicio cafeteria -->
-        <module>ms-merchantdising</module>      <!-- Microservicio merchantdising -->
         <module>ms-personal</module>      <!-- Microservicio personal -->
         <module>ms-informes</module>      <!-- Microservicio informes -->
         <module>ms-promociones</module>      <!-- Microservicio promociones -->
@@ -54,7 +52,7 @@
     Se reutilizan en todo el proyecto para evitar duplicacion.
     -->
     <properties>
-        <java.version>21</java.version>                                            <!-- Version de Java a utilizar -->
+        <java.version>17</java.version>                                            <!-- Version de Java a utilizar -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <spring-boot.version>3.5.13</spring-boot.version>                        <!-- Version de Spring Boot base para microservicios -->
@@ -71,6 +69,8 @@
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <maven-compiler-plugin.version>3.11.0</maven-compiler-plugin.version>
         <maven-clean-plugin.version>3.3.1</maven-clean-plugin.version>
+        <spring-kafka.version>3.2.0</spring-kafka.version> <!-- Version de Spring Kafka -->
+        <cl-teatromoro-common.version>0.0.1-SNAPSHOT</cl-teatromoro-common.version> <!-- Version de la libreria comun (modulo common) -->
     </properties>
 
     <dependencyManagement>
@@ -83,7 +83,6 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
@@ -139,7 +138,16 @@
                 <artifactId>jakarta.el</artifactId>
                 <version>${jakarta.el.version}</version>
             </dependency>
-
+            <dependency>
+                <groupId>org.springframework.kafka</groupId>
+                <artifactId>spring-kafka</artifactId>
+                <version>${spring-kafka.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cl.teatromoro</groupId>
+                <artifactId>cl-teatromoro-common</artifactId>
+                <version>${cl-teatromoro-common.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 

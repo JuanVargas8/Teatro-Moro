@@ -1,0 +1,364 @@
+{
+  "info": {
+    "_postman_id": "86c79f87-2fef-4179-9ce9-5fb1a101efd9",
+    "name": "ms-funciones",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "53533186",
+    "_collection_link": "https://go.postman.co/collection/53533186-86c79f87-2fef-4179-9ce9-5fb1a101efd9?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "/excepciones",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:9006/excepciones",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "9006",
+          "path": [
+            "excepciones"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "/excepciones/{id}",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:9006/excepciones/1",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "9006",
+          "path": [
+            "excepciones",
+            "1"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "/excepciones",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"id\": null,\r\n    \"fecha\": \"2026-05-01\",\r\n    \"motivo\": \"Feriado: Día del Trabajador 2.0\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:9006/excepciones",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "9006",
+          "path": [
+            "excepciones"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "/excepciones/{id}",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:9006/excepciones/1",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "9006",
+          "path": [
+            "excepciones",
+            "1"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "/turnos",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:9006/turnos",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "9006",
+          "path": [
+            "turnos"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "/turnos/{id}",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:9006/turnos/1",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "9006",
+          "path": [
+            "turnos",
+            "1"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "/turnos",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"id\": null,\r\n    \"funcionId\": 1,\r\n    \"personalCargoId\": 101\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:9006/turnos",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "9006",
+          "path": [
+            "turnos"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "/turnos/{id}",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:9006/turnos/1",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "9006",
+          "path": [
+            "turnos",
+            "1"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "/turnos/personal/10",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:9006/turnos/personal/10",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "9006",
+          "path": [
+            "turnos",
+            "personal",
+            "10"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "/funciones",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:9006/funciones",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "9006",
+          "path": [
+            "funciones"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "/funciones/{id}",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:9006/funciones/1",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "9006",
+          "path": [
+            "funciones",
+            "1"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "/funciones",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"id\": null,\r\n    \"obraId\": 1,\r\n    \"salaId\": 1,\r\n    \"fechaHora\": \"2026-05-15T20:00:00\",\r\n    \"precioBase\": 15000.0\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:9006/funciones",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "9006",
+          "path": [
+            "funciones"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "/funciones/{id}",
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"id\": 1,\r\n    \"obraId\": 1,\r\n    \"salaId\": 1,\r\n    \"fechaHora\": \"2026-05-15T20:00:00\",\r\n    \"precioBase\": 15000.0\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:9006/funciones/1",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "9006",
+          "path": [
+            "funciones",
+            "1"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "/funciones/{id}",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:9006/funciones/4",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "9006",
+          "path": [
+            "funciones",
+            "4"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "/funciones/obra/{id}",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:9006/funciones/obra/1",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "9006",
+          "path": [
+            "funciones",
+            "obra",
+            "1"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "/funciones/sala/{id}",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:9006/funciones/sala/2",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "9006",
+          "path": [
+            "funciones",
+            "sala",
+            "2"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}

@@ -118,6 +118,17 @@
             <artifactId>spring-boot-devtools</artifactId>
             <optional>true</optional>
         </dependency>
+        
+        <!-- Spring Kafka: soporte para Apache Kafka -->
+        <dependency>
+            <groupId>org.springframework.kafka</groupId>
+            <artifactId>spring-kafka</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>cl.teatromoro</groupId>
+            <artifactId>cl-teatromoro-common</artifactId>
+        </dependency>
 
     </dependencies>
 

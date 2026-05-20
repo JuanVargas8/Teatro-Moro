@@ -5,41 +5,53 @@
 --\c notificaciones
 
 -- ============================================================
--- 1. ELIMINACIÓN (Orden jerárquico inverso)
+-- 1. ELIMINACIÓN DE TABLAS (ORDEN DE DEPENDENCIA)
 -- ============================================================
 DROP TABLE IF EXISTS Cola_Envios;
-DROP TABLE IF EXISTS Preferencias_Notificacion;
 DROP TABLE IF EXISTS Plantillas_Notificacion;
+DROP TABLE IF EXISTS Preferencias_Notificacion;
 
+-- ============================================================
+-- 2. TABLA: PREFERENCIAS_NOTIFICACION
+-- ============================================================
+CREATE TABLE Preferencias_Notificacion (
+    id_usuario INTEGER PRIMARY KEY,
+    email BOOLEAN NOT NULL,
+    sms BOOLEAN NOT NULL
+);
+
+INSERT INTO Preferencias_Notificacion (id_usuario, email, sms) VALUES 
+(1, TRUE, FALSE),
+(2, TRUE, TRUE),
+(3, FALSE, FALSE);
+
+-- ============================================================
+-- 3. TABLA: PLANTILLAS_NOTIFICACION
+-- ============================================================
 CREATE TABLE Plantillas_Notificacion (
     id SERIAL PRIMARY KEY,
-    tipo VARCHAR(50),
-    cuerpo TEXT
+    tipo VARCHAR(50) NOT NULL,
+    cuerpo TEXT NOT NULL
 );
 
-CREATE TABLE Preferencias_Notificacion (
-    id_usuario INT PRIMARY KEY,
-    email BOOLEAN,
-    sms BOOLEAN
-);
+INSERT INTO Plantillas_Notificacion (tipo, cuerpo) VALUES 
+('BIENVENIDA', 'Hola {nombre}, ¡bienvenido a nuestra plataforma de teatro!'),
+('CONFIRMACION_COMPRA', 'Tu entrada para {obra} ha sido confirmada. ID: {ticket}'),
+('RECORDATORIO_FUNCION', 'Te recordamos que tu función comienza en 2 horas.');
 
+-- ============================================================
+-- 4. TABLA: COLA_ENVIOS
+-- ============================================================
 CREATE TABLE Cola_Envios (
     id SERIAL PRIMARY KEY,
-    id_usuario INT,
-    id_plantilla INT,
-    estado VARCHAR(20),
-    reintentos INT,
-    FOREIGN KEY (id_plantilla) REFERENCES Plantillas_Notificacion(id)
+    id_usuario INTEGER NOT NULL,
+    estado VARCHAR(20) NOT NULL,
+    reintentos INTEGER NOT NULL,
+    id_plantilla INTEGER NOT NULL,
+    CONSTRAINT fk_plantilla FOREIGN KEY (id_plantilla) REFERENCES Plantillas_Notificacion(id)
 );
 
-INSERT INTO Plantillas_Notificacion VALUES
-(DEFAULT,'Confirmacion','Compra realizada'),
-(DEFAULT,'Recordatorio','Evento próximo');
-
-INSERT INTO Preferencias_Notificacion VALUES
-(101,TRUE,FALSE),
-(102,TRUE,TRUE);
-
-INSERT INTO Cola_Envios VALUES
-(DEFAULT,101,1,'Pendiente',0),
-(DEFAULT,102,2,'Enviado',1);
+INSERT INTO Cola_Envios (id_usuario, estado, reintentos, id_plantilla) VALUES 
+(1, 'PENDIENTE', 0, 1),
+(2, 'ENVIADO', 1, 2),
+(1, 'FALLIDO', 3, 3);

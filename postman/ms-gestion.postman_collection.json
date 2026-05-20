@@ -1,0 +1,314 @@
+{
+  "info": {
+    "_postman_id": "7228ff61-5a4d-47dc-98c6-b08ac846067c",
+    "name": "ms-gestion",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "53533186",
+    "_collection_link": "https://go.postman.co/collection/53533186-7228ff61-5a4d-47dc-98c6-b08ac846067c?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "/mantenimientos",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:9007/mantenimientos",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "9007",
+          "path": [
+            "mantenimientos"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "/mantenimientos/{id}",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:9007/mantenimientos/1",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "9007",
+          "path": [
+            "mantenimientos",
+            "1"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "/mantenimientos",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"id\": null,\r\n    \"salaId\": 1,\r\n    \"fechaInicio\": \"2026-06-01\",\r\n    \"fechaFin\": \"2026-06-15\",\r\n    \"descripcion\": \"Cambio de butacas en Platea Baja\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:9007/mantenimientos",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "9007",
+          "path": [
+            "mantenimientos"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "/mantenimientos/{id}",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:9007/mantenimientos/1",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "9007",
+          "path": [
+            "mantenimientos",
+            "1"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "/mantenimientos/sala/{id}",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:9007/mantenimientos/sala/1",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "9007",
+          "path": [
+            "mantenimientos",
+            "sala",
+            "1"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "/salas",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:9007/salas",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "9007",
+          "path": [
+            "salas"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "/salas/{id}",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:9007/salas/1",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "9007",
+          "path": [
+            "salas",
+            "1"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "/salas",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"id\": null,\r\n    \"nombre\": \"Gran Teatro Principal\",\r\n    \"capacidadTotal\": 500,\r\n    \"descripcionTecnica\": \"Sonido Dolby Atmos, Escenario giratorio\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:9007/salas",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "9007",
+          "path": [
+            "salas"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "/salas/{id}",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:9007/salas/1",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "9007",
+          "path": [
+            "salas",
+            "1"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "/zonas",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:9007/zonas",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "9007",
+          "path": [
+            "zonas"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "/zonas/{id}",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:9007/zonas/1",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "9007",
+          "path": [
+            "zonas",
+            "1"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "/zonas",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"id\": null,\r\n    \"salaId\": 1,\r\n    \"nombre\": \"Galería\",\r\n    \"multiplicadorPrecio\": 1.5\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:9007/zonas",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "9007",
+          "path": [
+            "zonas"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "/zonas/{id}",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:9007/zonas/1",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "9007",
+          "path": [
+            "zonas",
+            "1"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "/zonas/sala/{id}",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:9007/zonas/sala/1",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "9007",
+          "path": [
+            "zonas",
+            "sala",
+            "1"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}

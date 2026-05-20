@@ -41,7 +41,10 @@
 
     <!-- Dependencias necesarias para este microservicio -->
     <dependencies>
-
+        <dependency>
+            <groupId>cl.teatromoro</groupId>
+            <artifactId>cl-teatromoro-common</artifactId>
+        </dependency>
         <!-- Spring Web: Controladores REST -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -117,6 +120,12 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
             <optional>true</optional>
+        </dependency>
+
+        <!-- Spring Kafka: soporte para Apache Kafka -->
+        <dependency>
+            <groupId>org.springframework.kafka</groupId>
+            <artifactId>spring-kafka</artifactId>
         </dependency>
 
     </dependencies>
