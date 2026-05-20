@@ -15,11 +15,8 @@ public class Abonado {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long usuarioId;
-
-    @ManyToOne
-    @JoinColumn(name = "plan_id")
-    private Plan plan;
+    private Long usuarioId; // 👈 clave (relación entre microservicios)
+    private Long planId;
 
     private LocalDate fechaInicio;
     private LocalDate fechaFin;

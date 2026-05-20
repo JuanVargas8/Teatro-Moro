@@ -4,9 +4,9 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import cl.teatromoro.ticketing.exception.ResourceNotFoundException;
 import cl.teatromoro.ticketing.dto.HistorialEmisionRequest;
 import cl.teatromoro.ticketing.dto.HistorialEmisionResponse;
-import cl.teatromoro.ticketing.exception.ResourceNotFoundException;
 import cl.teatromoro.ticketing.mapper.HistorialEmisionMapper;
 import cl.teatromoro.ticketing.model.HistorialEmision;
 import cl.teatromoro.ticketing.model.Ticket;
@@ -36,10 +36,8 @@ public class HistorialEmisionService {
     public HistorialEmisionResponse obtenerPorId(Long id) {
         HistorialEmision entity = repository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("HistorialEmision", id));
-
         return mapper.toResponse(entity);
     }
-
     // ─── CREAR ──────────────────────────────────────────
 
     public HistorialEmisionResponse guardar(HistorialEmisionRequest request) {

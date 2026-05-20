@@ -4,13 +4,6 @@ import cl.teatromoro.suscripciones.model.Abonado;
 import cl.teatromoro.suscripciones.service.AbonadoService;
 import org.springframework.web.bind.annotation.*;
 
-import cl.teatromoro.suscripciones.dto.AbonadoDTO;
-import jakarta.validation.Valid;
-import org.springframework.http.ResponseEntity;
-
-import cl.teatromoro.suscripciones.dto.AbonadoResponseDTO;
-import cl.teatromoro.suscripciones.dto.PlanResponseDTO;
-
 import java.util.List;
 
 @RestController
@@ -24,19 +17,17 @@ public class AbonadoController {
     }
 
     @PostMapping
-    public ResponseEntity<AbonadoResponseDTO> crear(
-            @Valid @RequestBody AbonadoDTO dto) {
-
-        return ResponseEntity.ok(service.crear(dto));
-}
+    public Abonado crear(@RequestBody Abonado abonado) {
+        return service.crear(abonado);
+    }
 
     @GetMapping
-    public List<AbonadoResponseDTO> listar() {
+    public List<Abonado> listar() {
         return service.listar();
     }
 
     @GetMapping("/usuario/{usuarioId}")
-    public List<AbonadoResponseDTO> porUsuario(@PathVariable Long usuarioId) {
+    public List<Abonado> porUsuario(@PathVariable Long usuarioId) {
         return service.porUsuario(usuarioId);
     }
 }

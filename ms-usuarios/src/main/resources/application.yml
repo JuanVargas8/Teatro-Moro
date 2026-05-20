@@ -6,8 +6,6 @@ server:
 spring:
   application:
     name: ms-usuarios
-  kafka:
-    bootstrap-servers: kafka-broker:29092
 
   datasource:
     driver-class-name: org.postgresql.Driver
