@@ -60,6 +60,11 @@
             <artifactId>postgresql</artifactId>
             <scope>runtime</scope>
         </dependency>
+        
+        <dependency>
+    <groupId>org.springframework.kafka</groupId>
+    <artifactId>spring-kafka</artifactId>
+    </dependency>
 
         <!-- H2 Database: base de datos en memoria para pruebas y desarrollo local -->
         <dependency>
@@ -68,6 +73,11 @@
             <version>${com-h2database.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>cl.teatromoro</groupId>
+            <artifactId>cl-teatromoro-common</artifactId>
+        </dependency>
+        
         <!-- Validacion con anotaciones como @Valid, @NotNull, etc. -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

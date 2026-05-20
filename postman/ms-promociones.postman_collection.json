@@ -1,0 +1,133 @@
+{
+  "info": {
+    "name": "ms-promociones",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Obtener Cupones",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:9014/api/promociones/cupones",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "9014",
+          "path": ["api", "promociones", "cupones"]
+        }
+      }
+    },
+    {
+      "name": "Crear Cupon",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"codigo\": \"VERANO2026\",\r\n    \"descuento\": 15.0,\r\n    \"estado\": \"ACTIVO\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:9014/api/promociones/cupones",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "9014",
+          "path": ["api", "promociones", "cupones"]
+        }
+      }
+    },
+    {
+      "name": "Eliminar Cupon",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:9014/api/promociones/cupones/1",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "9014",
+          "path": ["api", "promociones", "cupones", "1"]
+        }
+      }
+    },
+    {
+      "name": "Obtener Campañas",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:9014/api/promociones/campanas",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "9014",
+          "path": ["api", "promociones", "campanas"]
+        }
+      }
+    },
+    {
+      "name": "Crear Campaña",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"nombre\": \"Día del Teatro\",\r\n    \"fechaInicio\": \"2026-05-20\",\r\n    \"fechaFin\": \"2026-05-25\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:9014/api/promociones/campanas",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "9014",
+          "path": ["api", "promociones", "campanas"]
+        }
+      }
+    },
+    {
+      "name": "Obtener Lealtad",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:9014/api/promociones/lealtad",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "9014",
+          "path": ["api", "promociones", "lealtad"]
+        }
+      }
+    },
+    {
+      "name": "Crear Lealtad",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"idUsuario\": 5,\r\n    \"puntos\": 150,\r\n    \"nivel\": \"ORO\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:9014/api/promociones/lealtad",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "9014",
+          "path": ["api", "promociones", "lealtad"]
+        }
+      }
+    }
+  ]
+}
