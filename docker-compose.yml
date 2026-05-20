@@ -15,6 +15,12 @@ services:
     command: ["postgres", "-c", "max_connections=300"]
     volumes:
       - ./init-multi-db:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d main_postgres_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
 
   kafka:
     image: confluentinc/cp-kafka:latest
@@ -84,10 +90,19 @@ services:
     restart: always
     ports:
       - "9003:9003"
+    environment:
+      - KAFKA_BOOTSTRAP_SERVERS=kafka-broker:29092
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_USER=postgres
+      - DB_PASSWORD=123
     depends_on:
-      - postgres
-      - eureka
-      - kafka
+      postgres:
+        condition: service_healthy
+      eureka:
+        condition: service_started
+      kafka:
+        condition: service_started
 
   suscripciones:
     build: ./ms-suscripciones
@@ -173,10 +188,19 @@ services:
     restart: always
     ports:
       - "9014:9014"
+    environment:
+      - KAFKA_BOOTSTRAP_SERVERS=kafka-broker:29092
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_USER=postgres
+      - DB_PASSWORD=123
     depends_on:
-      - postgres
-      - eureka
-      - kafka
+      postgres:
+        condition: service_healthy
+      eureka:
+        condition: service_started
+      kafka:
+        condition: service_started
 
   usuarios:
     build: ./ms-usuarios
