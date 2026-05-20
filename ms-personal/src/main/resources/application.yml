@@ -6,40 +6,25 @@ server:
 spring:
   application:
     name: ms-personal
-
-  # --- INTEGRACIÓN DE KAFKA (PRODUCTOR) ---
-  kafka:
-    bootstrap-servers: localhost:9092
-    producer:
-      key-serializer: org.apache.kafka.common.serialization.StringSerializer
-      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
-
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/personal
+    url: jdbc:postgresql://postgres-rdbms:5432/personal
     username: postgres
-    password: 1234
-
+    password: 123
   jpa:
     hibernate:
       ddl-auto: update
-    show-sql: true
-    properties:
-      hibernate:
-        format_sql: true
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
 
 eureka:
   client:
     register-with-eureka: true
     fetch-registry: true
     service-url:
-      defaultZone: http://localhost:8761/eureka/
+      defaultZone: http://eureka-server:8761/eureka
   instance:
     prefer-ip-address: true
-    instance-id: ${spring.application.name}:${random.value}
-
-management:
-  endpoints:
-    web:
-      exposure:
-        include: "*"
+    instance-id: "${spring.application.name}:${random.value}"
+    lease-renewal-interval-in-seconds: 15
+    lease-expiration-duration-in-seconds: 60

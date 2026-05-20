@@ -3,6 +3,10 @@ package cl.teatromoro.usuarios.controller;
 import cl.teatromoro.usuarios.model.Usuario;
 import cl.teatromoro.usuarios.service.UsuarioService;
 import org.springframework.web.bind.annotation.*;
+import cl.teatromoro.usuarios.dto.UsuarioDTO;
+import cl.teatromoro.usuarios.dto.UsuarioResponseDTO;
+import jakarta.validation.Valid;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
@@ -17,17 +21,19 @@ public class UsuarioController {
     }
 
     @PostMapping
-    public Usuario crear(@RequestBody Usuario usuario) {
-        return service.crearUsuario(usuario);
-    }
+    public ResponseEntity<UsuarioResponseDTO> crear(
+        @Valid @RequestBody UsuarioDTO dto) {
+
+    return ResponseEntity.ok(service.crear(dto));
+}
 
     @GetMapping
-    public List<Usuario> listar() {
-        return service.listarUsuarios();
-    }
+    public List<UsuarioResponseDTO> listar() {
+    return service.listar();
+}
 
     @GetMapping("/{id}")
-    public Usuario obtener(@PathVariable Long id) {
+    public UsuarioResponseDTO obtener(@PathVariable Long id) {
         return service.obtenerPorId(id);
     }
 

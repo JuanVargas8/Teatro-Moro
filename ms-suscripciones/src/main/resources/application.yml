@@ -6,10 +6,12 @@ server:
 spring:
   application:
     name: ms-suscripciones
+  kafka:
+    bootstrap-servers: kafka-broker:29092
 
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5433/suscripciones
+    url: jdbc:postgresql://postgres-rdbms:5432/suscripciones
     username: postgres
     password: 123
 
@@ -24,8 +26,9 @@ eureka:
     register-with-eureka: true
     fetch-registry: true
     service-url:
-      defaultZone: http://localhost:8761/eureka
+      defaultZone: http://eureka-server:8761/eureka
 
   instance:
     prefer-ip-address: true
     instance-id: "${spring.application.name}:${random.value}"
+

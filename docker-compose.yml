@@ -1,10 +1,8 @@
-version: '3.8'
-
 services:
   # --- INFRAESTRUCTURA ---
   postgres:
     image: postgres:15
-    container_name: postgres_rdbms
+    container_name: postgres-rdbms
     restart: always
     ports:
       - "5433:5432"
@@ -12,28 +10,29 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: "123"
       POSTGRES_DB: main_postgres_db
+    command: ["postgres", "-c", "max_connections=300"]
     volumes:
       - ./init-multi-db:/docker-entrypoint-initdb.d
 
   kafka:
     image: confluentinc/cp-kafka:latest
-    container_name: kafka_broker
+    container_name: kafka-broker
     restart: always
     ports:
       - "9092:9092"
     environment:
       KAFKA_NODE_ID: 1
       KAFKA_PROCESS_ROLES: broker,controller
-      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@kafka_broker:9093
+      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@kafka-broker:9093
       KAFKA_LISTENERS: INTERNAL://0.0.0.0:29092,EXTERNAL://0.0.0.0:9092,CONTROLLER://0.0.0.0:9093
-      KAFKA_ADVERTISED_LISTENERS: INTERNAL://kafka_broker:29092,EXTERNAL://localhost:9092
+      KAFKA_ADVERTISED_LISTENERS: INTERNAL://kafka-broker:29092,EXTERNAL://localhost:9092
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INTERNAL:PLAINTEXT,EXTERNAL:PLAINTEXT,CONTROLLER:PLAINTEXT
       KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL
       KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
       KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
       CLUSTER_ID: "MkU3OEVBNTcwNTJENDM2Qk"
-
+ 
   kafka-ui:
     image: provectuslabs/kafka-ui:latest
     container_name: kafka_ui
@@ -44,11 +43,11 @@ services:
       - "8081:8080"
     environment:
       KAFKA_CLUSTERS_0_NAME: local
-      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka_broker:29092
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka-broker:29092
 
   eureka:
     build: ./eureka
-    container_name: eureka_server
+    container_name: eureka-server
     restart: always
     ports:
       - "8761:8761"
@@ -65,7 +64,7 @@ services:
       - postgres
       - eureka
       - kafka
-
+ 
   reserva:
     build: ./ms-reserva
     container_name: ms_reserva
@@ -76,7 +75,7 @@ services:
       - postgres
       - eureka
       - kafka
-
+ 
   pagos:
     build: ./ms-pagos
     container_name: ms_pagos
@@ -87,7 +86,7 @@ services:
       - postgres
       - eureka
       - kafka
-
+ 
   suscripciones:
     build: ./ms-suscripciones
     container_name: ms_suscripciones
@@ -110,7 +109,7 @@ services:
       - postgres
       - eureka
       - kafka
-
+ 
   funciones:
     build: ./ms-funciones
     container_name: ms_funciones
@@ -121,7 +120,7 @@ services:
       - postgres
       - eureka
       - kafka
-
+ 
   gestion:
     build: ./ms-gestion
     container_name: ms_gestion
@@ -132,7 +131,7 @@ services:
       - postgres
       - eureka
       - kafka
-
+ 
   notificaciones:
     build: ./ms-notificaciones
     container_name: ms_notificaciones
@@ -143,7 +142,7 @@ services:
       - postgres
       - eureka
       - kafka
-
+ 
   personal:
     build: ./ms-personal
     container_name: ms_personal
@@ -154,7 +153,7 @@ services:
       - postgres
       - eureka
       - kafka
-
+ 
   informes:
     build: ./ms-informes
     container_name: ms_informes
@@ -165,7 +164,7 @@ services:
       - postgres
       - eureka
       - kafka
-
+ 
   promociones:
     build: ./ms-promociones
     container_name: ms_promociones
@@ -176,7 +175,7 @@ services:
       - postgres
       - eureka
       - kafka
-
+ 
   usuarios:
     build: ./ms-usuarios
     container_name: ms_usuarios
