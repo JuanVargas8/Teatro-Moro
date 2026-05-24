@@ -2,8 +2,6 @@ package cl.teatromoro.pagos.service;
 
 import java.util.List;
 import org.springframework.stereotype.Service;
-import cl.teatromoro.common.event.TransaccionCreatedEvent;
-import cl.teatromoro.pagos.event.PagosEventProducer;
 import cl.teatromoro.pagos.model.Transaccion;
 import cl.teatromoro.pagos.model.MetodoPagoUsuario;
 import cl.teatromoro.pagos.model.Reembolso;
@@ -19,7 +17,6 @@ public class TransaccionService {
     private final TransaccionRepository transaccionRepository;
     private final MetodoPagoRepository metodoPagoRepository;
     private final ReembolsoRepository reembolsoRepository;
-    private final PagosEventProducer pagosEventProducer;
 
     // --- LÓGICA PARA TRANSACCIONES ---
     public List<Transaccion> listarTransacciones() {
@@ -27,16 +24,7 @@ public class TransaccionService {
     }
 
     public Transaccion guardarTransaccion(Transaccion t) {
-        Transaccion saved = transaccionRepository.save(t);
-        TransaccionCreatedEvent evento = new TransaccionCreatedEvent(
-            saved.getId(),
-            saved.getIdPedido(),
-            saved.getMonto(),
-            saved.getMetodoPago(),
-            saved.getEstado()
-        );
-        pagosEventProducer.enviarTransaccionCreada(evento);
-        return saved;
+        return transaccionRepository.save(t);
     }
 
     // --- LÓGICA PARA MÉTODOS DE PAGO ---

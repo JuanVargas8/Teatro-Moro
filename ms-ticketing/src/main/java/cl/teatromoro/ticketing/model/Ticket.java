@@ -1,6 +1,7 @@
 package cl.teatromoro.ticketing.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Positive;
 import lombok.*;
 
 import java.math.BigDecimal;
@@ -25,6 +26,7 @@ public class Ticket {
     @Column(name = "id_usuario", nullable = false)
     private Integer idUsuario;
 
+    @Positive(message = "El precio debe ser mayor a 0")
     @Column(name = "precio_final", nullable = false)
     private BigDecimal precioFinal;
 

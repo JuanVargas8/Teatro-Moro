@@ -1,8 +1,8 @@
-package cl.teatromoro.funciones.event;
+package cl.teatromoro.reserva.event;
 
-import cl.teatromoro.common.event.FuncionCreatedEvent;
-import cl.teatromoro.common.event.FuncionDeletedEvent;
-import cl.teatromoro.common.event.FuncionUpdatedEvent;
+import cl.teatromoro.common.event.AsientoCreateEvent;
+import cl.teatromoro.common.event.AsientoDeleteEvent;
+import cl.teatromoro.common.event.AsientoUpdateEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -13,9 +13,9 @@ import java.util.Objects;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class FuncionEventProducer {
+public class AsientoEventProducer {
 
-    private static final String TOPIC_BASE = "funciones.funcion";
+    private static final String TOPIC_BASE = "reserva.asiento";
     private static final String ID_NOT_NULL = "El ID no puede ser null";
     private static final String TOPIC_NOT_NULL = "El topic no puede ser null";
 
@@ -29,15 +29,15 @@ public class FuncionEventProducer {
         kafkaTemplate.send(topic, key, event);
     }
 
-    public void sendCreated(FuncionCreatedEvent event) {
+    public void sendCreated(AsientoCreateEvent event) {
         send(event, "created", event.getId().toString());
     }
 
-    public void sendUpdated(FuncionUpdatedEvent event) {
+    public void sendUpdated(AsientoUpdateEvent event) {
         send(event, "updated", event.getId().toString());
     }
 
-    public void sendDeleted(FuncionDeletedEvent event) {
+    public void sendDeleted(AsientoDeleteEvent event) {
         send(event, "deleted", event.getId().toString());
     }
 }
