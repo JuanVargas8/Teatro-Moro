@@ -1,4 +1,4 @@
-package cl.teatromoro.pagos.event;
+package cl.teatromoro.pagos.kafka;
 
 import cl.teatromoro.common.event.TransaccionCreatedEvent;
 import lombok.RequiredArgsConstructor;

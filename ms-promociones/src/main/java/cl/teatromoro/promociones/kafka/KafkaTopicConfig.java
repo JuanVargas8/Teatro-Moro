@@ -1,4 +1,4 @@
-package cl.teatromoro.promociones.event;
+package cl.teatromoro.promociones.kafka;
 
 import org.apache.kafka.clients.admin.NewTopic;
 import org.springframework.context.annotation.Bean;
