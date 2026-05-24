@@ -1,4 +1,4 @@
-package cl.teatromoro.pagos.event;
+package cl.teatromoro.pagos.kafka;
 
 import org.apache.kafka.clients.admin.NewTopic;
 import org.springframework.context.annotation.Bean;

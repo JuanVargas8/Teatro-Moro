@@ -1,4 +1,4 @@
-package cl.teatromoro.promociones.event;
+package cl.teatromoro.promociones.kafka;
 
 import cl.teatromoro.common.event.TransaccionCreatedEvent;
 import lombok.extern.slf4j.Slf4j;
