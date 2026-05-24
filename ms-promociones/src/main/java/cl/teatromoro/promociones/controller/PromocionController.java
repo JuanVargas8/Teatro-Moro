@@ -18,6 +18,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PromocionController {
 
+
     private final PromocionService service;
 
     // ==========================================
