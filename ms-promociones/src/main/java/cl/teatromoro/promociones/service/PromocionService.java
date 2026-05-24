@@ -5,6 +5,8 @@ import cl.teatromoro.promociones.dto.CampanaResponse;
 import cl.teatromoro.promociones.model.Campana;
 import cl.teatromoro.promociones.model.ProgramaLealtad;
 import cl.teatromoro.promociones.model.Promocion;
+import cl.teatromoro.promociones.repository.CampanaRepository;
+import cl.teatromoro.promociones.repository.ProgramaLealtadRepository;
 import cl.teatromoro.promociones.repository.PromocionRepository;
 import cl.teatromoro.promociones.mapper.CampanaMapper;
 import cl.teatromoro.promociones.kafka.PromocionesEventProducer;

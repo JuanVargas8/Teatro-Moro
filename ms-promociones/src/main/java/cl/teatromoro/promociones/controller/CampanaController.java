@@ -21,8 +21,8 @@ public class CampanaController {
 
     @PostMapping
     public ResponseEntity<CampanaResponse> crear(@Valid @RequestBody CampanaRequest request) {
-        Campana entidad = mapper.requestToModel(request);
+        Campana entidad = mapper.toEntity(request);
         Campana guardada = service.guardar(entidad);
-        return new ResponseEntity<>(mapper.modelToResponse(guardada), HttpStatus.CREATED);
+        return new ResponseEntity<>(mapper.toResponse(guardada), HttpStatus.CREATED);
     }
 }

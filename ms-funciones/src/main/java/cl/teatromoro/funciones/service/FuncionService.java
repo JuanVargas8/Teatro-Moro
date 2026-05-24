@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import cl.teatromoro.common.exception.EntityNotFoundException;
+import cl.teatromoro.funciones.client.FuncionClient;
+import cl.teatromoro.funciones.client.TurnoFuncionClient;
 import cl.teatromoro.funciones.dto.FuncionRequest;
 import cl.teatromoro.funciones.dto.FuncionResponse;
 import cl.teatromoro.funciones.mapper.FuncionMapper;
@@ -18,6 +20,8 @@ public class FuncionService {
 
     private final FuncionRepository repository;
     private final FuncionMapper mapper;
+    private final FuncionClient funcionClient;
+    private final TurnoFuncionClient turnoFuncionClient;
 
     // ─── LISTAR ─────────────────────────────────────────
 
@@ -40,6 +44,10 @@ public class FuncionService {
     // ─── CREAR ──────────────────────────────────────────
 
     public FuncionResponse guardar(FuncionRequest request) {
+        // Validar existencia de la Obra y la Sala mediante Feign Clients
+        funcionClient.getObraById(request.getObraId());
+        turnoFuncionClient.getSalaById(request.getSalaId());
+
         Funcion funcion = mapper.toEntity(request);
         return mapper.toResponse(repository.save(funcion));
     }
@@ -47,6 +55,9 @@ public class FuncionService {
     // ─── ACTUALIZAR ─────────────────────────────────────
 
     public FuncionResponse actualizar(Long id, FuncionRequest request) {
+        // Validar existencia de la Obra y la Sala mediante Feign Clients
+        funcionClient.getObraById(request.getObraId());
+        turnoFuncionClient.getSalaById(request.getSalaId());
 
         Funcion existente = repository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Funcion", "id", id));
