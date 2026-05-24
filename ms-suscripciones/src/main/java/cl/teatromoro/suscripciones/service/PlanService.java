@@ -5,8 +5,9 @@ import cl.teatromoro.suscripciones.dto.PlanResponseDTO;
 import cl.teatromoro.suscripciones.exception.ResourceNotFoundException;
 import cl.teatromoro.suscripciones.model.Plan;
 import cl.teatromoro.suscripciones.repository.PlanRepository;
-
+import cl.teatromoro.suscripciones.kafka.KafkaProducerService;
 import org.springframework.stereotype.Service;
+
 
 import java.util.List;
 
@@ -14,9 +15,11 @@ import java.util.List;
 public class PlanService {
 
     private final PlanRepository repository;
+    private final KafkaProducerService producer;
 
-    public PlanService(PlanRepository repository) {
+    public PlanService(PlanRepository repository, KafkaProducerService producer) {
         this.repository = repository;
+        this.producer = producer;
     }
 
     public PlanResponseDTO crear(PlanDTO dto) {
@@ -27,7 +30,14 @@ public class PlanService {
         plan.setPrecio(dto.getPrecio());
         plan.setBeneficios(dto.getBeneficios());
 
-        return new PlanResponseDTO(repository.save(plan));
+        producer.enviarMensaje(
+        "Plan creado: "
+                + plan.getNombre()
+);
+        
+
+        return new PlanResponseDTO(repository.save(plan));         
+                
     }
 
     public List<PlanResponseDTO> listar() {
@@ -58,11 +68,18 @@ public class PlanService {
         existente.setPrecio(dto.getPrecio());
         existente.setBeneficios(dto.getBeneficios());
 
+        producer.enviarMensaje(
+        "Plan actualizado: "
+                + existente.getNombre()
+);
+
         return new PlanResponseDTO(repository.save(existente));
+
+        
     }
 
     public void eliminar(Long id) {
-
         repository.deleteById(id);
+        
     }
 }

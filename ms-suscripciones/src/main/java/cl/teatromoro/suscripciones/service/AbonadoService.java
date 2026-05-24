@@ -5,6 +5,7 @@ import feign.FeignException;
 import cl.teatromoro.suscripciones.client.UsuarioClient;
 import cl.teatromoro.suscripciones.dto.AbonadoDTO;
 import cl.teatromoro.suscripciones.dto.AbonadoResponseDTO;
+import cl.teatromoro.suscripciones.dto.AbonadoUpdateDTO;
 import cl.teatromoro.suscripciones.dto.PlanResponseDTO;
 import cl.teatromoro.suscripciones.exception.ResourceNotFoundException;
 import cl.teatromoro.suscripciones.kafka.KafkaProducerService;
@@ -12,8 +13,6 @@ import cl.teatromoro.suscripciones.model.Abonado;
 import cl.teatromoro.suscripciones.model.Plan;
 import cl.teatromoro.suscripciones.repository.AbonadoRepository;
 import cl.teatromoro.suscripciones.repository.PlanRepository;
-
-
 
 import org.springframework.stereotype.Service;
 
@@ -43,20 +42,27 @@ public class AbonadoService {
     public AbonadoResponseDTO crear(AbonadoDTO dto) {
 
         try {
+
             usuarioClient.obtenerUsuario(dto.getUsuarioId());
 
         } catch (FeignException.NotFound e) {
 
-            throw new ResourceNotFoundException("Usuario no existe");
+            throw new ResourceNotFoundException(
+                    "Usuario no existe"
+            );
 
         } catch (FeignException e) {
 
-            throw new RuntimeException("Error al validar usuario");
+            throw new RuntimeException(
+                    "Error al validar usuario"
+            );
         }
 
         Plan plan = planRepository.findById(dto.getPlanId())
                 .orElseThrow(() ->
-                        new ResourceNotFoundException("Plan no existe"));
+                        new ResourceNotFoundException(
+                                "Plan no existe"
+                        ));
 
         Abonado abonado = new Abonado();
 
@@ -67,8 +73,8 @@ public class AbonadoService {
         Abonado guardado = repository.save(abonado);
 
         producer.enviarMensaje(
-        "Nuevo abonado creado para usuario "
-                + dto.getUsuarioId()
+                "Nuevo abonado creado para usuario "
+                        + dto.getUsuarioId()
         );
 
         PlanResponseDTO planDTO = new PlanResponseDTO(
@@ -93,12 +99,13 @@ public class AbonadoService {
                 .stream()
                 .map(abonado -> {
 
-                    PlanResponseDTO planDTO = new PlanResponseDTO(
-                            abonado.getPlan().getId(),
-                            abonado.getPlan().getNombre(),
-                            abonado.getPlan().getPrecio(),
-                            abonado.getPlan().getBeneficios()
-                    );
+                    PlanResponseDTO planDTO =
+                            new PlanResponseDTO(
+                                    abonado.getPlan().getId(),
+                                    abonado.getPlan().getNombre(),
+                                    abonado.getPlan().getPrecio(),
+                                    abonado.getPlan().getBeneficios()
+                            );
 
                     return new AbonadoResponseDTO(
                             abonado.getId(),
@@ -111,18 +118,20 @@ public class AbonadoService {
                 .toList();
     }
 
-    public List<AbonadoResponseDTO> porUsuario(Long usuarioId) {
+    public List<AbonadoResponseDTO> porUsuario(
+            Long usuarioId) {
 
         return repository.findByUsuarioId(usuarioId)
                 .stream()
                 .map(abonado -> {
 
-                    PlanResponseDTO planDTO = new PlanResponseDTO(
-                            abonado.getPlan().getId(),
-                            abonado.getPlan().getNombre(),
-                            abonado.getPlan().getPrecio(),
-                            abonado.getPlan().getBeneficios()
-                    );
+                    PlanResponseDTO planDTO =
+                            new PlanResponseDTO(
+                                    abonado.getPlan().getId(),
+                                    abonado.getPlan().getNombre(),
+                                    abonado.getPlan().getPrecio(),
+                                    abonado.getPlan().getBeneficios()
+                            );
 
                     return new AbonadoResponseDTO(
                             abonado.getId(),
@@ -134,4 +143,56 @@ public class AbonadoService {
                 })
                 .toList();
     }
+
+    public AbonadoResponseDTO actualizar(
+            Long id,
+            AbonadoUpdateDTO dto) {
+
+        Abonado abonado =
+                repository.findById(id)
+                        .orElseThrow(() ->
+                                new ResourceNotFoundException(
+                                        "Abonado no encontrado"
+                                ));
+
+        Plan plan =
+                planRepository.findById(dto.getPlanId())
+                        .orElseThrow(() ->
+                                new ResourceNotFoundException(
+                                        "Plan no existe"
+                                ));
+
+        abonado.setPlan(plan);
+        abonado.setFechaFin(dto.getFechaFin());
+
+        Abonado actualizado =
+                repository.save(abonado);
+
+        PlanResponseDTO planDTO =
+                new PlanResponseDTO(
+                        actualizado.getPlan().getId(),
+                        actualizado.getPlan().getNombre(),
+                        actualizado.getPlan().getPrecio(),
+                        actualizado.getPlan().getBeneficios()
+                );
+
+        return new AbonadoResponseDTO(
+                actualizado.getId(),
+                actualizado.getUsuarioId(),
+                planDTO,
+                actualizado.getFechaInicio(),
+                actualizado.getFechaFin()
+        );
+    }
+    public void eliminar(Long id) {
+
+        Abonado abonado =
+                repository.findById(id)
+                        .orElseThrow(() ->
+                                new ResourceNotFoundException(
+                                        "Abonado no encontrado"
+                                ));
+
+        repository.delete(abonado);
+        }
 }

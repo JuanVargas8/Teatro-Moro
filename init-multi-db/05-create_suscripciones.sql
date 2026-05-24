@@ -21,6 +21,7 @@ CREATE TABLE Plan (
 );
 
 INSERT INTO Plan (nombre, precio, beneficios) VALUES 
+('Plan inicial',0,'10% de descuento en confitería'),
 ('Plan Platino', 100000.00, 'Acceso gratuito anual y 20% dcto en bar'),
 ('Plan Temporada', 45000.00, 'Entrada gratuita a todas las obras del mes'),
 ('Abono Joven', 20000.00, '50% dcto en funciones de lunes a jueves');

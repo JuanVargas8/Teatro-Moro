@@ -2,7 +2,8 @@ package cl.teatromoro.suscripciones.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.PositiveOrZero;
+
 
 public class PlanDTO {
 
@@ -10,7 +11,7 @@ public class PlanDTO {
     private String nombre;
 
     @NotNull(message = "Precio obligatorio")
-    @Positive(message = "Precio debe ser mayor a 0")
+    @PositiveOrZero(message = "Precio debe ser mayor o igual a 0")
     private Double precio;
 
     @NotBlank(message = "Beneficios obligatorios")

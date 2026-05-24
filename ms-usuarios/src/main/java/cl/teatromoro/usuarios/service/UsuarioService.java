@@ -31,10 +31,7 @@ public class UsuarioService {
 
     Usuario guardado = repository.save(usuario);
 
-    producer.enviarMensaje(
-        "Nuevo usuario registrado: "
-                + guardado.getNombre()
-    );
+    
 
     return new UsuarioResponseDTO(
             guardado.getId(),
@@ -54,7 +51,15 @@ public class UsuarioService {
 
     usuario.setFechaRegistro(LocalDate.now());
 
+    
+
     Usuario guardado = repository.save(usuario);
+
+    producer.enviarMensaje(
+        guardado.getId()
+                + ":"
+                + guardado.getNombre()
+    );
 
     return new UsuarioResponseDTO(
             guardado.getId(),
@@ -104,10 +109,20 @@ public class UsuarioService {
         existente.setNombre(usuario.getNombre());
         existente.setEmail(usuario.getEmail());
 
-        return repository.save(existente);
+        Usuario actualizado = repository.save(existente);
+
+        producer.enviarMensaje(
+        "Nuevo usuario actualizado: "
+                + actualizado.getNombre()
+    );
+
+        return actualizado;
     }
 
     public void eliminarUsuario(Long id) {
         repository.deleteById(id);
+        producer.enviarMensaje(
+        "Usuario eliminado con ID: " + id
+        );
     }
 }

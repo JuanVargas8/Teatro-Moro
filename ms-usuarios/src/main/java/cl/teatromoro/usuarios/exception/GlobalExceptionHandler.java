@@ -6,7 +6,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 import jakarta.validation.ConstraintViolationException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import cl.teatromoro.usuarios.exception.ResourceNotFoundException;
+
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
