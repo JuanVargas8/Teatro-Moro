@@ -1,10 +1,12 @@
 package cl.teatromoro.ticketing.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.math.BigDecimal;
-//import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -20,9 +22,12 @@ public class TipoEntrada {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "nombre", nullable = false, length = 50)
+    @NotBlank(message = "El nombre es obligatorio")
+    @Column(name = "nombre", nullable = false, length = 50, unique = true)
     private String nombre;
 
+    @NotNull(message = "El descuento es obligatorio")
+    @DecimalMin(value = "0.0", inclusive = true, message = "El descuento no puede ser negativo")
     @Column(name = "descuento", nullable = false)
     private BigDecimal descuento;
 

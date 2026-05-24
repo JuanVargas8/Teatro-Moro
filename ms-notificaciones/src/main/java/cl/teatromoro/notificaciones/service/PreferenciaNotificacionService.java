@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import cl.teatromoro.notificaciones.client.UsuarioClient;
 import cl.teatromoro.notificaciones.dto.PreferenciaNotificacionRequest;
 import cl.teatromoro.notificaciones.dto.PreferenciaNotificacionResponse;
 import cl.teatromoro.notificaciones.exception.ResourceNotFoundException;
@@ -16,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class PreferenciaNotificacionService {
 
+    private final UsuarioClient usuarioClient;
     private final PreferenciaNotificacionRepository repository;
     private final PreferenciaNotificacionMapper mapper;
 
@@ -40,6 +42,13 @@ public class PreferenciaNotificacionService {
     // ─── CREAR ──────────────────────────────────────────
 
     public PreferenciaNotificacionResponse guardar(PreferenciaNotificacionRequest request) {
+
+        System.out.println("ANTES DEL FEIGN");
+
+        usuarioClient.obtenerUsuario(request.getIdUsuario());
+
+        System.out.println("DESPUES DEL FEIGN");
+
         PreferenciaNotificacion entity = mapper.toEntity(request);
         return mapper.toResponse(repository.save(entity));
     }

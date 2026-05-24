@@ -4,9 +4,9 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-@FeignClient(name = "ms-usuarios")
-public interface UsuarioClient {
+@FeignClient(name = "ms-funciones")
+public interface FuncionesClient {
 
-    @GetMapping("/usuarios/{id}")
-    Object obtenerUsuario(@PathVariable("id") Integer id);
+    @GetMapping("/funciones/{id}")
+    Object obtenerFuncion(@PathVariable("id") Integer id);
 }
