@@ -138,11 +138,13 @@
                 <artifactId>jakarta.el</artifactId>
                 <version>${jakarta.el.version}</version>
             </dependency>
+
             <dependency>
                 <groupId>org.springframework.kafka</groupId>
                 <artifactId>spring-kafka</artifactId>
                 <version>${spring-kafka.version}</version>
             </dependency>
+
             <dependency>
                 <groupId>cl.teatromoro</groupId>
                 <artifactId>cl-teatromoro-common</artifactId>

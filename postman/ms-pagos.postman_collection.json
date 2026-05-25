@@ -1,0 +1,141 @@
+{
+  "info": {
+    "name": "ms-pagos",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Obtener todas las transacciones",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:9003/api/pagos/transacciones",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "9003",
+          "path": [
+            "api",
+            "pagos",
+            "transacciones"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Crear Transaccion",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"monto\": 15000.0,\r\n    \"idUsuario\": 5,\r\n    \"estado\": \"COMPLETADO\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:9003/api/pagos/transacciones",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "9003",
+          "path": [
+            "api",
+            "pagos",
+            "transacciones"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Eliminar Transaccion",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:9003/api/pagos/transacciones/1",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "9003",
+          "path": [
+            "api",
+            "pagos",
+            "transacciones",
+            "1"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Registrar Metodo de Pago",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"idUsuario\": 5,\r\n    \"tokenPasarela\": \"tok_123456789\",\r\n    \"ultimos4Digitos\": \"4242\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:9003/api/pagos/metodos-pago",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "9003",
+          "path": [
+            "api",
+            "pagos",
+            "metodos-pago"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Registrar Reembolso",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"idTransaccion\": 1,\r\n    \"monto\": 15000.0,\r\n    \"motivo\": \"El usuario canceló la entrada\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:9003/api/pagos/reembolsos",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "9003",
+          "path": [
+            "api",
+            "pagos",
+            "reembolsos"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}

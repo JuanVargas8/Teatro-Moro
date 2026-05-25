@@ -40,3 +40,15 @@ eureka:
     instance-id: "${spring.application.name}:${random.value}"
     lease-renewal-interval-in-seconds: 15
     lease-expiration-duration-in-seconds: 60
+
+logging:
+  file:
+    name: logs/ms-funciones.log
+  level:
+    cl.teatromoro.funciones.client: DEBUG
+
+feign:
+  client:
+    config:
+      default:
+        loggerLevel: FULL

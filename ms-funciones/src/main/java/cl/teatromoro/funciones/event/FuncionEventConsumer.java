@@ -17,7 +17,7 @@ public class FuncionEventConsumer {
         properties = {"spring.json.value.default.type=cl.teatromoro.common.event.FuncionCreatedEvent"}
     )
     public void onFuncionCreated(FuncionCreatedEvent event) {
-        log.debug("Evento recibido → created, id: {}", event.getId());
+        log.info("Evento recibido → created, id: {}", event.getId());
         // TODO: Implementar lógica para manejar creación de función
     }
 
@@ -27,7 +27,7 @@ public class FuncionEventConsumer {
         properties = {"spring.json.value.default.type=cl.teatromoro.common.event.FuncionUpdatedEvent"}
     )
     public void onFuncionUpdated(FuncionUpdatedEvent event) {
-        log.debug("Evento recibido → updated, id: {}", event.getId());
+        log.info("Evento recibido → updated, id: {}", event.getId());
         // TODO: Implementar lógica para manejar actualización de función
     }
 
@@ -37,7 +37,7 @@ public class FuncionEventConsumer {
         properties = {"spring.json.value.default.type=cl.teatromoro.common.event.FuncionDeletedEvent"}
     )
     public void onFuncionDeleted(FuncionDeletedEvent event) {
-        log.debug("Evento recibido → deleted, id: {}", event.getId());
+        log.info("Evento recibido → deleted, id: {}", event.getId());
         // TODO: Implementar lógica para manejar eliminación de función
     }
 }

@@ -14,6 +14,7 @@ public class ApiError {
     private int status;
     private String error;
     private String message;
+    private String feignDetail;
 
     /**
      * Lista de errores de campo para respuestas de validación (HTTP 400).
