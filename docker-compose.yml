@@ -38,7 +38,7 @@ services:
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
       KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
       CLUSTER_ID: "MkU3OEVBNTcwNTJENDM2Qk"
- 
+
   kafka-ui:
     image: provectuslabs/kafka-ui:latest
     container_name: kafka_ui
@@ -70,7 +70,7 @@ services:
       - postgres
       - eureka
       - kafka
- 
+
   reserva:
     build: ./ms-reserva
     container_name: ms_reserva
@@ -81,7 +81,7 @@ services:
       - postgres
       - eureka
       - kafka
- 
+
   pagos:
     build: ./ms-pagos
     container_name: ms_pagos
@@ -89,22 +89,18 @@ services:
     ports:
       - "9003:9003"
     environment:
-      - KAFKA_BOOTSTRAP_SERVERS=kafka-broker:29092
-      - DB_HOST=postgres
-      - DB_PORT=5432
-      - DB_USER=postgres
-      - DB_PASSWORD=123
+      KAFKA_BOOTSTRAP_SERVERS: kafka-broker:29092
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USER: postgres
+      DB_PASSWORD: 123
     depends_on:
-      - postgres
-      - eureka
-      - kafka
- 
-    postgres:
-      condition: service_healthy
-    eureka:
-      condition: service_started
-    kafka:
-      condition: service_started
+      postgres:
+        condition: service_healthy
+      eureka:
+        condition: service_started
+      kafka:
+        condition: service_started
 
   suscripciones:
     build: ./ms-suscripciones
@@ -128,7 +124,7 @@ services:
       - postgres
       - eureka
       - kafka
- 
+
   funciones:
     build: ./ms-funciones
     container_name: ms_funciones
@@ -139,7 +135,7 @@ services:
       - postgres
       - eureka
       - kafka
- 
+
   gestion:
     build: ./ms-gestion
     container_name: ms_gestion
@@ -150,7 +146,7 @@ services:
       - postgres
       - eureka
       - kafka
- 
+
   notificaciones:
     build: ./ms-notificaciones
     container_name: ms_notificaciones
@@ -161,7 +157,7 @@ services:
       - postgres
       - eureka
       - kafka
- 
+
   personal:
     build: ./ms-personal
     container_name: ms_personal
@@ -172,7 +168,7 @@ services:
       - postgres
       - eureka
       - kafka
- 
+
   informes:
     build: ./ms-informes
     container_name: ms_informes
@@ -183,7 +179,7 @@ services:
       - postgres
       - eureka
       - kafka
- 
+
   promociones:
     build: ./ms-promociones
     container_name: ms_promociones
@@ -191,22 +187,18 @@ services:
     ports:
       - "9014:9014"
     environment:
-      - KAFKA_BOOTSTRAP_SERVERS=kafka-broker:29092
-      - DB_HOST=postgres
-      - DB_PORT=5432
-      - DB_USER=postgres
-      - DB_PASSWORD=123
+      KAFKA_BOOTSTRAP_SERVERS: kafka-broker:29092
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USER: postgres
+      DB_PASSWORD: 123
     depends_on:
-      - postgres
-      - eureka
-      - kafka
- 
-    postgres:
-      condition: service_healthy
-    eureka:
-      condition: service_started
-    kafka:
-      condition: service_started
+      postgres:
+        condition: service_healthy
+      eureka:
+        condition: service_started
+      kafka:
+        condition: service_started
 
   usuarios:
     build: ./ms-usuarios
