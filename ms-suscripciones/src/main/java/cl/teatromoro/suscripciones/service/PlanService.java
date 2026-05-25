@@ -1,8 +1,13 @@
 package cl.teatromoro.suscripciones.service;
 
+import cl.teatromoro.suscripciones.dto.PlanDTO;
+import cl.teatromoro.suscripciones.dto.PlanResponseDTO;
+import cl.teatromoro.suscripciones.exception.ResourceNotFoundException;
 import cl.teatromoro.suscripciones.model.Plan;
 import cl.teatromoro.suscripciones.repository.PlanRepository;
+import cl.teatromoro.suscripciones.kafka.KafkaProducerService;
 import org.springframework.stereotype.Service;
+
 
 import java.util.List;
 
@@ -10,33 +15,71 @@ import java.util.List;
 public class PlanService {
 
     private final PlanRepository repository;
+    private final KafkaProducerService producer;
 
-    public PlanService(PlanRepository repository) {
+    public PlanService(PlanRepository repository, KafkaProducerService producer) {
         this.repository = repository;
+        this.producer = producer;
     }
 
-    public Plan crear(Plan plan) {
-        return repository.save(plan);
+    public PlanResponseDTO crear(PlanDTO dto) {
+
+        Plan plan = new Plan();
+
+        plan.setNombre(dto.getNombre());
+        plan.setPrecio(dto.getPrecio());
+        plan.setBeneficios(dto.getBeneficios());
+
+        producer.enviarMensaje(
+        "Plan creado: "
+                + plan.getNombre()
+);
+        
+
+        return new PlanResponseDTO(repository.save(plan));         
+                
     }
 
-    public List<Plan> listar() {
-        return repository.findAll();
+    public List<PlanResponseDTO> listar() {
+
+        return repository.findAll()
+                .stream()
+                .map(PlanResponseDTO::new)
+                .toList();
     }
 
-    public Plan obtener(Long id) {
+    public Plan obtenerEntidad(Long id) {
+
         return repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Plan no encontrado"));
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Plan no encontrado"));
     }
 
-    public Plan actualizar(Long id, Plan plan) {
-        Plan existente = obtener(id);
-        existente.setNombre(plan.getNombre());
-        existente.setPrecio(plan.getPrecio());
-        existente.setBeneficios(plan.getBeneficios());
-        return repository.save(existente);
+    public PlanResponseDTO obtener(Long id) {
+
+        return new PlanResponseDTO(obtenerEntidad(id));
+    }
+
+    public PlanResponseDTO actualizar(Long id, PlanDTO dto) {
+
+        Plan existente = obtenerEntidad(id);
+
+        existente.setNombre(dto.getNombre());
+        existente.setPrecio(dto.getPrecio());
+        existente.setBeneficios(dto.getBeneficios());
+
+        producer.enviarMensaje(
+        "Plan actualizado: "
+                + existente.getNombre()
+);
+
+        return new PlanResponseDTO(repository.save(existente));
+
+        
     }
 
     public void eliminar(Long id) {
         repository.deleteById(id);
+        
     }
 }
