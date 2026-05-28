@@ -1,5 +1,7 @@
 package cl.teatromoro.suscripciones.service;
 import feign.FeignException;
+import cl.teatromoro.common.event.AbonadoCreatedEvent;
+import cl.teatromoro.suscripciones.event.AbonadoEventProducer;
 import cl.teatromoro.suscripciones.model.Abonado;
 import cl.teatromoro.suscripciones.repository.AbonadoRepository;
 import cl.teatromoro.suscripciones.client.UsuarioClient;
@@ -13,10 +15,12 @@ public class AbonadoService {
 
     private final AbonadoRepository repository;
     private final UsuarioClient usuarioClient;
+    private final AbonadoEventProducer eventProducer;
 
-    public AbonadoService(AbonadoRepository repository, UsuarioClient usuarioClient) {
+    public AbonadoService(AbonadoRepository repository, UsuarioClient usuarioClient, AbonadoEventProducer eventProducer) {
         this.repository = repository;
         this.usuarioClient = usuarioClient;
+        this.eventProducer = eventProducer;
     }
 
     public Abonado crear(Abonado abonado) {
@@ -32,7 +36,17 @@ public class AbonadoService {
         }
 
         abonado.setFechaInicio(LocalDate.now());
-        return repository.save(abonado);
+        Abonado guardado = repository.save(abonado);
+        
+        AbonadoCreatedEvent event = new AbonadoCreatedEvent();
+        event.setId(guardado.getId());
+        event.setUsuarioId(guardado.getUsuarioId());
+        event.setPlanId(guardado.getPlanId());
+        event.setFechaInicio(guardado.getFechaInicio());
+        event.setFechaFin(guardado.getFechaFin());
+        eventProducer.sendCreated(event);
+        
+        return guardado;
     }
 
     public List<Abonado> listar() {

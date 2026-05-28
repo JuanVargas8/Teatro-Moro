@@ -12,6 +12,10 @@ import cl.teatromoro.funciones.dto.FuncionResponse;
 import cl.teatromoro.funciones.mapper.FuncionMapper;
 import cl.teatromoro.funciones.model.entity.Funcion;
 import cl.teatromoro.funciones.repository.FuncionRepository;
+import cl.teatromoro.common.event.FuncionCreatedEvent;
+import cl.teatromoro.common.event.FuncionUpdatedEvent;
+import cl.teatromoro.common.event.FuncionDeletedEvent;
+import cl.teatromoro.funciones.event.FuncionEventProducer;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -22,6 +26,7 @@ public class FuncionService {
     private final FuncionMapper mapper;
     private final FuncionClient funcionClient;
     private final TurnoFuncionClient turnoFuncionClient;
+    private final FuncionEventProducer funcionEventProducer;
 
     // ─── LISTAR ─────────────────────────────────────────
 
@@ -49,7 +54,17 @@ public class FuncionService {
         turnoFuncionClient.getSalaById(request.getSalaId());
 
         Funcion funcion = mapper.toEntity(request);
-        return mapper.toResponse(repository.save(funcion));
+        funcion = repository.save(funcion);
+        
+        FuncionCreatedEvent event = new FuncionCreatedEvent();
+        event.setId(funcion.getId());
+        event.setPeliculaId(funcion.getIdObra());
+        event.setSalaId(funcion.getIdSala());
+        event.setFechaHora(funcion.getFechaHora());
+        event.setPrecio(funcion.getPrecioBase());
+        funcionEventProducer.sendCreated(event);
+        
+        return mapper.toResponse(funcion);
     }
 
     // ─── ACTUALIZAR ─────────────────────────────────────
@@ -67,7 +82,17 @@ public class FuncionService {
         existente.setIdObra(request.getObraId());
         existente.setIdSala(request.getSalaId());
 
-        return mapper.toResponse(repository.save(existente));
+        existente = repository.save(existente);
+        
+        FuncionUpdatedEvent event = new FuncionUpdatedEvent();
+        event.setId(existente.getId());
+        event.setPeliculaId(existente.getIdObra());
+        event.setSalaId(existente.getIdSala());
+        event.setFechaHora(existente.getFechaHora());
+        event.setPrecio(existente.getPrecioBase());
+        funcionEventProducer.sendUpdated(event);
+
+        return mapper.toResponse(existente);
     }
 
     // ─── ELIMINAR ───────────────────────────────────────
@@ -77,6 +102,10 @@ public class FuncionService {
                 .orElseThrow(() -> new EntityNotFoundException("Funcion", "id", id));
 
         repository.delete(funcion);
+        
+        FuncionDeletedEvent event = new FuncionDeletedEvent();
+        event.setId(id);
+        funcionEventProducer.sendDeleted(event);
     }
 
     // ─── POR OBRA ───────────────────────────────────────

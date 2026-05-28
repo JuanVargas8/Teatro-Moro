@@ -6,11 +6,13 @@ server:
 spring:
   application:
     name: ms-promociones
+
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/postgres
+    url: jdbc:postgresql://${DB_HOST:postgres-rdbms}:${DB_PORT:5432}/postgres
     username: ${DB_USER:postgres}
     password: ${DB_PASSWORD:123}
+
   jpa:
     hibernate:
       ddl-auto: update
@@ -18,14 +20,17 @@ spring:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
 
   kafka:
-    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:kafka-broker:29092}
+
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+
     consumer:
       group-id: ms-promociones
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+
       properties:
         spring.json.trusted.packages: cl.teatromoro.common.event
 
@@ -33,8 +38,10 @@ eureka:
   client:
     register-with-eureka: true
     fetch-registry: true
+
     service-url:
-      defaultZone: http://localhost:8761/eureka
+      defaultZone: ${EUREKA_URL:http://eureka-server:8761/eureka}
+
   instance:
     prefer-ip-address: true
     instance-id: "${spring.application.name}:${random.value}"

@@ -18,13 +18,13 @@ public class TicketEventConsumer {
     }
 
     @KafkaListener(topics = "ticketing.ticket.updated", groupId = "ms-ticketing", properties = {
-            "spring.json.value.default.type=cl.teatromoro.common.event.TicketUpdatedEvent" })
+            "spring.json.value.default.type=cl.teatromoro.common.event.TicketUpdateEvent" })
     public void onTicketUpdated(TicketUpdateEvent event) {
         log.debug("Evento recibido → updated, id: {}", event.getId());
     }
 
     @KafkaListener(topics = "ticketing.ticket.deleted", groupId = "ms-ticketing", properties = {
-            "spring.json.value.default.type=cl.teatromoro.common.event.TicketDeletedEvent" })
+            "spring.json.value.default.type=cl.teatromoro.common.event.TicketDeleteEvent" })
     public void onTicketDeleted(TicketDeleteEvent event) {
         log.debug("Evento recibido → deleted, id: {}", event.getId());
     }
