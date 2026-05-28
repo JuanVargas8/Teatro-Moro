@@ -8,6 +8,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 
+import org.springframework.kafka.support.KafkaHeaders;
+import org.springframework.messaging.Message;
+import org.springframework.messaging.support.MessageBuilder;
+
 import java.util.Objects;
 
 @Slf4j
@@ -26,11 +30,18 @@ public class FuncionEventProducer {
         Objects.requireNonNull(key, ID_NOT_NULL);
 
         log.info("Preparando envío a Kafka → topic: {}, key: {}", topic, key);
-        kafkaTemplate.send(topic, key, event).whenComplete((result, ex) -> {
+
+        Message<Object> message = MessageBuilder
+                .withPayload(event)
+                .setHeader(KafkaHeaders.TOPIC, topic)
+                .setHeader(KafkaHeaders.KEY, key)
+                .build();
+
+        kafkaTemplate.send(message).whenComplete((result, ex) -> {
             if (ex == null) {
-                log.info("Evento ENVIADO con éxito a Kafka → topic: {}, partition: {}, offset: {}", 
-                        topic, 
-                        result.getRecordMetadata().partition(), 
+                log.info("Evento ENVIADO con éxito a Kafka → topic: {}, partition: {}, offset: {}",
+                        topic,
+                        result.getRecordMetadata().partition(),
                         result.getRecordMetadata().offset());
             } else {
                 log.error("Error al enviar evento a Kafka → topic: {}", topic, ex);
