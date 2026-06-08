@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import cl.teatromoro.ticketing.client.FuncionesClient;
+import cl.teatromoro.ticketing.client.UsuarioClient;
 import cl.teatromoro.ticketing.dto.TicketRequest;
 import cl.teatromoro.ticketing.dto.TicketResponse;
 import cl.teatromoro.ticketing.exception.ResourceNotFoundException;
@@ -21,6 +23,8 @@ public class TicketService {
     private final TicketRepository repository;
     private final TipoEntradaRepository tipoEntradaRepository;
     private final TicketMapper mapper;
+    private final UsuarioClient usuarioClient;
+    private final FuncionesClient funcionesClient;
 
     // ─── LISTAR ─────────────────────────────────────────
 
@@ -40,9 +44,11 @@ public class TicketService {
         return mapper.toResponse(entity);
     }
 
-    // ─── CREAR ──────────────────────────────────────────
-
     public TicketResponse guardar(TicketRequest request) {
+
+        usuarioClient.obtenerUsuario(request.getIdUsuario());
+
+        funcionesClient.obtenerFuncion(request.getIdFuncion());
 
         TipoEntrada tipoEntrada = tipoEntradaRepository.findById(request.getIdTipoEntrada())
                 .orElseThrow(() -> new ResourceNotFoundException("TipoEntrada", request.getIdTipoEntrada()));
@@ -52,13 +58,16 @@ public class TicketService {
 
         return mapper.toResponse(repository.save(entity));
     }
-
     // ─── ACTUALIZAR ─────────────────────────────────────
 
     public TicketResponse actualizar(Long id, TicketRequest request) {
 
         Ticket existente = repository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Ticket", id));
+
+        usuarioClient.obtenerUsuario(request.getIdUsuario());
+
+        funcionesClient.obtenerFuncion(request.getIdFuncion());
 
         TipoEntrada tipoEntrada = tipoEntradaRepository.findById(request.getIdTipoEntrada())
                 .orElseThrow(() -> new ResourceNotFoundException("TipoEntrada", request.getIdTipoEntrada()));

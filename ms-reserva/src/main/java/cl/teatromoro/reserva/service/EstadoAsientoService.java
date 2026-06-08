@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import cl.teatromoro.reserva.client.FuncionesClient;
 import cl.teatromoro.reserva.dto.EstadoAsientoRequest;
 import cl.teatromoro.reserva.dto.EstadoAsientoResponse;
 import cl.teatromoro.reserva.exception.ResourceNotFoundException;
@@ -18,6 +19,7 @@ public class EstadoAsientoService {
 
     private final EstadoAsientoRepository repository;
     private final EstadoAsientoMapper mapper;
+    private final FuncionesClient funcionesClient;
 
     // ─── LISTAR ─────────────────────────────────────────
 
@@ -40,21 +42,28 @@ public class EstadoAsientoService {
     // ─── CREAR ──────────────────────────────────────────
 
     public EstadoAsientoResponse guardar(EstadoAsientoRequest request) {
+        //feign
+        funcionesClient.obtenerFuncion(request.getIdFuncion());
+
         EstadoAsiento entity = mapper.toEntity(request);
         return mapper.toResponse(repository.save(entity));
     }
 
     // ─── ACTUALIZAR ─────────────────────────────────────
 
-    public EstadoAsientoResponse actualizar(Long id, EstadoAsientoRequest request) {
-        EstadoAsiento existente = repository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("EstadoAsiento", id));
+ public EstadoAsientoResponse actualizar(Long id, EstadoAsientoRequest request) {
 
-        existente.setIdFuncion(request.getIdFuncion());
-        existente.setEstado(request.getEstado());
+    EstadoAsiento existente = repository.findById(id)
+            .orElseThrow(() -> new ResourceNotFoundException("EstadoAsiento", id));
 
-        return mapper.toResponse(repository.save(existente));
-    }
+    
+    funcionesClient.obtenerFuncion(request.getIdFuncion());
+
+    existente.setIdFuncion(request.getIdFuncion());
+    existente.setEstado(request.getEstado());
+
+    return mapper.toResponse(repository.save(existente));
+}
 
     // ─── ELIMINAR ───────────────────────────────────────
 

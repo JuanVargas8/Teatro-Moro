@@ -66,7 +66,6 @@ public class GlobalExceptionHandler {
                 .status(status.value())
                 .error(status.getReasonPhrase())
                 .message(resolveFeignMessage(ex))
-                .feignDetail(ex.contentUTF8())
                 .path(request.getRequestURI())
                 .build();
 
@@ -245,28 +244,4 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
     }
 
-    // ─── 400 BAD REQUEST (Error de Tipo en Parámetros / Path Variables) ────────
-
-    /**
-     * Captura errores cuando un parámetro de la URL o variable de ruta tiene un formato o tipo incorrecto
-     * (por ejemplo, enviar texto donde se espera un número, o un número que desborda el límite de Long).
-     */
-    @ExceptionHandler(org.springframework.web.method.annotation.MethodArgumentTypeMismatchException.class)
-    public ResponseEntity<ApiError> handleTypeMismatch(
-            org.springframework.web.method.annotation.MethodArgumentTypeMismatchException ex,
-            HttpServletRequest request) {
-
-        String message = String.format("El parámetro '%s' con valor '%s' no pudo ser convertido al tipo '%s'.",
-                ex.getName(), ex.getValue(), ex.getRequiredType() != null ? ex.getRequiredType().getSimpleName() : "deseado");
-
-        ApiError error = ApiError.builder()
-                .timestamp(LocalDateTime.now())
-                .status(HttpStatus.BAD_REQUEST.value())
-                .error(HttpStatus.BAD_REQUEST.getReasonPhrase())
-                .message(message)
-                .path(request.getRequestURI())
-                .build();
-
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
-    }
 }

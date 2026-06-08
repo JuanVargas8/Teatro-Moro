@@ -25,17 +25,8 @@ public class FuncionEventProducer {
         String topic = Objects.requireNonNull(String.format("%s.%s", TOPIC_BASE, eventType), TOPIC_NOT_NULL);
         Objects.requireNonNull(key, ID_NOT_NULL);
 
-        log.info("Preparando envío a Kafka → topic: {}, key: {}", topic, key);
-        kafkaTemplate.send(topic, key, event).whenComplete((result, ex) -> {
-            if (ex == null) {
-                log.info("Evento ENVIADO con éxito a Kafka → topic: {}, partition: {}, offset: {}", 
-                        topic, 
-                        result.getRecordMetadata().partition(), 
-                        result.getRecordMetadata().offset());
-            } else {
-                log.error("Error al enviar evento a Kafka → topic: {}", topic, ex);
-            }
-        });
+        log.debug("Enviando evento Kafka → topic: {}, key: {}", topic, key);
+        kafkaTemplate.send(topic, key, event);
     }
 
     public void sendCreated(FuncionCreatedEvent event) {

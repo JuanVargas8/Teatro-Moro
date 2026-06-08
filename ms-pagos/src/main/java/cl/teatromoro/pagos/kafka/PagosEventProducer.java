@@ -1,7 +1,6 @@
-package cl.teatromoro.promociones.event;
+package cl.teatromoro.pagos.kafka;
 
-import cl.teatromoro.common.event.CampanaDeletedEvent;
-import cl.teatromoro.common.event.CampanaEvent;
+import cl.teatromoro.common.event.TransaccionCreatedEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -12,9 +11,9 @@ import java.util.Objects;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class PromocionesEventProducer {
+public class PagosEventProducer {
 
-    private static final String TOPIC_BASE = "promociones.campana";
+    private static final String TOPIC_BASE = "pagos.transaccion";
     private static final String TOPIC_NOT_NULL = "El topic no puede ser null";
     private static final String KEY_NOT_NULL = "La clave del evento no puede ser null";
 
@@ -28,12 +27,7 @@ public class PromocionesEventProducer {
         kafkaTemplate.send(topic, key, event);
     }
 
-    public void enviarCampanaCreada(CampanaEvent evento) {
-        send(evento, "created", evento.getId().toString());
-    }
-
-    public void enviarCampanaEliminada(Long id) {
-        CampanaDeletedEvent evento = new CampanaDeletedEvent(id);
-        send(evento, "deleted", id.toString());
+    public void enviarTransaccionCreada(TransaccionCreatedEvent event) {
+        send(event, "created", event.getId().toString());
     }
 }
