@@ -1,8 +1,14 @@
 package cl.teatromoro.suscripciones.controller;
 
-import cl.teatromoro.suscripciones.model.Abonado;
 import cl.teatromoro.suscripciones.service.AbonadoService;
 import org.springframework.web.bind.annotation.*;
+
+import cl.teatromoro.suscripciones.dto.AbonadoDTO;
+import jakarta.validation.Valid;
+import org.springframework.http.ResponseEntity;
+
+import cl.teatromoro.suscripciones.dto.AbonadoResponseDTO;
+
 
 import java.util.List;
 
@@ -17,17 +23,26 @@ public class AbonadoController {
     }
 
     @PostMapping
-    public Abonado crear(@RequestBody Abonado abonado) {
-        return service.crear(abonado);
-    }
+    public ResponseEntity<AbonadoResponseDTO> crear(
+            @Valid @RequestBody AbonadoDTO dto) {
+
+        return ResponseEntity.ok(service.crear(dto));
+}
 
     @GetMapping
-    public List<Abonado> listar() {
+    public List<AbonadoResponseDTO> listar() {
         return service.listar();
     }
 
     @GetMapping("/usuario/{usuarioId}")
-    public List<Abonado> porUsuario(@PathVariable Long usuarioId) {
+    public List<AbonadoResponseDTO> porUsuario(@PathVariable Long usuarioId) {
         return service.porUsuario(usuarioId);
     }
+    
+    @DeleteMapping("/{id}")
+    public void eliminar(
+            @PathVariable Long id) {
+
+        service.eliminar(id);
+}
 }

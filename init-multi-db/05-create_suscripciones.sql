@@ -21,8 +21,9 @@ CREATE TABLE Plan (
 );
 
 INSERT INTO Plan (nombre, precio, beneficios) VALUES 
-('Plan Platino', 100000.00, 'Acceso total y 20% dcto en bar'),
-('Plan Temporada', 45000.00, 'Entrada a todas las obras del mes'),
+('Plan inicial',0,'10% de descuento en confitería'),
+('Plan Platino', 100000.00, 'Acceso gratuito anual y 20% dcto en bar'),
+('Plan Temporada', 45000.00, 'Entrada gratuita a todas las obras del mes'),
 ('Abono Joven', 20000.00, '50% dcto en funciones de lunes a jueves');
 
 -- ============================================================
@@ -38,6 +39,6 @@ CREATE TABLE Abonado (
 );
 
 INSERT INTO Abonado (usuario_id, plan_id, fecha_inicio, fecha_fin) VALUES 
-(101, 1, '2026-01-01', '2026-12-31'),
-(102, 2, '2026-05-01', '2026-05-31'),
-(103, 3, '2026-01-15', '2026-07-15');
+(1, 1, '2026-01-01', '2026-12-31'),
+(2, 2, '2026-05-01', '2026-05-31'),
+(3, 3, '2026-01-15', '2026-07-15');
