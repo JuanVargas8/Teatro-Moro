@@ -93,6 +93,12 @@
             <artifactId>mapstruct-processor</artifactId>
         </dependency>
 
+        <dependency>
+    <groupId>org.springdoc</groupId>
+    <artifactId>springdoc-openapi-ui</artifactId>
+    <version>1.7.0</version>
+        </dependency>
+        
         <!-- Dependencias de testing con JUnit, MockMvc, etc. -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

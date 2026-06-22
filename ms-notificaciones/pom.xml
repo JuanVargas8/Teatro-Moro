@@ -68,6 +68,12 @@
             <version>${com-h2database.version}</version>
         </dependency>
 
+        <dependency>
+    <groupId>org.springdoc</groupId>
+    <artifactId>springdoc-openapi-ui</artifactId>
+    <version>1.7.0</version>
+        </dependency>
+        
         <!-- Validacion con anotaciones como @Valid, @NotNull, etc. -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

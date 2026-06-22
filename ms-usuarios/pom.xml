@@ -73,6 +73,13 @@
             <scope>provided</scope>
         </dependency>
 
+
+        <dependency>
+    <groupId>org.springdoc</groupId>
+    <artifactId>springdoc-openapi-ui</artifactId>
+    <version>1.7.0</version>
+        </dependency>
+        
         <!-- DevTools (útil en local, no afecta Docker) -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

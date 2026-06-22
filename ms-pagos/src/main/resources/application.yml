@@ -30,6 +30,12 @@ spring:
       properties:
         spring.json.trusted.packages: cl.teatromoro.common.event
 
+springdoc:
+      swagger-ui:
+        path: /swagger-ui.html
+      api-docs:
+        path: /v3/api-docs
+        
 eureka:
   client:
     register-with-eureka: true
