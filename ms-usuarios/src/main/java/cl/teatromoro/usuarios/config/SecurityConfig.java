@@ -31,17 +31,41 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         http
-            .csrf(csrf -> csrf.disable())
-            .sessionManagement(session ->
-                session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-            .authorizeHttpRequests(auth -> auth
-                // Endpoints de autenticación públicos
-                .requestMatchers("/api/v1/auth/**").permitAll()
-                // Permitir también el acceso a todo para que no se rompan endpoints existentes temporales
-                .requestMatchers("/usuarios/**").permitAll()
-                .anyRequest().authenticated()
-            )
-            .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+                .csrf(csrf -> csrf.disable())
+                .sessionManagement(session -> session
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .authorizeHttpRequests(auth -> auth
+
+                        // =====================================================
+                        // 🔓 SWAGGER (OBLIGATORIO)
+                        // =====================================================
+                        .requestMatchers(
+                                "/v3/api-docs/**",
+                                "/v3/api-docs.yaml",
+                                "/swagger-ui/**",
+                                "/swagger-ui.html",
+                                "/swagger-resources/**",
+                                "/webjars/**",
+                                "/favicon.ico")
+                        .permitAll()
+
+                        // =====================================================
+                        // 🔓 Autenticación pública
+                        // =====================================================
+                        .requestMatchers("/api/v1/auth/**").permitAll()
+
+                        // =====================================================
+                        // 🔓 Usuarios (como lo tienes actualmente)
+                        // =====================================================
+                        .requestMatchers("/usuarios/**").permitAll()
+
+                        // =====================================================
+                        // 🔒 resto protegido
+                        // =====================================================
+                        .anyRequest().authenticated())
+                .addFilterBefore(
+                        jwtAuthenticationFilter,
+                        UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }

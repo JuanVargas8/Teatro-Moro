@@ -18,26 +18,53 @@ import lombok.RequiredArgsConstructor;
 @EnableMethodSecurity
 public class SecurityConfig {
 
-    private final JwtAuthenticationFilter jwtAuthenticationFilter;
+        private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        @Bean
+        public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
-        http
-            .csrf(csrf -> csrf.disable())
-            .sessionManagement(session ->
-                session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-            .authorizeHttpRequests(auth -> auth
-                // Lecturas públicas o accesibles
-                .requestMatchers(HttpMethod.GET, "/**").permitAll()
-                // Escritura protegida
-                .requestMatchers(HttpMethod.POST, "/**").hasAnyRole("Administrador", "Gestion")
-                .requestMatchers(HttpMethod.PUT, "/**").hasAnyRole("Administrador", "Gestion")
-                .requestMatchers(HttpMethod.DELETE, "/**").hasRole("Administrador")
-                .anyRequest().authenticated()
-            )
-            .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+                http
+                                .csrf(csrf -> csrf.disable())
+                                .sessionManagement(session -> session
+                                                .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                                .authorizeHttpRequests(auth -> auth
 
-        return http.build();
-    }
+                                                // =====================================================
+                                                // 🔓 SWAGGER (DEBE IR PRIMERO)
+                                                // =====================================================
+                                                .requestMatchers(
+                                                                "/v3/api-docs/**",
+                                                                "/v3/api-docs.yaml",
+                                                                "/swagger-ui/**",
+                                                                "/swagger-ui.html",
+                                                                "/swagger-resources/**",
+                                                                "/webjars/**",
+                                                                "/favicon.ico")
+                                                .permitAll()
+
+                                                // =====================================================
+                                                // 🔓 Lecturas públicas o accesibles
+                                                // =====================================================
+                                                .requestMatchers(HttpMethod.GET, "/**")
+                                                .permitAll()
+
+                                                // =====================================================
+                                                // 🔒 Escritura protegida
+                                                // =====================================================
+                                                .requestMatchers(HttpMethod.POST, "/**")
+                                                .hasAnyRole("Administrador", "Gestion")
+
+                                                .requestMatchers(HttpMethod.PUT, "/**")
+                                                .hasAnyRole("Administrador", "Gestion")
+
+                                                .requestMatchers(HttpMethod.DELETE, "/**")
+                                                .hasRole("Administrador")
+
+                                                .anyRequest().authenticated())
+                                .addFilterBefore(
+                                                jwtAuthenticationFilter,
+                                                UsernamePasswordAuthenticationFilter.class);
+
+                return http.build();
+        }
 }

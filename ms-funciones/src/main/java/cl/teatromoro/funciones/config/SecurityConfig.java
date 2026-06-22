@@ -18,30 +18,53 @@ import lombok.RequiredArgsConstructor;
 @EnableMethodSecurity
 public class SecurityConfig {
 
-    private final JwtAuthenticationFilter jwtAuthenticationFilter;
+        private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        @Bean
+        public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
-        http
-            .csrf(csrf -> csrf.disable())
-            .sessionManagement(session ->
-                session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-            .authorizeHttpRequests(auth -> auth
+                http
+                                .csrf(csrf -> csrf.disable())
+                                .sessionManagement(session -> session
+                                                .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                                .authorizeHttpRequests(auth -> auth
 
-                // Públicos (catálogo de funciones)
-                .requestMatchers(HttpMethod.GET, "/funciones/**").permitAll()
+                                                // =====================================================
+                                                // 🔓 SWAGGER (OBLIGATORIO ARRIBA DE TODO)
+                                                // =====================================================
+                                                .requestMatchers(
+                                                                "/v3/api-docs/**",
+                                                                "/v3/api-docs.yaml",
+                                                                "/swagger-ui/**",
+                                                                "/swagger-ui.html",
+                                                                "/swagger-resources/**",
+                                                                "/webjars/**",
+                                                                "/favicon.ico")
+                                                .permitAll()
 
-                // Escritura protegida
-                .requestMatchers(HttpMethod.POST, "/funciones/**").hasAnyRole("Administrador", "Gestion")
-                .requestMatchers(HttpMethod.PUT, "/funciones/**").hasAnyRole("Administrador", "Gestion")
-                .requestMatchers(HttpMethod.DELETE, "/funciones/**").hasRole("Administrador")
+                                                // =====================================================
+                                                // 🔓 Públicos (catálogo de funciones)
+                                                // =====================================================
+                                                .requestMatchers(HttpMethod.GET, "/funciones/**")
+                                                .permitAll()
 
-                .anyRequest().authenticated()
-            )
-            .addFilterBefore(jwtAuthenticationFilter,
-                    UsernamePasswordAuthenticationFilter.class);
+                                                // =====================================================
+                                                // 🔒 Escritura protegida
+                                                // =====================================================
+                                                .requestMatchers(HttpMethod.POST, "/funciones/**")
+                                                .hasAnyRole("Administrador", "Gestion")
 
-        return http.build();
-    }
+                                                .requestMatchers(HttpMethod.PUT, "/funciones/**")
+                                                .hasAnyRole("Administrador", "Gestion")
+
+                                                .requestMatchers(HttpMethod.DELETE, "/funciones/**")
+                                                .hasRole("Administrador")
+
+                                                .anyRequest().authenticated())
+                                .addFilterBefore(
+                                                jwtAuthenticationFilter,
+                                                UsernamePasswordAuthenticationFilter.class);
+
+                return http.build();
+        }
 }

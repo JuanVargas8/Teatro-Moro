@@ -175,6 +175,37 @@ spring:
               - "*"
             allow-credentials: true
             max-age: 3600  # Cache de preflight CORS por 1 hora (en segundos)
+# ============================================================
+# 🚀 SWAGGER UNIFICADO EN GATEWAY (AQUÍ ESTÁ LA CLAVE)
+# ============================================================
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    urls:
+      - name: usuarios
+        url: /usuarios/v3/api-docs
+      - name: catalogo
+        url: /obras/v3/api-docs
+      - name: ticketing
+        url: /tickets/v3/api-docs
+      - name: reserva
+        url: /asientos/v3/api-docs
+      - name: pagos
+        url: /api/pagos/v3/api-docs
+      - name: suscripciones
+        url: /planes/v3/api-docs
+      - name: funciones
+        url: /funciones/v3/api-docs
+      - name: gestion
+        url: /salas/v3/api-docs
+      - name: notificaciones
+        url: /plantillas/v3/api-docs
+      - name: personal
+        url: /personal/v3/api-docs
+      - name: informes
+        url: /tendencias-busqueda/v3/api-docs
+      - name: promociones
+        url: /api/promociones/v3/api-docs
 
 # ============================================================
 # Configuración del servidor
