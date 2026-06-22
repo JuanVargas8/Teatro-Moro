@@ -1,0 +1,18 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Wait for Eureka",
+      "type": "shell",
+      "command": "powershell",
+      "args": [
+        "-Command",
+        "Write-Host 'Esperando a que Eureka Server este listo...'; while(!(Test-NetConnection -ComputerName localhost -Port 8761 -WarningAction SilentlyContinue).TcpTestSucceeded) { Start-Sleep -Seconds 2 }; Write-Host 'Eureka Server esta listo!'"
+      ],
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      }
+    }
+  ]
+}

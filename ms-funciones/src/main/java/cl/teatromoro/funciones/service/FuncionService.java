@@ -1,6 +1,7 @@
 package cl.teatromoro.funciones.service;
 
 import java.util.List;
+import java.util.Objects;
 
 import org.springframework.stereotype.Service;
 
@@ -43,7 +44,24 @@ public class FuncionService {
         Funcion funcion = repository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Funcion", "id", id));
 
-        return mapper.toResponse(funcion);
+        FuncionResponse response = mapper.toResponse(funcion);
+
+        try {
+            // Llamadas Feign para enriquecer los datos (y probar el interceptor JWT)
+            response.setObra(funcionClient.getObraById(funcion.getIdObra()));
+            response.setSala(turnoFuncionClient.getSalaById(funcion.getIdSala()));
+        } catch (Exception e) {
+            // Si falla la llamada Feign (ej: 401 Unauthorized), lanzamos la excepción
+            // para que puedas ver el error reflejado en Postman.
+            throw new RuntimeException("Error al comunicarse por Feign: " + e.getMessage(), e);
+        }
+
+        System.out.println("====== DIAGNÓSTICO FEIGN ======");
+        System.out.println("OBRA OBTENIDA: " + response.getObra());
+        System.out.println("SALA OBTENIDA: " + response.getSala());
+        System.out.println("===============================");
+
+        return response;
     }
 
     // ─── CREAR ──────────────────────────────────────────
@@ -54,8 +72,10 @@ public class FuncionService {
         turnoFuncionClient.getSalaById(request.getSalaId());
 
         Funcion funcion = mapper.toEntity(request);
-        funcion = repository.save(funcion);
-        
+        Funcion funcionGuardada = Objects.requireNonNull(funcion,
+                "Error al guardar la función en la base de datos, la función resultante no puede ser nula");
+        funcion = repository.save(funcionGuardada);
+
         FuncionCreatedEvent event = new FuncionCreatedEvent();
         event.setId(funcion.getId());
         event.setPeliculaId(funcion.getIdObra());
@@ -63,7 +83,7 @@ public class FuncionService {
         event.setFechaHora(funcion.getFechaHora());
         event.setPrecio(funcion.getPrecioBase());
         funcionEventProducer.sendCreated(event);
-        
+
         return mapper.toResponse(funcion);
     }
 
@@ -83,7 +103,7 @@ public class FuncionService {
         existente.setIdSala(request.getSalaId());
 
         existente = repository.save(existente);
-        
+
         FuncionUpdatedEvent event = new FuncionUpdatedEvent();
         event.setId(existente.getId());
         event.setPeliculaId(existente.getIdObra());
@@ -102,7 +122,7 @@ public class FuncionService {
                 .orElseThrow(() -> new EntityNotFoundException("Funcion", "id", id));
 
         repository.delete(funcion);
-        
+
         FuncionDeletedEvent event = new FuncionDeletedEvent();
         event.setId(id);
         funcionEventProducer.sendDeleted(event);

@@ -63,9 +63,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     new SimpleGrantedAuthority("ROLE_" + rol)
                 );
 
-                // 5. Crear objeto de autenticación (sin credenciales, ya validadas por JWT)
+                // 5. Crear objeto de autenticación (pasamos el token original como credenciales para el Interceptor de Feign)
                 UsernamePasswordAuthenticationToken authentication =
-                    new UsernamePasswordAuthenticationToken(email, null, authorities);
+                    new UsernamePasswordAuthenticationToken(email, token, authorities);
 
                 // 6. Inyectar en el SecurityContext para que Spring Security lo use
                 SecurityContextHolder.getContext().setAuthentication(authentication);

@@ -1,1 +1,2 @@
 cl.teatromoro.common.CommonAutoConfiguration
+cl.teatromoro.common.server.InstanceHeaderAutoConfiguration

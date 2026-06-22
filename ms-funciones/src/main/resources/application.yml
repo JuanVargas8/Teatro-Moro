@@ -52,3 +52,7 @@ feign:
     config:
       default:
         loggerLevel: FULL
+
+jwt:
+  secret: VGVhdHJvTW9yb0pXVFNlY3JldEtleTIwMjZTdXBlclNlZ3VyYQ==
+  expiration-ms: 86400000

@@ -62,6 +62,14 @@ services:
 
   # --- MICROSERVICIOS ACTIVOS ---
 
+  api-gateway:
+    build: ./api-gateway
+    container_name: api_gateway
+    restart: always
+    ports:
+      - "9000:9000"
+    depends_on:
+      - eureka
   ticketing:
     build: ./ms-ticketing
     container_name: ms_ticketing

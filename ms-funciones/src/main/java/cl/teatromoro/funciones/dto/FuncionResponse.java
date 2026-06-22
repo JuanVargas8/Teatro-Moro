@@ -15,4 +15,8 @@ public class FuncionResponse {
 
     private LocalDateTime fechaHora;
     private Double precioBase;
+    
+    // Datos enriquecidos desde otros microservicios mediante Feign
+    private java.util.Map<String, Object> obra;
+    private java.util.Map<String, Object> sala;
 }

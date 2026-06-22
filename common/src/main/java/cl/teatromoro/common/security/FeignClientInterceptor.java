@@ -9,14 +9,19 @@ import feign.RequestTemplate;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * Interceptor de Feign que propaga el token JWT en llamadas entre microservicios.
+ * Interceptor de Feign que propaga el token JWT en llamadas entre
+ * microservicios.
  *
- * Cuando ms-catalogo llama a ms-recursos (o viceversa) vía Feign, este interceptor
- * toma el token JWT del SecurityContext actual (el que llegó en la petición original)
+ * Cuando ms-catalogo llama a ms-recursos (o viceversa) vía Feign, este
+ * interceptor
+ * toma el token JWT del SecurityContext actual (el que llegó en la petición
+ * original)
  * y lo agrega como header "Authorization: Bearer <token>" en la llamada Feign.
  *
- * Sin este interceptor, las llamadas inter-servicio llegarían SIN token y serían
- * rechazadas con 401 (Unauthorized) por el filtro JWT del microservicio destino.
+ * Sin este interceptor, las llamadas inter-servicio llegarían SIN token y
+ * serían
+ * rechazadas con 401 (Unauthorized) por el filtro JWT del microservicio
+ * destino.
  */
 @Slf4j
 @Component
@@ -36,6 +41,8 @@ public class FeignClientInterceptor implements RequestInterceptor {
 
         // Si el usuario está autenticado, se extrae el token JWT y se inyecta en
         // la cabecera de la petición Feign.
+        log.info("AUTH: {}", authentication);
+        log.info("CREDENTIALS: {}", authentication != null ? authentication.getCredentials() : null);
         if (authentication != null && authentication.getCredentials() instanceof String token) {
             template.header(AUTHORIZATION_HEADER, BEARER_PREFIX + token);
             log.debug("Token JWT propagado en llamada Feign a: {}", template.url());
