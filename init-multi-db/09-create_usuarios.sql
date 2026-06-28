@@ -17,10 +17,11 @@ CREATE TABLE Usuario (
     email VARCHAR(255) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
     nombre VARCHAR(255) NOT NULL,
+    rol VARCHAR(50) NOT NULL,
     fecha_registro DATE
 );
 
-INSERT INTO Usuario (email, password, nombre, fecha_registro) VALUES 
-('admin@teatro.com', '$2a$10$8.UnVuG9HHgffUDAlk8q6Ou5f2HW1Y...', 'Administrador', '2026-01-10'),
-('juan.perez@email.com', '$2a$10$R9h/lIPzHZLhJ1.VBRT.7Ou76W...', 'Juan Pérez', '2026-03-15'),
-('maria.garcia@email.com', '$2a$10$B7N3156S.S.O.K2u92S.OuV...', 'Maria García', '2026-05-11');
+INSERT INTO Usuario (email, password, nombre, rol, fecha_registro) VALUES 
+('admin@teatro.com', '$2a$10$8.UnVuG9HHgffUDAlk8q6Ou5f2HW1Y...', 'Administrador', 'Administrador', '2026-01-10'),
+('juan.perez@email.com', '$2a$10$R9h/lIPzHZLhJ1.VBRT.7Ou76W...', 'Juan Pérez', 'Cliente', '2026-03-15'),
+('maria.garcia@email.com', '$2a$10$B7N3156S.S.O.K2u92S.OuV...', 'Maria García', 'Cliente', '2026-05-11');

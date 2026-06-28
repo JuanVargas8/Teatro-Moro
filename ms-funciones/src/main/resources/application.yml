@@ -52,3 +52,13 @@ feign:
     config:
       default:
         loggerLevel: FULL
+
+jwt:
+  secret: VGVhdHJvTW9yb0pXVFNlY3JldEtleTIwMjZTdXBlclNlZ3VyYQ==
+  expiration-ms: 86400000
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html

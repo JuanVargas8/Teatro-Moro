@@ -51,3 +51,13 @@ eureka:
     instance-id: "${spring.application.name}:${random.value}"
     lease-renewal-interval-in-seconds: 15
     lease-expiration-duration-in-seconds: 60
+
+jwt:
+  secret: VGVhdHJvTW9yb0pXVFNlY3JldEtleTIwMjZTdXBlclNlZ3VyYQ==
+  expiration-ms: 86400000
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
