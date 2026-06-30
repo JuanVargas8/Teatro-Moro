@@ -4,10 +4,13 @@ import java.time.LocalDateTime;
 
 import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import org.springframework.hateoas.RepresentationModel;
 
 @Data
 @Builder
-public class FuncionResponse {
+@EqualsAndHashCode(callSuper = false)
+public class FuncionResponse extends RepresentationModel<FuncionResponse> {
 
     private Long id;
     private Long obraId;

@@ -4,6 +4,8 @@ server:
     include-stacktrace: never
 
 spring:
+  main:
+    allow-bean-definition-overriding: true
   application:
     name: ms-funciones
   datasource:

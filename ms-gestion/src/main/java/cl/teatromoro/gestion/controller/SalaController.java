@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
 import cl.teatromoro.gestion.client.SalaClient;
 import cl.teatromoro.gestion.dto.SalaRequest;
 import cl.teatromoro.gestion.dto.SalaResponse;
@@ -28,22 +31,27 @@ public class SalaController {
 
     @GetMapping
     public List<SalaResponse> listar() {
-        return service.listar();
+        List<SalaResponse> responses = service.listar();
+        responses.forEach(this::addLinks);
+        return responses;
     }
 
     @GetMapping("/{id}")
     public SalaResponse obtener(@PathVariable Long id) {
-        return service.obtenerPorId(id);
+        SalaResponse response = service.obtenerPorId(id);
+        return addLinks(response);
     }
 
     @PostMapping
     public SalaResponse crear(@RequestBody SalaRequest request) {
-        return service.guardar(request);
+        SalaResponse response = service.guardar(request);
+        return addLinks(response);
     }
 
     @PutMapping("/{id}")
     public SalaResponse actualizar(@PathVariable Long id, @RequestBody SalaRequest request) {
-        return service.actualizar(id, request);
+        SalaResponse response = service.actualizar(id, request);
+        return addLinks(response);
     }
 
     @DeleteMapping("/{id}")
@@ -55,5 +63,13 @@ public class SalaController {
     @GetMapping("/funciones/{salaId}")
     public List<Map<String, Object>> getFuncionesPorSala(@PathVariable Long salaId) {
         return salaClient.getFuncionesPorSala(salaId);
+    }
+
+    private SalaResponse addLinks(SalaResponse response) {
+        if (response != null) {
+            response.add(linkTo(methodOn(SalaController.class).obtener(response.getId())).withSelfRel());
+            response.add(linkTo(methodOn(SalaController.class).listar()).withRel("all"));
+        }
+        return response;
     }
 }

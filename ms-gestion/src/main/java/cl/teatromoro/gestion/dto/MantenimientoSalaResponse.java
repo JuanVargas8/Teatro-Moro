@@ -2,10 +2,13 @@ package cl.teatromoro.gestion.dto;
 
 import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import org.springframework.hateoas.RepresentationModel;
 
 @Data
 @Builder
-public class MantenimientoSalaResponse {
+@EqualsAndHashCode(callSuper = false)
+public class MantenimientoSalaResponse extends RepresentationModel<MantenimientoSalaResponse> {
 
     private Long id;
 

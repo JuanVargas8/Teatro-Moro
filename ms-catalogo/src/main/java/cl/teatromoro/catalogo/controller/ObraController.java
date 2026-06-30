@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 import cl.teatromoro.catalogo.dto.ObraRequest;
 import cl.teatromoro.catalogo.dto.ObraResponse;
@@ -28,22 +30,27 @@ public class ObraController {
 
     @GetMapping
     public List<ObraResponse> listar() {
-        return service.listar();
+        List<ObraResponse> responses = service.listar();
+        responses.forEach(this::addLinks);
+        return responses;
     }
 
     @GetMapping("/{id}")
     public ObraResponse obtener(@PathVariable Long id) {
-        return service.obtenerPorId(id);
+        ObraResponse response = service.obtenerPorId(id);
+        return addLinks(response);
     }
 
     @PostMapping
     public ObraResponse crear(@RequestBody ObraRequest request) {
-        return service.guardar(request);
+        ObraResponse response = service.guardar(request);
+        return addLinks(response);
     }
 
     @PutMapping("/{id}")
     public ObraResponse actualizar(@PathVariable Long id, @RequestBody ObraRequest request) {
-        return service.actualizar(id, request);
+        ObraResponse response = service.actualizar(id, request);
+        return addLinks(response);
     }
 
     @DeleteMapping("/{id}")
@@ -55,16 +62,30 @@ public class ObraController {
 
     @GetMapping("/buscar")
     public List<ObraResponse> buscarPorTitulo(@RequestParam String titulo) {
-        return service.buscarPorTitulo(titulo);
+        List<ObraResponse> responses = service.buscarPorTitulo(titulo);
+        responses.forEach(this::addLinks);
+        return responses;
     }
 
     @GetMapping("/categoria/{categoriaId}")
     public List<ObraResponse> porCategoria(@PathVariable Long categoriaId) {
-        return service.porCategoria(categoriaId);
+        List<ObraResponse> responses = service.porCategoria(categoriaId);
+        responses.forEach(this::addLinks);
+        return responses;
     }
 
     @GetMapping("/largas")
     public List<ObraResponse> largas(@RequestParam int minutos) {
-        return service.largas(minutos);
+        List<ObraResponse> responses = service.largas(minutos);
+        responses.forEach(this::addLinks);
+        return responses;
+    }
+
+    private ObraResponse addLinks(ObraResponse response) {
+        if (response != null) {
+            response.add(linkTo(methodOn(ObraController.class).obtener(response.getId())).withSelfRel());
+            response.add(linkTo(methodOn(ObraController.class).listar()).withRel("all"));
+        }
+        return response;
     }
 }

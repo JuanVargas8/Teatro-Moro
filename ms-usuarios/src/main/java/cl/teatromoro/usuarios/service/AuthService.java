@@ -5,19 +5,23 @@ import cl.teatromoro.usuarios.dto.LoginRequest;
 import cl.teatromoro.usuarios.dto.LoginResponse;
 import cl.teatromoro.usuarios.dto.RegisterRequest;
 import cl.teatromoro.usuarios.dto.UsuarioResponse;
+import cl.teatromoro.usuarios.model.BlacklistedToken;
 import cl.teatromoro.usuarios.model.Usuario;
+import cl.teatromoro.usuarios.repository.BlacklistedTokenRepository;
 import cl.teatromoro.usuarios.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.Date;
 
 @Service
 @RequiredArgsConstructor
 public class AuthService {
 
     private final UsuarioRepository usuarioRepository;
+    private final BlacklistedTokenRepository blacklistedTokenRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
 
@@ -48,6 +52,19 @@ public class AuthService {
         usuario = usuarioRepository.save(usuario);
 
         return mapToResponse(usuario);
+    }
+
+    public void logout(String token) {
+        if (token != null) {
+            // Guardamos el token en la lista negra. En un entorno real se extraería 
+            // la fecha de expiración del token para que un job limpie la tabla.
+            BlacklistedToken blacklistedToken = new BlacklistedToken(token, new Date(System.currentTimeMillis() + 86400000));
+            blacklistedTokenRepository.save(blacklistedToken);
+        }
+    }
+
+    public boolean isTokenBlacklisted(String token) {
+        return blacklistedTokenRepository.findByToken(token).isPresent();
     }
 
     private UsuarioResponse mapToResponse(Usuario usuario) {
