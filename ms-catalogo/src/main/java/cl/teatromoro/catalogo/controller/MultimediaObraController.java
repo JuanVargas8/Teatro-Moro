@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 import cl.teatromoro.catalogo.dto.MultimediaObraRequest;
 import cl.teatromoro.catalogo.dto.MultimediaObraResponse;
@@ -27,17 +29,21 @@ public class MultimediaObraController {
 
     @GetMapping
     public List<MultimediaObraResponse> listar() {
-        return service.listar();
+        List<MultimediaObraResponse> responses = service.listar();
+        responses.forEach(this::addLinks);
+        return responses;
     }
 
     @GetMapping("/{id}")
     public MultimediaObraResponse obtener(@PathVariable Long id) {
-        return service.obtenerPorId(id);
+        MultimediaObraResponse response = service.obtenerPorId(id);
+        return addLinks(response);
     }
 
     @PostMapping
     public MultimediaObraResponse crear(@RequestBody MultimediaObraRequest request) {
-        return service.guardar(request);
+        MultimediaObraResponse response = service.guardar(request);
+        return addLinks(response);
     }
 
     @DeleteMapping("/{id}")
@@ -49,11 +55,23 @@ public class MultimediaObraController {
 
     @GetMapping("/obra/{obraId}")
     public List<MultimediaObraResponse> porObra(@PathVariable Long obraId) {
-        return service.porObra(obraId);
+        List<MultimediaObraResponse> responses = service.porObra(obraId);
+        responses.forEach(this::addLinks);
+        return responses;
     }
 
     @GetMapping("/tipo")
     public List<MultimediaObraResponse> porTipo(@RequestParam String tipo) {
-        return service.porTipo(tipo);
+        List<MultimediaObraResponse> responses = service.porTipo(tipo);
+        responses.forEach(this::addLinks);
+        return responses;
+    }
+
+    private MultimediaObraResponse addLinks(MultimediaObraResponse response) {
+        if (response != null) {
+            response.add(linkTo(methodOn(MultimediaObraController.class).obtener(response.getId())).withSelfRel());
+            response.add(linkTo(methodOn(MultimediaObraController.class).listar()).withRel("all"));
+        }
+        return response;
     }
 }

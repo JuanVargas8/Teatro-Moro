@@ -6,7 +6,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
-@EnableFeignClients
+@EnableFeignClients(basePackages = { "cl.teatromoro" })
 @ComponentScan(basePackages = { "cl.teatromoro" })
 public class TeatromoroGestionApplication {
 

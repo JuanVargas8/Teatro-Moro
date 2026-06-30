@@ -4,10 +4,13 @@ import java.time.LocalDate;
 
 import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import org.springframework.hateoas.RepresentationModel;
 
 @Data
 @Builder
-public class ExcepcionHorarioResponse {
+@EqualsAndHashCode(callSuper = false)
+public class ExcepcionHorarioResponse extends RepresentationModel<ExcepcionHorarioResponse> {
 
     private Long id;
     private LocalDate fecha;

@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
 import cl.teatromoro.gestion.dto.ZonaSalaRequest;
 import cl.teatromoro.gestion.dto.ZonaSalaResponse;
 import cl.teatromoro.gestion.service.ZonaSalaService;
@@ -24,17 +27,21 @@ public class ZonaSalaController {
 
     @GetMapping
     public List<ZonaSalaResponse> listar() {
-        return service.listar();
+        List<ZonaSalaResponse> responses = service.listar();
+        responses.forEach(this::addLinks);
+        return responses;
     }
 
     @GetMapping("/{id}")
     public ZonaSalaResponse obtener(@PathVariable Long id) {
-        return service.obtenerPorId(id);
+        ZonaSalaResponse response = service.obtenerPorId(id);
+        return addLinks(response);
     }
 
     @PostMapping
     public ZonaSalaResponse crear(@RequestBody ZonaSalaRequest request) {
-        return service.guardar(request);
+        ZonaSalaResponse response = service.guardar(request);
+        return addLinks(response);
     }
 
     @DeleteMapping("/{id}")
@@ -44,6 +51,16 @@ public class ZonaSalaController {
 
     @GetMapping("/sala/{salaId}")
     public List<ZonaSalaResponse> porSala(@PathVariable Long salaId) {
-        return service.porSala(salaId);
+        List<ZonaSalaResponse> responses = service.porSala(salaId);
+        responses.forEach(this::addLinks);
+        return responses;
+    }
+
+    private ZonaSalaResponse addLinks(ZonaSalaResponse response) {
+        if (response != null) {
+            response.add(linkTo(methodOn(ZonaSalaController.class).obtener(response.getId())).withSelfRel());
+            response.add(linkTo(methodOn(ZonaSalaController.class).listar()).withRel("all"));
+        }
+        return response;
     }
 }

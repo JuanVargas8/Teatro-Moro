@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.kafka.annotation.EnableKafka;
 
-@EnableFeignClients
+@EnableFeignClients(basePackages = { "cl.teatromoro" })
 @SpringBootApplication
 @EnableKafka
 public class TeatromoroSuscripcionesApplication {

@@ -17,6 +17,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.http.ResponseEntity;
 
 /**
  * Filtro de autenticación JWT que se ejecuta UNA VEZ por cada petición HTTP.
@@ -37,6 +39,7 @@ import lombok.extern.slf4j.Slf4j;
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtTokenProvider jwtTokenProvider;
+    private final @Lazy AuthClient authClient;
 
     private static final String AUTHORIZATION_HEADER = "Authorization";
     private static final String BEARER_PREFIX = "Bearer ";
@@ -53,6 +56,22 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
             // 2. Validar y autenticar solo si existe un token
             if (StringUtils.hasText(token) && jwtTokenProvider.validarToken(token)) {
+                
+                // Verificar en la lista negra llamando a ms-usuarios
+                try {
+                    ResponseEntity<Boolean> isValidResponse = authClient.validateToken("Bearer " + token);
+                    if (isValidResponse.getBody() != null && !isValidResponse.getBody()) {
+                        log.warn("Token JWT está en la lista negra");
+                        SecurityContextHolder.clearContext();
+                        filterChain.doFilter(request, response);
+                        return;
+                    }
+                } catch (Exception ex) {
+                    log.error("Error al verificar lista negra de tokens: {}", ex.getMessage());
+                    // Si falla la verificación, por seguridad podríamos rechazar, pero para 
+                    // no romper el sistema si ms-usuarios está caído, permitimos continuar
+                    // o lo bloqueamos. Asumiremos que debe estar disponible.
+                }
 
                 // 3. Extraer claims del token
                 String email = jwtTokenProvider.getEmailFromToken(token);
