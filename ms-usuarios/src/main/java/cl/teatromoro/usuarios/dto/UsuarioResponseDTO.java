@@ -1,8 +1,9 @@
 package cl.teatromoro.usuarios.dto;
 
 import java.time.LocalDate;
+import org.springframework.hateoas.RepresentationModel;
 
-public class UsuarioResponseDTO {
+public class UsuarioResponseDTO extends RepresentationModel<UsuarioResponseDTO> {
 
     private Long id;
     private String email;

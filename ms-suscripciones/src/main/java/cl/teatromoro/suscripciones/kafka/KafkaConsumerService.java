@@ -46,12 +46,18 @@ public class KafkaConsumerService {
 
             String[] datos = mensaje.split(":");
 
+            if (datos.length < 2) {
+                throw new RuntimeException("Formato de mensaje inválido");
+                }
+
+
             Long usuarioId =
                     Long.parseLong(datos[0]);
 
-            Plan plan =
-                    planRepository.findById(1L)
-                            .orElseThrow();
+            Plan plan = planRepository
+                .findByNombre("Plan Gratuito")
+                .orElseThrow(() ->
+                        new RuntimeException("Plan Gratuito no encontrado"));
 
             Abonado abonado =
                     new Abonado();
@@ -69,9 +75,10 @@ public class KafkaConsumerService {
 
         } catch (Exception e) {
 
-            System.out.println(
-                    "Error procesando evento Kafka"
-            );
+        System.out.println(
+                "Error procesando evento Kafka: "
+                        + e.getMessage()
+        );
         }
     }
 }

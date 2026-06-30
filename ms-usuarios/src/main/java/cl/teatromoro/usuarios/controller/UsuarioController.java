@@ -7,6 +7,8 @@ import cl.teatromoro.usuarios.dto.UsuarioDTO;
 import cl.teatromoro.usuarios.dto.UsuarioResponseDTO;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
+import org.springframework.hateoas.Link;
 
 import java.util.List;
 
@@ -34,7 +36,22 @@ public class UsuarioController {
 
     @GetMapping("/{id}")
     public UsuarioResponseDTO obtener(@PathVariable Long id) {
-        return service.obtenerPorId(id);
+
+        UsuarioResponseDTO usuario = service.obtenerPorId(id);
+
+        usuario.add(
+                linkTo(methodOn(UsuarioController.class)
+                        .obtener(id))
+                        .withSelfRel()
+        );
+
+        usuario.add(
+                linkTo(methodOn(UsuarioController.class)
+                        .listar())
+                        .withRel("usuarios")
+        );
+
+        return usuario;
     }
 
     @PutMapping("/{id}")
