@@ -195,4 +195,29 @@ public class AbonadoService {
 
         repository.delete(abonado);
         }
+
+    public AbonadoResponseDTO obtenerPorId(Long id) {
+
+    Abonado abonado = repository.findById(id)
+            .orElseThrow(() ->
+                    new ResourceNotFoundException(
+                            "Abonado no encontrado"
+                    ));
+
+    PlanResponseDTO planDTO =
+            new PlanResponseDTO(
+                    abonado.getPlan().getId(),
+                    abonado.getPlan().getNombre(),
+                    abonado.getPlan().getPrecio(),
+                    abonado.getPlan().getBeneficios()
+            );
+
+    return new AbonadoResponseDTO(
+            abonado.getId(),
+            abonado.getUsuarioId(),
+            planDTO,
+            abonado.getFechaInicio(),
+            abonado.getFechaFin()
+    );
+}    
 }

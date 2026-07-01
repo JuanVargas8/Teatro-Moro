@@ -8,7 +8,7 @@ import org.springframework.kafka.annotation.EnableKafka;
 
 @SpringBootApplication
 @EnableKafka
-@EnableFeignClients
+@EnableFeignClients(basePackages = "cl.teatromoro")
 @ComponentScan(basePackages = { "cl.teatromoro" })
 public class TeatromoroSuscripcionesApplication {
 
