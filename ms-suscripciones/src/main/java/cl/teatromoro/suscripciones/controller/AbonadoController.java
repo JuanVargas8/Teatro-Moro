@@ -7,11 +7,23 @@ import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 import java.util.List;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
+@Tag(
+        name = "Controlador de Abonados",
+        description = "API para la gestión de abonados y sus suscripciones"
+)
 @RestController
 @RequestMapping("/abonados")
 public class AbonadoController {
@@ -22,8 +34,25 @@ public class AbonadoController {
         this.service = service;
     }
 
+    @Operation(
+            summary = "Crear un abonado",
+            description = "Crea un nuevo abonado asociado a un usuario y un plan"
+    )
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Abonado creado correctamente",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = AbonadoResponseDTO.class)
+                    )
+            ),
+            @ApiResponse(responseCode = "400", description = "Solicitud inválida"),
+            @ApiResponse(responseCode = "404", description = "Usuario o plan no encontrado")
+    })
     @PostMapping
     public ResponseEntity<AbonadoResponseDTO> crear(
+            @Parameter(description = "Datos del nuevo abonado", required = true)
             @Valid @RequestBody AbonadoDTO dto) {
 
         AbonadoResponseDTO abonado = service.crear(dto);
@@ -42,26 +71,51 @@ public class AbonadoController {
         return ResponseEntity.ok(abonado);
     }
 
+    @Operation(
+            summary = "Listar abonados",
+            description = "Obtiene todos los abonados registrados"
+    )
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Listado obtenido correctamente"
+            )
+    })
     @GetMapping
     public List<AbonadoResponseDTO> listar() {
 
         List<AbonadoResponseDTO> abonados = service.listar();
 
         abonados.forEach(abonado ->
-
                 abonado.add(
                         linkTo(methodOn(AbonadoController.class)
                                 .obtener(abonado.getId()))
                                 .withSelfRel()
                 )
-
         );
 
         return abonados;
     }
 
+    @Operation(
+            summary = "Obtener abonado por ID",
+            description = "Obtiene un abonado específico"
+    )
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Abonado encontrado",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = AbonadoResponseDTO.class)
+                    )
+            ),
+            @ApiResponse(responseCode = "404", description = "Abonado no encontrado")
+    })
     @GetMapping("/{id}")
-    public AbonadoResponseDTO obtener(@PathVariable Long id) {
+    public AbonadoResponseDTO obtener(
+            @Parameter(description = "ID del abonado", required = true, example = "1")
+            @PathVariable Long id) {
 
         AbonadoResponseDTO abonado = service.obtenerPorId(id);
 
@@ -79,13 +133,35 @@ public class AbonadoController {
         return abonado;
     }
 
+    @Operation(
+            summary = "Buscar abonados por usuario",
+            description = "Obtiene todos los abonados asociados a un usuario"
+    )
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Abonados encontrados"),
+            @ApiResponse(responseCode = "404", description = "Usuario no encontrado")
+    })
     @GetMapping("/usuario/{usuarioId}")
-    public List<AbonadoResponseDTO> porUsuario(@PathVariable Long usuarioId) {
+    public List<AbonadoResponseDTO> porUsuario(
+            @Parameter(description = "ID del usuario", required = true, example = "1")
+            @PathVariable Long usuarioId) {
+
         return service.porUsuario(usuarioId);
     }
 
+    @Operation(
+            summary = "Eliminar abonado",
+            description = "Elimina un abonado del sistema"
+    )
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Abonado eliminado correctamente"),
+            @ApiResponse(responseCode = "404", description = "Abonado no encontrado")
+    })
     @DeleteMapping("/{id}")
-    public void eliminar(@PathVariable Long id) {
+    public void eliminar(
+            @Parameter(description = "ID del abonado", required = true, example = "1")
+            @PathVariable Long id) {
+
         service.eliminar(id);
     }
 }
