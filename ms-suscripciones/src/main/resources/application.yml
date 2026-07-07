@@ -34,3 +34,7 @@ eureka:
     prefer-ip-address: true
     instance-id: "${spring.application.name}:${random.value}"
 
+jwt:
+  secret: VGVhdHJvTW9yb0pXVFNlY3JldEtleTIwMjZTdXBlclNlZ3VyYQ==
+  expiration-ms: 86400000
+

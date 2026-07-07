@@ -1,8 +1,9 @@
 package cl.teatromoro.suscripciones.dto;
 
 import java.time.LocalDate;
+import org.springframework.hateoas.RepresentationModel;
 
-public class AbonadoResponseDTO {
+public class AbonadoResponseDTO extends RepresentationModel<AbonadoResponseDTO> {
 
     private Long id;
     private Long usuarioId;

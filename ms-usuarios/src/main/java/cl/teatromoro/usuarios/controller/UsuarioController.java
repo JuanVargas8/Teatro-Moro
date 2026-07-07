@@ -30,43 +30,57 @@ public class UsuarioController {
 
     @Operation(summary = "Crear un nuevo usuario", description = "Crea un nuevo usuario en el sistema")
     @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "Usuario creado exitosamente", content = @Content(mediaType = "application/json", schema = @Schema(implementation = UsuarioResponseDTO.class))),
+            @ApiResponse(responseCode = "200", description = "Usuario creado exitosamente",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = UsuarioResponseDTO.class))),
             @ApiResponse(responseCode = "400", description = "Datos del usuario inválidos")
     })
     @PostMapping
     public ResponseEntity<UsuarioResponseDTO> crear(
-        @Parameter(description = "Datos del nuevo usuario", required = true) @Valid @RequestBody UsuarioDTO dto) {
+            @Parameter(description = "Datos del nuevo usuario", required = true)
+            @Valid @RequestBody UsuarioDTO dto) {
 
-    return ResponseEntity.ok(service.crear(dto));
-}
+        return ResponseEntity.ok(service.crear(dto));
+    }
 
     @Operation(summary = "Listar todos los usuarios", description = "Retorna una lista de todos los usuarios registrados")
-    @ApiResponses(@ApiResponse(responseCode = "200", description = "Lista de usuarios obtenida exitosamente"))
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Lista de usuarios obtenida exitosamente")
+    })
     @GetMapping
     public List<UsuarioResponseDTO> listar() {
-    return service.listar();
-}
+        return service.listar();
+    }
 
     @Operation(summary = "Obtener un usuario por ID", description = "Retorna los detalles de un usuario específico por su ID")
     @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "Usuario obtenido exitosamente", content = @Content(mediaType = "application/json", schema = @Schema(implementation = UsuarioResponseDTO.class))),
+            @ApiResponse(responseCode = "200", description = "Usuario obtenido exitosamente",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = UsuarioResponseDTO.class))),
             @ApiResponse(responseCode = "404", description = "Usuario no encontrado")
     })
     @GetMapping("/{id}")
     public UsuarioResponseDTO obtener(
-            @Parameter(description = "ID del usuario", required = true, example = "1") @PathVariable Long id) {
+            @Parameter(description = "ID del usuario", required = true, example = "1")
+            @PathVariable Long id) {
+
         return service.obtenerPorId(id);
     }
 
     @Operation(summary = "Actualizar un usuario", description = "Actualiza los detalles de un usuario existente")
     @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "Usuario actualizado exitosamente", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Usuario.class))),
+            @ApiResponse(responseCode = "200", description = "Usuario actualizado exitosamente",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Usuario.class))),
             @ApiResponse(responseCode = "404", description = "Usuario no encontrado")
     })
     @PutMapping("/{id}")
     public Usuario actualizar(
-            @Parameter(description = "ID del usuario a actualizar", required = true, example = "1") @PathVariable Long id,
-            @Parameter(description = "Nuevos detalles del usuario", required = true) @RequestBody Usuario usuario) {
+            @Parameter(description = "ID del usuario a actualizar", required = true, example = "1")
+            @PathVariable Long id,
+            @Parameter(description = "Nuevos detalles del usuario", required = true)
+            @RequestBody Usuario usuario) {
+
         return service.actualizarUsuario(id, usuario);
     }
 
@@ -77,7 +91,9 @@ public class UsuarioController {
     })
     @DeleteMapping("/{id}")
     public void eliminar(
-            @Parameter(description = "ID del usuario a eliminar", required = true, example = "1") @PathVariable Long id) {
+            @Parameter(description = "ID del usuario a eliminar", required = true, example = "1")
+            @PathVariable Long id) {
+
         service.eliminarUsuario(id);
     }
 }

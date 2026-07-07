@@ -57,7 +57,7 @@ public class SecurityConfig {
                         // =====================================================
                         // 🔓 Usuarios (como lo tienes actualmente)
                         // =====================================================
-                        .requestMatchers("/usuarios/**").permitAll()
+                        .requestMatchers("/usuarios/**").authenticated()
 
                         // =====================================================
                         // 🔒 resto protegido

@@ -12,9 +12,22 @@ public class KafkaConsumerService {
     )
     public void consumir(String mensaje) {
 
-        System.out.println(
-                "Mensaje Kafka recibido: "
-                + mensaje
-        );
+        String[] datos = mensaje.split(":");
+
+        if (datos.length >= 2) {
+
+            System.out.println(
+                    "Usuario creado -> ID: "
+                            + datos[0]
+                            + ", Nombre: "
+                            + datos[1]
+            );
+
+        } else {
+
+            System.out.println(
+                    "Mensaje recibido: " + mensaje
+            );
+        }
     }
 }
