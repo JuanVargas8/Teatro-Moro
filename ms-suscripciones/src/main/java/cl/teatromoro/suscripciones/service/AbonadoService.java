@@ -2,12 +2,12 @@ package cl.teatromoro.suscripciones.service;
 
 import feign.FeignException;
 
+import cl.teatromoro.common.exception.EntityNotFoundException;
 import cl.teatromoro.suscripciones.client.UsuarioClient;
 import cl.teatromoro.suscripciones.dto.AbonadoDTO;
 import cl.teatromoro.suscripciones.dto.AbonadoResponseDTO;
 import cl.teatromoro.suscripciones.dto.AbonadoUpdateDTO;
 import cl.teatromoro.suscripciones.dto.PlanResponseDTO;
-import cl.teatromoro.suscripciones.exception.ResourceNotFoundException;
 import cl.teatromoro.suscripciones.kafka.KafkaProducerService;
 import cl.teatromoro.suscripciones.model.Abonado;
 import cl.teatromoro.suscripciones.model.Plan;
@@ -47,8 +47,10 @@ public class AbonadoService {
 
         } catch (FeignException.NotFound e) {
 
-            throw new ResourceNotFoundException(
-                    "Usuario no existe"
+            throw new EntityNotFoundException(
+                    "Usuario",
+                    "ID",
+                    dto.getUsuarioId()
             );
 
         } catch (FeignException e) {
@@ -60,8 +62,10 @@ public class AbonadoService {
 
         Plan plan = planRepository.findById(dto.getPlanId())
                 .orElseThrow(() ->
-                        new ResourceNotFoundException(
-                                "Plan no existe"
+                        new EntityNotFoundException(
+                                "Plan",
+                                "ID",
+                                dto.getPlanId()
                         ));
 
         Abonado abonado = new Abonado();
@@ -118,8 +122,7 @@ public class AbonadoService {
                 .toList();
     }
 
-    public List<AbonadoResponseDTO> porUsuario(
-            Long usuarioId) {
+    public List<AbonadoResponseDTO> porUsuario(Long usuarioId) {
 
         return repository.findByUsuarioId(usuarioId)
                 .stream()
@@ -151,15 +154,19 @@ public class AbonadoService {
         Abonado abonado =
                 repository.findById(id)
                         .orElseThrow(() ->
-                                new ResourceNotFoundException(
-                                        "Abonado no encontrado"
+                                new EntityNotFoundException(
+                                        "Abonado",
+                                        "ID",
+                                        id
                                 ));
 
         Plan plan =
                 planRepository.findById(dto.getPlanId())
                         .orElseThrow(() ->
-                                new ResourceNotFoundException(
-                                        "Plan no existe"
+                                new EntityNotFoundException(
+                                        "Plan",
+                                        "ID",
+                                        dto.getPlanId()
                                 ));
 
         abonado.setPlan(plan);
@@ -184,40 +191,46 @@ public class AbonadoService {
                 actualizado.getFechaFin()
         );
     }
+
     public void eliminar(Long id) {
 
         Abonado abonado =
                 repository.findById(id)
                         .orElseThrow(() ->
-                                new ResourceNotFoundException(
-                                        "Abonado no encontrado"
+                                new EntityNotFoundException(
+                                        "Abonado",
+                                        "ID",
+                                        id
                                 ));
 
         repository.delete(abonado);
-        }
+    }
 
     public AbonadoResponseDTO obtenerPorId(Long id) {
 
-    Abonado abonado = repository.findById(id)
-            .orElseThrow(() ->
-                    new ResourceNotFoundException(
-                            "Abonado no encontrado"
-                    ));
+        Abonado abonado =
+                repository.findById(id)
+                        .orElseThrow(() ->
+                                new EntityNotFoundException(
+                                        "Abonado",
+                                        "ID",
+                                        id
+                                ));
 
-    PlanResponseDTO planDTO =
-            new PlanResponseDTO(
-                    abonado.getPlan().getId(),
-                    abonado.getPlan().getNombre(),
-                    abonado.getPlan().getPrecio(),
-                    abonado.getPlan().getBeneficios()
-            );
+        PlanResponseDTO planDTO =
+                new PlanResponseDTO(
+                        abonado.getPlan().getId(),
+                        abonado.getPlan().getNombre(),
+                        abonado.getPlan().getPrecio(),
+                        abonado.getPlan().getBeneficios()
+                );
 
-    return new AbonadoResponseDTO(
-            abonado.getId(),
-            abonado.getUsuarioId(),
-            planDTO,
-            abonado.getFechaInicio(),
-            abonado.getFechaFin()
-    );
-}    
+        return new AbonadoResponseDTO(
+                abonado.getId(),
+                abonado.getUsuarioId(),
+                planDTO,
+                abonado.getFechaInicio(),
+                abonado.getFechaFin()
+        );
+    }
 }

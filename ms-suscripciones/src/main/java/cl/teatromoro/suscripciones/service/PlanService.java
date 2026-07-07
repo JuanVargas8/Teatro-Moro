@@ -1,13 +1,12 @@
 package cl.teatromoro.suscripciones.service;
 
+import cl.teatromoro.common.exception.EntityNotFoundException;
 import cl.teatromoro.suscripciones.dto.PlanDTO;
 import cl.teatromoro.suscripciones.dto.PlanResponseDTO;
-import cl.teatromoro.suscripciones.exception.ResourceNotFoundException;
+import cl.teatromoro.suscripciones.kafka.KafkaProducerService;
 import cl.teatromoro.suscripciones.model.Plan;
 import cl.teatromoro.suscripciones.repository.PlanRepository;
-import cl.teatromoro.suscripciones.kafka.KafkaProducerService;
 import org.springframework.stereotype.Service;
-
 
 import java.util.List;
 
@@ -17,7 +16,10 @@ public class PlanService {
     private final PlanRepository repository;
     private final KafkaProducerService producer;
 
-    public PlanService(PlanRepository repository, KafkaProducerService producer) {
+    public PlanService(
+            PlanRepository repository,
+            KafkaProducerService producer) {
+
         this.repository = repository;
         this.producer = producer;
     }
@@ -31,13 +33,10 @@ public class PlanService {
         plan.setBeneficios(dto.getBeneficios());
 
         producer.enviarMensaje(
-        "Plan creado: "
-                + plan.getNombre()
-);
-        
+                "Plan creado: " + plan.getNombre()
+        );
 
-        return new PlanResponseDTO(repository.save(plan));         
-                
+        return new PlanResponseDTO(repository.save(plan));
     }
 
     public List<PlanResponseDTO> listar() {
@@ -52,7 +51,11 @@ public class PlanService {
 
         return repository.findById(id)
                 .orElseThrow(() ->
-                        new ResourceNotFoundException("Plan no encontrado"));
+                        new EntityNotFoundException(
+                                "Plan",
+                                "ID",
+                                id
+                        ));
     }
 
     public PlanResponseDTO obtener(Long id) {
@@ -69,17 +72,20 @@ public class PlanService {
         existente.setBeneficios(dto.getBeneficios());
 
         producer.enviarMensaje(
-        "Plan actualizado: "
-                + existente.getNombre()
-);
+                "Plan actualizado: " + existente.getNombre()
+        );
 
         return new PlanResponseDTO(repository.save(existente));
-
-        
     }
 
     public void eliminar(Long id) {
-        repository.deleteById(id);
-        
+
+        Plan plan = obtenerEntidad(id);
+
+        repository.delete(plan);
+
+        producer.enviarMensaje(
+                "Plan eliminado: " + plan.getNombre()
+        );
     }
 }
